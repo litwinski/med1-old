@@ -1,0 +1,16 @@
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" > <!-- Only required for left/right tabs -->
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#newlocais" data-toggle="tab">Novo Local de Atendimento</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="newlocais">
+				<% if can? :criar_local, current_user %>
+					<%= render partial: 'form', locals: {editing: false} %>
+				<% else %>
+					<%= render partial: "shared/mensagem_erro_conselho_invalido", locals: {label: "local de atendimento"} %>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>

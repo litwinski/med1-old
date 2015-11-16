@@ -1,0 +1,280 @@
+<%= form_for(@agenda, :html => {:class => "form-stacked", :id => "new_agenda"}) do |f| %>
+	<%= error_messages_for(@agenda) %>
+	
+	<div class="row">
+    <div class="span5">
+      <div class="clearfix">
+        <%= f.label :nome %>
+        <div class="input">	
+					<%= f.text_field :nome %>			
+        </div>
+      </div>
+   </div>
+  </div>
+				
+	<% if editing == false %>
+	  	<div class="row">
+	      <div class="span5">
+	        <div class="clearfix">
+	          <%= f.label :local_atendimento %>
+	          <div class="input">	
+				<%= f.select :local_atendimento_id, LocalAtendimento.find_all_by_user_id(current_user.id).collect{|l| [l.nome, l.id]},:include_blank => 'Escolha o Local' %>			
+	          </div>
+	        </div>
+	     </div>
+	    </div>
+	<% end %>
+	<div class="row">
+      <div class="span5">
+        <div class="clearfix">
+          <label>Tipo Atendimento</label>
+          <div class="input">
+			<%= f.check_box :particular %> Particular&nbsp;&nbsp;
+			<%= f.check_box :plano %> Plano
+          </div>
+        </div>
+     </div>
+    </div>
+	<br>
+	<div class="row">
+      <div class="span5">
+        <div class="clearfix">
+          <label>Intervalo de Consultas</label>
+          <div class="input">
+			<%= f.select :tempo_consulta, Agenda::INTERVALO.invert, :include_blank => 'Escolha o Intervalo', :selected => f.object.intervalo %>
+			<span class="help-block">Informe o horário em horas. Ex: 01:00</span>
+          </div>
+        </div>
+     </div>
+    </div>
+	<div class="row control-group" id="domingo">
+      <div class="span5">
+        <div class="clearfix">
+          <label>Domingo</label>
+          <div class="input">
+            <%= f.text_field :dom_inicio, :value => hours_options(f.object.dom_inicio),  :style=> "width: 40px;"%>
+			a
+			<%= f.text_field :dom_fim, :value => hours_options(f.object.dom_fim), :style=> "width: 40px;" %>
+          </div>
+					<span class="help-block">Informe o horário no padrão 09:00 a 17:00.</span>
+        </div>
+     </div>
+    </div>
+	<div class="row control-group" id="segunda">
+      <div class="span5">
+        <div class="clearfix">
+          <label>Segunda</label>
+          <div class="input">
+            <%= f.text_field :seg_inicio, :value => hours_options(f.object.seg_inicio), :style=> "width: 40px;" %>
+			a
+			<%= f.text_field :seg_fim, :value => hours_options(f.object.seg_fim), :style=> "width: 40px;" %>
+          </div>
+					<span class="help-block">Informe o horário no padrão 09:00 a 17:00.</span>
+        </div>
+     </div>
+    </div>
+	<div class="row control-group" id="terca">
+      <div class="span5">
+        <div class="clearfix">
+          <label>Terça</label>
+          <div class="input">
+            <%= f.text_field :ter_inicio, :value => hours_options(f.object.ter_inicio), :style=> "width: 40px;" %>
+			a
+			<%= f.text_field :ter_fim, :value => hours_options(f.object.ter_fim), :style=> "width: 40px;" %>
+          </div>
+					<span class="help-block">Informe o horário no padrão 09:00 a 17:00.</span>
+        </div>
+     </div>
+    </div>
+	<div class="row control-group" id="quarta">
+      <div class="span5">
+        <div class="clearfix">
+          <label>Quarta</label>
+          <div class="input">
+            <%= f.text_field :qua_inicio, :value => hours_options(f.object.qua_inicio), :style=> "width: 40px;" %>
+			a
+			<%= f.text_field :qua_fim, :value => hours_options(f.object.qua_fim), :style=> "width: 40px;" %>
+          </div>
+					<span class="help-block">Informe o horário no padrão 09:00 a 17:00.</span>
+        </div>
+     </div>
+    </div>
+	<div class="row control-group" id="quinta">
+      <div class="span5">
+        <div class="clearfix">
+          <label>Quinta</label>
+          <div class="input">
+            <%= f.text_field :qui_inicio, :value => hours_options(f.object.qui_inicio), :style=> "width: 40px;" %>
+			a
+			<%= f.text_field :qui_fim, :value => hours_options(f.object.qui_fim), :style=> "width: 40px;" %>
+          </div>
+					<span class="help-block">Informe o horário no padrão 09:00 a 17:00.</span>
+        </div>
+     </div>
+    </div>
+	<div class="row control-group" id="sexta">
+      <div class="span5">
+        <div class="clearfix">
+          <label>Sexta</label>
+          <div class="input">
+            <%= f.text_field :sex_inicio, :value => hours_options(f.object.sex_inicio), :style=> "width: 40px;" %>
+			a
+			<%= f.text_field :sex_fim, :value => hours_options(f.object.sex_fim), :style=> "width: 40px;" %>
+          </div>
+					<span class="help-block">Informe o horário no padrão 09:00 a 17:00.</span>
+        </div>
+     </div>
+    </div>
+	<div class="row control-group" id="sabado">
+      <div class="span5">
+        <div class="clearfix">
+          <label>Sábado</label>
+          <div class="input">
+            <%= f.text_field :sab_inicio, :value => hours_options(f.object.sab_inicio), :style=> "width: 40px;" %>
+			a
+			<%= f.text_field :sab_fim, :value => hours_options(f.object.sab_fim), :style=> "width: 40px;" %>
+          </div>
+					<span class="help-block">Informe o horário no padrão 09:00 a 17:00.</span>
+        </div>
+     </div>
+    </div>
+	<div class="row">
+      <div class="span5" id="valor" style="display:none">
+        <div class="clearfix">
+          <label>Valor R$</label>
+          <div class="input">
+						<%= f.text_field :valor, :maxlength => 10 %>
+						<span class="help-block">Minimo de acordo com tabela do CBHPM, 
+							<a class="label" id="saiba_mais" rel="popover" data-content="A Classificação Brasileira Hierarquizada de Procedimentos Médicos (CBHPM) é o ordenamento dos métodos e procedimentos existentes tanto no campo terapêutico quanto diagnóstico, estabelecendo portes de acordo com a complexidade, tecnologia e técnicas envolvidas em cada ato. Como política de padronização, utilizamos esse tabela como o valor mínimo permitido de consulta. Atualmente o valor é de R$ <%= Configuracao.first.valor_cbhpm %>." data-original-title="Atenção!" style="text-decoration:none;">saiba mais</a>
+						</span>
+          </div>
+        </div>
+      </div>
+  </div>
+	<div class="row">
+      <div class="span5">
+        <div class="clearfix">
+          <label>Observação</label>
+          <div class="input">
+			<%= f.text_area :observacao, :class => "xlarge", :rows => 7 %>
+          </div>
+        </div>
+     </div>
+    </div>
+  	<%= f.hidden_field :user_id, { :value => current_user.id } %>
+	<div class="form-actions">
+		<%= f.submit "Salvar", :class => "btn btn-success", :disable_with => "Aguarde..." %>&nbsp;
+		<button type="reset" id="reset_btn" class="btn btn-danger">Cancelar</button>
+	</div>
+<% end %>
+<script type="text/javascript" charset="utf-8">
+	
+function validarHora(field, div) {
+		$("div.error").removeClass("error");
+		$("span.err").remove();
+		
+    // regular expression to match required time format
+    re = /^(\d{1,2}):(\d{2})([ap]m)?$/;
+      if(regs = field.val().match(re)) {
+        if(regs[3]) {
+          // 12-hour value between 1 and 12
+          if(regs[1] < 1 || regs[1] > 12) {
+            div.addClass("error");
+						field.parents("div.input").append("<span class='help-inline err'>Hora inválida: " + regs[1] + "</span>");		
+            return false;
+          }
+        } else {
+          // 24-hour value between 0 and 23
+          if(regs[1] > 23) {
+	        	div.addClass("error");
+						field.parents("div.input").append("<span class='help-inline err'>Hora inválida: " + regs[1] + "</span>");		
+            return false;
+          }
+        }
+        // minute value between 0 and 59
+        if(regs[2] > 59) {
+	        div.addClass("error");
+					field.parents("div.input").append("<span class='help-inline err'>Minuto inválido: " + regs[2] + "</span>");
+          return false;
+        }
+      }
+	  return true;
+}
+	
+	$(document).ready(function() {
+		
+    $("#new_agenda").submit( function () {
+			if(!validarHora($("#agenda_dom_inicio"), $("#domingo")) || !validarHora($("#agenda_dom_fim"), $("#domingo"))) {
+			    return false;
+			}
+			if(!validarHora($("#agenda_seg_inicio"), $("#segunda")) || !validarHora($("#agenda_seg_fim"), $("#segunda"))) {
+			    return false;
+			}
+			if(!validarHora($("#agenda_ter_inicio"), $("#terca")) || !validarHora($("#agenda_ter_fim"), $("#terca"))) {
+			    return false;
+			}
+			if(!validarHora($("#agenda_qua_inicio"), $("#quarta")) || !validarHora($("#agenda_qua_fim"), $("#quarta"))) {
+			    return false;
+			}
+			if(!validarHora($("#agenda_qui_inicio"), $("#quinta")) || !validarHora($("#agenda_qui_fim"), $("#quinta"))) {
+			    return false;
+			}
+			if(!validarHora($("#agenda_sex_inicio"), $("#sexta")) || !validarHora($("#agenda_sex_fim"), $("#sexta"))) {
+			    return false;
+			}
+			if(!validarHora($("#agenda_sab_inicio"), $("#sabado")) || !validarHora($("#agenda_sab_fim"), $("#sabado"))) {
+			    return false;
+			}
+		 	return true;
+    });
+		
+		
+		$("#reset_btn").click(function(){
+			window.location = "/agendas"
+		});
+		
+		$("#agenda_dom_inicio").mask("99:99");
+		$("#agenda_dom_fim").mask("99:99");
+		$("#agenda_seg_inicio").mask("99:99");
+		$("#agenda_seg_fim").mask("99:99");
+		$("#agenda_ter_inicio").mask("99:99");
+		$("#agenda_ter_fim").mask("99:99");
+		$("#agenda_qua_inicio").mask("99:99");
+		$("#agenda_qua_fim").mask("99:99");
+		$("#agenda_qui_inicio").mask("99:99");
+		$("#agenda_qui_fim").mask("99:99");
+		$("#agenda_sex_inicio").mask("99:99");
+		$("#agenda_sex_fim").mask("99:99");
+		$("#agenda_sab_inicio").mask("99:99");
+		$("#agenda_sab_fim").mask("99:99");
+		
+		$("#agenda_valor").priceFormat({
+		   prefix: '',
+		   centsSeparator: '.',
+		   thousandsSeparator: ''
+		});
+		// fix no valor da contribuicao lida do banco
+		// O banco nao armazena o zero nao significativo, exemplo: 100.10,
+		// eh armazenado 100.1
+		if(!"<%= @agenda.valor %>".match(/[0-9]{1,}\.[0-9]{2}/)) {
+			var valor = "<%= @agenda.valor %>0";
+			$("#agenda_valor").val(valor);
+		}
+
+		
+		if($("#agenda_particular").is(":checked")){
+			$("#valor").show();
+		}
+		
+		$("#agenda_particular").change(function(){
+			if($(this).is(':checked')) {
+				$("#valor").show();
+			} else {
+				$("#valor").hide();
+			}
+		})
+		
+		$("#saiba_mais").popover({ html : true});
+	});
+
+</script>

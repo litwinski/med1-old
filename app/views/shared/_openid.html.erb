@@ -1,0 +1,30 @@
+<div id="openid_form" class="modal hide fade" >	
+	<div class="modal-header">
+      <a id='fechar_modal' class="close" data-dismiss="modal">×</a>
+      <h3>Informe seu OpenID</h3>
+    </div>
+    <div class="modal-body">
+	<%= form_tag "/users/auth/open_id", :method => :get do %>
+  	<div class="fluid-row">
+        <div class="clearfix">
+          <label>OpenID</label>
+          <div class="input">	
+			<input type="text" id="openid_url" class="input-xxlarge" name="openid_url"></input>
+          </div>
+        </div>
+    </div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" data-disable-with="Aguarde...">Continuar</button>
+		<button type="reset" id="reset_btn" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+	</div>
+	<% end %>
+</div>
+<script type="text/javascript" charset="utf-8">
+	$("#reset_btn").click(function(){
+		$("#openid_form").hide()
+	});	
+	$("#fechar_modal").click(function(){
+		$("#openid_form").hide()
+	});	
+</script>

@@ -1,0 +1,20 @@
+
+  <div class="content">            
+    <h2 class="title">Unidade</h2>
+    <div class="inner">
+		<div class="group">			
+		</div>
+		<%= form_for InstituicaoEnsino.new do |f| %>
+		  <%= f.label :nome %>
+		<%= f.text_field :nome %><br />			    
+		<%= f.label :logo %>
+		<%= f.file_field :logo %><br />
+		<div>
+			<input type="submit" class="btn primary" value="Save changes">&nbsp;
+			<button type="reset" id="reset_btn" class="btn">Cancel</button>
+		</div>
+		
+		<% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user: 
+  valor: 9.99
+  descricao: MyString
+  validade: 2012-05-08
+  efetivado: false
+  consulta: 
+  movimento: 
+  user_audit: 1
+
+two:
+  user: 
+  valor: 9.99
+  descricao: MyString
+  validade: 2012-05-08
+  efetivado: false
+  consulta: 
+  movimento: 
+  user_audit: 1

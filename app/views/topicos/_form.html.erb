@@ -1,0 +1,17 @@
+<%= form_for([@grupo_discussao, @topico], :class => "form-inline", :html => {:multipart => true}) do |f| %>
+	<%= error_messages_for @topico %>
+
+	<div class="clearfix">
+		<%= f.label :nome %>
+		<div class="input">
+	      <%= f.text_area :nome, :size => "9x5", :maxlength => 190 %>
+	    </div>
+	</div>
+	
+	<div class="clearfix">
+		<div class="form-actions">
+			<%= link_to "Cancelar", @grupo_discussao, :class => "btn btn-danger" %>
+			<%= f.submit "Salvar", :class => "btn btn-success", :disable_with => "Salvando..." %>
+	  </div>
+	</div>
+<% end %>

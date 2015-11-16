@@ -1,0 +1,187 @@
+<div id="menu-lateral" class="span3" style="width:200px" >
+	<div class="secao-lateral well">
+		<div class="well well_search">
+			<p class="nome">Filtros da Busca</p>
+			<hr/>
+			<% if !params[:tu].present? and @tipo_usuarios.present? %>
+				<ul class="unstyled" id="ep_list">
+					<% @tipo_usuarios.uniq.each_with_index do |tipo_usuario, index| %>
+						<% if tipo_usuario.present? %>
+								<% a = 'display:none;' if(index > 4) %>
+					  		<li style="width: 178px; <%= a %>" id="ep_<%= index %>">
+					  			<% if tipo_usuario.id == 1%>
+							  		<%= link_to "Estudante", params.merge(:tu => tipo_usuario.id) %> 
+							  	<% elsif tipo_usuario.id == 2%>
+							  		<%= link_to "Profissional da Saúde", params.merge(:tu => tipo_usuario.id) %> 
+							  	<% else %>
+							  		<%= link_to "Visitante", params.merge(:tu => tipo_usuario.id) %> 
+							  	<% end %>
+								(<%= @tipo_usuarios.count(tipo_usuario) %>)
+								</li>
+						<% end %>
+					<% end %>
+				</ul>
+			<% end %>
+
+			<% if !params[:e].present? and @especialidades.present? %>
+				<div class="input-append">
+					<h4>Profissionais</h4>
+					<ul class="unstyled" id="ep_list">
+						<% @especialidades.uniq.each_with_index do |especialidade, index| %>
+							<% if especialidade.present? %>
+									<% a = 'display:none;' if(index > 4) %>
+						  		<li style="width: 178px; <%= a %>" id="ep_<%= index %>">
+								  	<%= link_to "#{especialidade.descricao.removeaccents.capitalize}", params.merge(:e => especialidade.descricao) %> (<%= @especialidades.count(especialidade) %>)
+									</li>
+							<% end %>
+						<% end %>
+						<% if @especialidades.count > 5 %>
+							<li style="width: 178px;"><%= link_to "Veja mais...", "#", :id => "ep_plus" %></li>
+						<% end %>
+					</ul>
+				</div>
+			<% end %>
+			
+			<% if !params[:p].present? and @planos_de_saude.present? %>
+				<div class="input-append">
+					<h4>Planos de Saúde</h4>
+					<ul class="unstyled" id="eps_list">
+						<% @planos_de_saude.uniq.each_with_index do |plano, index| %>
+						<% if plano.present? %>
+								<% a = 'display:none;' if(index > 4) %>	
+						  	<li style="width: 178px;<%= a %>" id="eps_<%= index %>">
+										<%= link_to "#{plano.nome.removeaccents.capitalize}", params.merge(:e => plano.nome) %> (<%= @planos_de_saude.count(plano) %>)
+								</li>
+							<% end %>
+						<% end %>
+						<% if @planos_de_saude.count > 5 %>
+							<li style="width: 178px;"><%= link_to "Veja mais...", "#", :id => "eps_plus" %></li>
+						<% end %>
+					</ul>
+				</div>
+			<% end %>
+				
+			<% if !params[:l].present? and @locais.present? %>
+				<div class="input-append">
+					<h4>Estados</h4>
+					<ul class="unstyled" id="e_list">
+						<% @estados.uniq.each_with_index do |estado, index| %>
+							<% if estado.present? %>
+								<% a = 'display:none;' if(index > 4) %>	
+								<li style="width: 178px;<%= a %>" id="e_<%= index %>">
+										<%= link_to "#{estado.sigla}", params.merge(:l => estado.sigla) %> (<%= @estados.count(estado) %>)
+								</li>
+							<% end %>
+						<% end %>
+						<% if @estados.count > 5 %>
+							<li style="width: 178px;"><%= link_to "Veja mais...", "#", :id => "e_plus" %></li>
+						<% end %>
+					</ul>
+				</div>
+			<% end %>
+			
+			<% if !params[:c].present? and @locais.present? %>
+				<div class="input-append">
+					<h4>Cidades</h4>
+					<ul class="unstyled" id="c_list">
+						<% @cidades.uniq.each_with_index do |cidade, index| %>
+						<% if cidade.present? %>
+								<% a = 'display:none;' if(index > 4) %>	
+							  <li style="width: 178px;<%= a %>" id="c_<%= index %>">
+									<%= link_to "#{cidade.nome.removeaccents.capitalize}", params.merge(:c => cidade.nome) %> (<%= @cidades.count(cidade) %>)
+								</li>
+							<% end %>
+						<% end %>
+						<% if @cidades.count > 5 %>
+							<li style="width: 178px;"><%= link_to "Veja mais...", "#", :id => "c_plus" %></li>
+						<% end %>
+					</ul>
+				</div>
+			<% end %>
+			
+			<% if params[:c] or params[:e] or params[:p] or params[:l] or params[:tu] %>
+				<hr/>
+				<div class="input-append">
+					<h4>Filtros</h4>
+						<ul class="unstyled">
+								<% if params[:p] %> 
+									<li style="width: 178px;">
+										<%= link_to params.merge(:pe => 0) do %> <i class="icon-remove-circle"></i><% end %> <%= params[:p].capitalize %>
+									</li>
+								<% end %>
+													
+								<% if params[:c] %> 
+									<li style="width: 178px;">
+										<%= link_to params.merge(:ce => 0) do %> <i class="icon-remove-circle"></i><% end %> <%= params[:c].capitalize %>
+									</li>
+								<% end %>
+								
+								<% if params[:e] %> 
+									<li style="width: 178px;">
+										<%= link_to params.merge(:ee => 0) do %> <i class="icon-remove-circle"></i><% end %> <%= params[:e].capitalize %>
+									</li>
+								<% end %>
+								
+								<% if params[:l] %> 
+									<li style="width: 178px;">
+										<%= link_to params.merge(:le => 0) do %> <i class="icon-remove-circle"></i><% end %> <%= params[:l].capitalize %>
+									</li>
+								<% end %>
+
+								<% if params[:tu] %> 
+									<li style="width: 178px;">
+										<%= link_to params.merge(:tue => 0) do %> <i class="icon-remove-circle"></i><% end %><% if params[:tu] == "1"%>
+										  		Estudante
+										  	<% elsif params[:tu] == "2"%>
+										  		Profissional da Saúde
+										  	<% else %>
+										  		Visitante
+										  	<% end %> 
+									</li>
+								<% end %>
+						</ul>
+				</div>
+			<% end %>
+			
+		</div>
+		
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$("#ep_plus").click(function(){
+		$("#ep_list li:hidden").each(function(index, obj){ 
+			$(obj).show();
+			if($("#ep_list li").is(":hidden")){
+				$("#ep_plus").hide();
+			}
+		});
+	});
+	
+	$("#eps_plus").click(function(){
+		$("#eps_list li:hidden").each(function(index, obj){ 
+			$(obj).show();
+			if($("#eps_list li").is(":hidden")){
+				$("#eps_plus").hide();
+			}
+		});
+	});
+	
+	$("#e_plus").click(function(){
+		$("#e_list li:hidden").each(function(index, obj){ 
+			$(obj).show();
+			if($("#e_list li").is(":hidden")){
+				$("#e_plus").hide();
+			}
+		});
+	});
+	
+	$("#c_plus").click(function(){
+		$("#c_list li:hidden").each(function(index, obj){ 
+			$(obj).show();
+			if($("#c_list li").is(":hidden")){
+				$("#c_plus").hide();
+			}
+		});
+	});
+</script>

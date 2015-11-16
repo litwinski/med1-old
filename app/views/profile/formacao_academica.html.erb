@@ -1,0 +1,81 @@
+<style>
+	#instituicao_nome {
+		display: block;
+		font-weight: bold;
+	}
+	#instituicao_logo {
+		float: left;
+		height: 72px;
+		width: 72px;
+	}
+	.texto_curso {
+		width: 100%;
+	}
+</style>
+
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" > <!-- Only required for left/right tabs -->
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#formacao" data-toggle="tab">Formação Acadêmica</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="formacao">				
+				<a href="#formacao_form" id="add_formacao" data-toggle="modal" data-controls-modal="formacao_form" data-backdrop="true" class="btn btn-success right"> <i class="icon-plus icon-white"></i> Nova Formação
+				</a>
+				<br/><br/>	
+				<%= render :partial => "form_formacao", :locals => {:url => profile_create_formacao_academica_path, :editing => false} %>	
+				<div id="list_formacoes_academicas">		
+					<%= render :partial => "list_formacao_academica" %>
+				</div>
+				<div class="form-actions">
+					<a href='/profile/avatar' class='btn btn-primary btn-central-preto'>Próxima Etapa</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+				
+<script type="text/javascript" charset="utf-8">	
+	$.unblockUI();
+	$("#reset_btn").bind('click' ,function(){
+		$("#instituicao_logo").attr("src","");	
+		$("#instituicao_nome").val("");
+		$('#formacao_form').modal('hide')
+	});
+
+	$('#new_formacao_academica').submit(function() {
+	  $('#formacao_form').modal('hide')
+	});
+	$(document).ready(function(){
+		$('#instituicao_nome').autocomplete({
+		    source: "/ajax/instituicoes",
+			focus: function( event, ui ) {
+				$("#instituicao_nome").val(ui.item.label);
+				return false;
+			},search: function( event, ui) {
+				$('#instituicao_nome').addClass("loading-busca");
+			},
+			select: function( event, ui ) {
+				$("#instituicao_logo").attr("src", ui.item.icon);
+				$("#instituicao_nome").val(ui.item.label);
+				$("#formacao_academica_instituicao_ensino_id").val(ui.item.id);
+			}
+		}).data("autocomplete")._renderItem = function(ul, item) {
+				$('#instituicao_nome').removeClass("loading-busca");
+		        return $("<li></li>")
+		            .data("item.autocomplete", item)
+		            .append("<a>" +"<img src='" + item.icon + "' height='16' width='14' ></img><span style='margin-left: 10px;'>" + item.label + "</span></a>")
+		            .appendTo(ul);
+		} 
+		$("#add_formacao").click(function(){
+			$('#instituicao_nome').val("");
+	  		$('#formacao_academica_instituicao_ensino_id').val("");
+	  		$('#formacao_academica_tipo_formacao_id').val("");
+	  		$('#formacao_academica_fim_1i').val("");
+	  		$('#formacao_academica_curso').val("");
+	  		$('#formacao_academica_id').val("");
+		});	           
+	});
+
+</script>

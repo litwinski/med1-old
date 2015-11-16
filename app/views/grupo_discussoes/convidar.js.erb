@@ -1,0 +1,7 @@
+$("#integrantes_grupo").html(
+	"<%= j render(:partial => 'ticket_user', :locals => {
+		:titulo => 'Membros',
+		:resources => @amigos_grupo,
+		:link_operacao => lambda { |user| link_to('Remover' , remover_convidado_grupo_discussao_path(@grupo_discussao, user.id), :class => 'btn mini error', :remote => true, :method => 'delete', :confirm => 'Você tem certeza?') }
+	})%>"
+);

@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  movimento: 
+  quantidade: 1
+  validade: 2012-05-08
+  user: 
+  consulta: 
+  efetivado: false
+
+two:
+  movimento: 
+  quantidade: 1
+  validade: 2012-05-08
+  user: 
+  consulta: 
+  efetivado: false

@@ -1,0 +1,43 @@
+<%= stylesheet_link_tag  "agenda", :media => "all" %>
+
+<% if flash[:notice] %><div class="alert-message success"><a class="close" href="#">×</a><%= flash[:notice] %></div><% end %>
+
+<% if @agendas.present? %>
+	<% if @medico.pode_consultar?%>
+		<select style="width:100%" id="locais_atendimentos">
+			<% @agendas.each do |agenda| %>
+				<option value="<%=agenda.id%>">
+					<%= "#{agenda.nome} - " if agenda.nome.present? %> Consultório <%= agenda.local_atendimento.bairro %> - <%=agenda.local_atendimento.cidade %>
+				</option>
+			<% end %>
+		</select>
+		<div id="search_local_atendimento">
+			<%= render :partial => "form_informacao_agenda"%>
+		</div>
+	<% else %>
+		<strong><%= @medico.nome_completo %></strong> está com o sistema de marcação de consulta inativo no momento. Envie uma solicitação para ativação.
+		<%=form_tag enviar_solicitacao_agendas_path, :method => :get do %>
+			<%= hidden_field_tag :medico, @medico.id %>
+			<%= hidden_field_tag :usuario, current_user.id %>				
+			<button class="btn primary" data-disable-with="Aguarde...">Enviar</button>
+		<% end %>
+	<% end %>
+<% else %>
+	Este profissional não possui ativo o sistema de marcação de consultas. Deseja enviar uma solicitação de ativação para <strong><%= @medico.nome_completo %></strong>?
+	<br/><br/>
+	<%=form_tag enviar_solicitacao_agendas_path, :method => :get do %>
+		<%= hidden_field_tag :medico, @medico.id %>
+		<%= hidden_field_tag :usuario, current_user.id %>				
+		<button class="btn primary" data-disable-with="Aguarde...">Enviar</button>
+	<% end %>
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+
+	$(document).ready(function() {
+		$("#locais_atendimentos").change(function(){
+	    	$.get("/agendas/busca_local_atendimento?id="+ $("#locais_atendimentos").val());
+	    	bloquearTela();
+	    });
+    });
+</script>

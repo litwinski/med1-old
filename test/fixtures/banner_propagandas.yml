@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  imagem: MyString
+  data_exibicao: 2012-04-24 17:05:35
+
+two:
+  imagem: MyString
+  data_exibicao: 2012-04-24 17:05:35

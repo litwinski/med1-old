@@ -1,0 +1,121 @@
+<div class="frontend">
+	<div id="banner0" class="banner1">
+	</div>
+	<div id="banner1" class="banner2">
+	</div>
+	<div id="banner2" class="banner3">
+	</div>
+	<div id="banner3" class="banner4">
+	</div>
+	<div id="banner4" class="banner5">
+	</div>
+</div>
+<div class="container">
+	<div class="frontend-container">
+			<div class="titulo_banner">
+				<%=image_tag('frontend/encontre_profissionais.png')%>	
+			</div>
+
+		<div class="well search-frontend ">
+			<%= form_tag search_path , :method => :get, :id => 'form_search', :class => "navbar-form pull-left pesquisa-frontend", :style => "padding-top:10px"  do %>
+				<%=select_tag "tipo_busca", "<option value='todos'>Todos</option><option value='artigo'>Artigos</option><option value='especialista'>Pessoas</option>".html_safe, :style => "width:70px; ", :class => "pretty dk", :id => "busca_home"%>
+				<%= text_field_tag :m, params[:m], :placeholder => "Explorar na rede Med1..." %>
+				<button type="submit" id="submit_busca_land" style="background-color:transparent;border-style: none;height: 40px;width: 30px;"> </button>
+			<% end %>
+
+			<div class="slideshow_land_page">
+				<button id="opcao_banner0" onclick="opcao(0)" class="opcao-slideshow"> </button>
+				<button id="opcao_banner1" onclick="opcao(1)" class="opcao-slideshow"> </button>
+				<button id="opcao_banner2" onclick="opcao(2)" class="opcao-slideshow"> </button>
+				<button id="opcao_banner3" onclick="opcao(3)" class="opcao-slideshow"> </button>
+				<button id="opcao_banner4" onclick="opcao(4)" class="opcao-slideshow"> </button>
+			</div>
+			
+		</div>
+
+		<div>
+			<div id="btn_land_page" class="row-fluid">
+				<div class="span4 coluna">
+					<h2>O que é?</h2>
+					<p>O Med1 é uma plataforma digital de conteúdo de saúde criada por profissionais especialistas e por pacientes, com o objetivo de promover informação qualificada e troca de experiências. </p>
+				</br>
+						<button class="btn btn-primary btn-central-preto btn-home" onclick="location.href='/paginas/quem_somos'">Clique aqui e saiba tudo que o Med1 oferece</button>
+				</div>
+
+				<div class="span4 coluna">
+					<h2>Para quem?</h2>
+					<p> Para profissionais da saúde que desejam compartilhar sua experiência profissional e publicar conteúdos. Para visitantes que desejam encontrar o especialista mais indicado e também pessoas com os mesmos problemas de saúde. </p>
+						<button class="btn btn-primary btn-central-preto btn-home"  onclick="location.href='/users/sign_up'">Cadastre se agora mesmo e explore o Med1</button>
+				</div>
+
+				<div class="span4 coluna">
+					<h2>Porque escolher?</h2>
+					<p>No Med1 pacientes poderão conhecer melhor profissionais da saúde e agendar consultas presenciais gratuitamente com poucos clicks. Profissionais terão a chance de promover saúde digitalmente e com grande alcance .</p>
+				</br>
+						<button class="btn btn-primary btn-central-preto btn-home" onclick="location.href='/paginas/como_funciona'">Gostou?! Veja como como funciona o Med1</button>
+
+				</div>
+
+			</div>
+		</div>
+		<br/>
+		<%=image_tag('frontend/sobra.png')%>
+		<%=render :partial => 'shared/atualizacoes_recentes'%>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+       var i=0, i_ant=0;
+       var intervalo = setInterval("efeitoBanner()",8000);  
+       $(document).ready(function(){
+            $(".dk_toggle a").css("padding", "7px 20px 7px 10px");
+			$('#busca_home').dropkick();
+			efeitoBanner();
+			intervalo;
+       });
+       function efeitoBanner(){
+			var TimeEntrada = 2000,
+			TimeSaida = 100,
+			TimeEspera = 5000,
+			totalTime = TimeEntrada + TimeEspera,
+			fadeElemento,
+			fadeElemento_ant;
+			fadeElemento_ant = "#banner" + i_ant;
+			fadeElemento = "#banner" + i;
+			$("#banner" + i_ant).fadeOut("slow", function() {
+                if (i >= 5)
+                {
+                    i = 0;
+                }
+                i_ant = i;
+                limparOpcao();
+                $("#banner" + i).fadeIn("slow", function() {
+                    i++;
+                });
+        	});
+		}
+		function limparOpcao(){
+			var opcao;
+			$("#opcao_banner0").removeClass("opcao-selecionada").addClass("opcao-naoselecionada");
+			$("#opcao_banner1").removeClass("opcao-selecionada").addClass("opcao-naoselecionada");
+			$("#opcao_banner2").removeClass("opcao-selecionada").addClass("opcao-naoselecionada");
+			$("#opcao_banner3").removeClass("opcao-selecionada").addClass("opcao-naoselecionada");
+			$("#opcao_banner4").removeClass("opcao-selecionada").addClass("opcao-naoselecionada");
+			opcao = "#opcao_banner" + i;
+			$(opcao).removeClass("opcao-naoselecionada").addClass("opcao-selecionada");
+		}
+		function opcao(valor){
+			i = valor;
+			clearInterval(intervalo);
+			efeitoBanner();
+			intervalo = setInterval("efeitoBanner()",8000); 
+		}
+		$("#submit_busca_land").click(function(event){
+		    if($('#m').val() == ""){
+		        alert("Digite algo para fazer a busca.");
+		         event.preventDefault();
+		    }
+  		});
+
+</script>
+

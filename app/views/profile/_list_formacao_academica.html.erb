@@ -1,0 +1,56 @@
+<table class="med1">
+	<thead>
+		<tr>
+			<th style="width:60%">Universidade</th>
+			<th style="width:12%">Nível</th>
+			<th style="width:20%">Curso</th>
+			<th style="width:8%">Ações</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @formacoes.each do |formacao| %>
+			<tr>
+				<td style="padding-left:5px">
+					<%= image_tag(formacao.instituicao_ensino.logo(:search), size: "14x16") if formacao.instituicao_ensino.present?%>
+					<%= formacao.instituicao_ensino.nome if formacao.instituicao_ensino.present?%>
+				<td style="padding-left:5px">
+					<%= formacao.tipo_formacao.descricao if formacao.instituicao_ensino.present?%>
+				</td>
+				<td style="padding-left:5px">
+					<%= formacao.curso %>
+				</td>
+				<td style="padding-left:5px">
+					<a href="#formacao_form" id="edit_formacao_<%formacao.id%>" data-toggle="modal" data-controls-modal="formacao_form" data-backdrop="true" onclick="editarFormacao(<%=formacao.id%>,'<%=formacao.instituicao_ensino.nome%>',<%=formacao.instituicao_ensino.id%>,'<%=formacao.instituicao_ensino.logo_file_name.present? ? formacao.instituicao_ensino.logo_file_name : ' '%>',<%=formacao.tipo_formacao.id%>,<%=formacao.fim%>,'<%=formacao.curso%>')"> <%=image_tag('backend/edit.png', title: "Editar formação")%></i></a>
+					<%= link_to profile_delete_formacao_academica_url(:id => formacao), :id => "btn_excluir_formacao_#{formacao.id}", :method => :delete, :confirm => 'Você deseja apagar essa formação?' do %>
+						<%=image_tag('backend/delete.png', title: "Excluir formação")%>
+					<% end %>			
+				</td>
+			</tr>
+		<% end %>	
+	</tbody>
+</table>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+	  	$("#a[id^=btn_excluir_formacao_]").click(function(){
+
+	  	});
+
+	  	
+  	});
+
+  	function editarFormacao(id,instituicao,instituicao_id,logo,tipo,fim,curso){
+	  		$('#instituicao_nome').val(instituicao);
+	  		$('#formacao_academica_instituicao_ensino_id').val(instituicao_id);
+	  		$('#formacao_academica_tipo_formacao_id').val(tipo);
+	  		$('#formacao_academica_fim_1i').val(fim);
+	  		$('#formacao_academica_curso').val(curso);
+	  		$('#formacao_academica_id').val(id);
+	  		if(logo == " "){
+	  			$("#instituicao_logo").attr("src","/assets/universidade_geral.gif");
+	  		}else{
+	  			$("#instituicao_logo").attr("src",logo);
+	  		}
+  		}
+  	
+</script>

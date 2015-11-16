@@ -1,0 +1,15 @@
+<div class="span1">
+	<ul class="media-grid">
+		<li>
+			<%= link_to(avatar(agenda.user), "#{agenda.user.url_usuario}", :target => "_blank") %>
+	  	</li>
+	</ul>
+</div>
+<div class="span<%=span_size%>" >	
+	<strong><%= link_to(agenda.user.nome_completo, "#{agenda.user.url_usuario}", :target => "_blank") %></strong><br/>
+	<strong><%= agenda.local_atendimento.nome %></strong><br/>
+	<%= endereco_local(agenda.local_atendimento) %><br/>
+	<% agenda.local_atendimento.plano_de_saudes.each do |plano| %>
+		<span class="label notice"><%=plano.nome.curto.upcase%></span>
+	<% end %>
+</div>

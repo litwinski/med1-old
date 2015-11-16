@@ -1,0 +1,8 @@
+$('#users_container').html("<%= j render(:partial => 'busca_user_container') %>");
+$('.pagination').remove();
+<% if @users.next_page %>
+	$('#users_container').append("<%= j will_paginate(@users) %>");
+<% else %>
+	$('#users_container').append("<div style='display:none;'><%= j will_paginate(@users) %></div>");
+<% end %>
+$.unblockUI();

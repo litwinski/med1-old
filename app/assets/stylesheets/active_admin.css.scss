@@ -1,0 +1,171 @@
+// Active Admin CSS Styles
+@import "active_admin/mixins";
+@import "active_admin/base";
+
+.ui-selectable-helper { position: absolute; z-index: 100; border:1px dotted black; }
+
+/////////////////////
+// Tags
+
+div.tagsinput {
+border: 1px solid #C9D0D6;
+border-radius: 3px 3px 3px 3px;
+font-family: Helvetica,Arial,sans-serif;
+font-size: 0.95em;
+outline: medium none;
+padding: 8px 10px 7px;
+width: 76%;
+height: 100px;
+background: #ffffff;
+overflow-y: auto;}
+div.tagsinput span.tag { border: 1px solid #a5d24a; -moz-border-radius:2px; -webkit-border-radius:2px; display: block; float: left; padding: 5px; text-decoration:none; background: #cde69c; color: #638421; margin-right: 5px; margin-bottom:5px;font-family: helvetica;  font-size:13px;}
+div.tagsinput span.tag a { font-weight: bold; color: #82ad2b; text-decoration:none; font-size: 11px;  } 
+div.tagsinput input { width:80px; margin:0px; font-family: helvetica; font-size: 13px; border:1px solid transparent; padding:5px; background: transparent; color: #000; outline:0px;  margin-right:5px; margin-bottom:5px; }
+div.tagsinput div { display:block; float: left; } 
+.tags_clear { clear: both; width: 100%; height: 0px; }
+.not_valid {background: #FBD8DB !important; color: #90111A !important;}
+
+
+// To customize the Active Admin interfaces, add your
+// styles here:
+
+.ui-datepicker table.ui-datepicker-calendar {
+    width: 185px;
+}
+
+.ui-datepicker .ui-datepicker-header {
+    background: url("/assets/datepicker-header-bg.png") no-repeat scroll 0 0 transparent;
+}
+
+.ui-datepicker {
+    width: 188px;
+}
+
+.ui-icon-calendar {
+    background-position: -32px -112px;
+}
+
+.campo-data {
+    background: url("/assets/active_admin/datepicker/datepicker-input-icon.png") no-repeat scroll 100% 7px #FFFFFF !important;
+	width: 150px !important;
+}
+
+.campo-telefone {
+	width: 150px !important;
+}
+
+.campo-cep {
+	width: 150px !important;
+}
+
+.nome_escola_li {
+	display: none;
+}
+
+.nome_destino_li {
+	display: none;
+}
+
+.nome_categoria_li {
+	display: none;
+}
+
+.block {
+	display: block;
+}
+
+.hidden {
+	display: none;
+}
+
+.left {
+	float: left;
+}
+
+.clear {
+	clear: both;
+}
+
+/* pagina de grupos - container de clientes */
+
+#busque_clientes {
+	margin: 15px;
+	padding: 15px;
+	border: 5px solid #c0c0c0;
+    border-radius: 4px 4px 4px 4px;
+    -moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	text-align: center;
+}
+
+#registros_search_results {
+    display: block;
+    overflow: auto;
+	margin-right: 5px;
+	border: 1px dashed #c0c0c0;
+	float: left;
+	background: #fff;
+	min-height: 112px;
+}
+
+#registros_container {
+    display: block;
+    margin: auto;
+	border: 1px dashed #c0c0c0;
+	float: left;	
+	background: #fff;
+	min-height: 112px;
+}
+
+#registros_container .cliente, #registros_search_results .cliente {
+    background: none repeat scroll 0 0 f9f9f9;
+    border: 1px solid #c0c0c0;
+    border-radius: 4px 4px 4px 4px;
+    -moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+    height: 90px;
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
+    width: 90px;
+	float: left;
+}
+
+#registros_container .objeto, #registros_search_results .objeto {
+    background: none repeat scroll 0 0 f9f9f9;
+    border: 1px solid #c0c0c0;
+    border-radius: 4px 4px 4px 4px;
+    -moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	margin: 3px;
+    padding: 5px 5px 5px 10px;
+}
+
+#registros_container .cliente:hover, #registros_search_results .cliente:hover, #registros_container .objeto:hover, #registros_search_results .objeto:hover {
+	background: none repeat scroll 0 0 #f3f3f3;
+    border: 1px solid #e3e3e3;
+}
+
+
+#subform_search_nome {
+	width: 450px !important;
+}
+
+.expandido {
+	width: 100% !important;
+}
+
+.dividido {
+	width: 49% !important;
+}
+
+.campo-select {min-width: 220px !important; height: 30px !important;}
+.campo-data {background: url("/assets/active_admin/datepicker/datepicker-input-icon.png") no-repeat scroll 100% 7px white !important;}
+
+.drag-drop-highlight {border: 1px solid #fed22f; background: #ffe45c url(images/ui-bg_highlight-soft_75_ffe45c_1x100.png) 50% top repeat-x; color: #363636; width: 90px; height: 90px; padding: 5px; margin:5px; float: left; }
+
+.drag-drop-highlight a { color: #363636; }
+
+.drag-drop-highlight-objeto {border: 1px solid #fed22f; background: #ffe45c url(images/ui-bg_highlight-soft_75_ffe45c_1x100.png) 50% top repeat-x; color: #363636; padding: 5px 5px 5px 10px; margin:3px;}
+
+.drag-drop-highlight-objeto a { color: #363636; }

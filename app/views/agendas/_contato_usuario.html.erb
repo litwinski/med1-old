@@ -1,0 +1,32 @@
+<div id="contato_form" class="modal hide fade">	
+	<div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3 id="titulo_modal_email">Confirmar Consulta</h3>
+    </div>
+		
+    <div class="modal-body">
+		<div class="row" style="width: 40px; float: left">
+			<div class="span2">
+				<a sytle="margin-left: 0px" id="avatar_usuario"></a>
+			</div>
+		</div>
+	
+		<div class="span5" style="margin-left: 48px; width: 400px; float: left">
+			<div style="padding: 0px;">		  
+			  <p style="line-height: 15px" id="nome_usuario">	        	
+			  </p>
+			  <p style="line-height: 15px" id="horario_usuario">			    
+			  </p>
+			  <p style="line-height: 15px" id="contato_usuario">					
+			  </p>				  				  
+			  <p style="line-height: 15px" id="situacao">					
+			  </p>				  				  			  
+			</div>	
+		</div>						
+	</div>
+		
+	<div class="modal-footer" >
+		<%= link_to 'Desmarcar', desmarcar_consulta_path(0, :who => "medico"), :id => "link_des" , :class=>"btn btn-danger", confirm: 'Você deseja desmarcar o horário?', method: :post, :remote => "true" %>
+		<%= link_to 'Confirmar', confirmar_consulta_path, :id => "link_mar", :class=>"btn btn-success", method: :post, :remote => "true" %>				
+    </div>
+</div>

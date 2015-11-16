@@ -1,0 +1,29 @@
+<% if @exception %>
+  alert('<%= @exception %>');
+  $('#local_atendimento_endereco').val('')
+  $('#local_atendimento_numero').val('')
+  $('#local_atendimento_bairro').val('')
+  $('#endereco_estado_id').val('')
+  $('#local_atendimento_cidade_id').val('')
+  $('#local_atendimento_endereco').focus();
+<% else %>
+  $('#local_atendimento_endereco').val('<%= @endereco[0].to_s + ' ' + @endereco[1].to_s %>')
+  $('#local_atendimento_bairro').val('<%= @endereco[2].to_s %>')
+  $('#cidade_id').val('<%= @endereco[2].to_s %>')
+  <%  c = Cidade.busca_cidade_por_nome_sigla_estado(@endereco[3], @endereco[4]) %>
+  $("#endereco_estado_id option").each(function() {
+   this.selected = (this.text == "<%= c.first.estado.nome %>"); 
+  });
+  <% cidades = Cidade.busca_cidades_por_estado(c.first.estado_id) %>
+  var options = '';  
+  <% cidades.each do |c| %>             
+      options += '<option value=+"<%= c.id %>"+ ">'+"<%= c.nome %>"+ '</option>';
+  <% end %>
+  $('#cidade_id').html(options).show();
+  $("#cidade_id option").each(function() {
+   this.selected = (this.text == "<%= c.first.nome %>"); 
+   $('#local_atendimento_cidade_id').val("<%= c.first.id %>")
+  });
+  $('#local_atendimento_numero').focus();
+<% end %>
+$('#cep_load').hide();

@@ -1,0 +1,62 @@
+<span class="help-block" style="font-size: 14px; padding-top: 25px;">	      
+	<strong>Legenda:</strong><br/><br/>
+	<span class="label notice" style="background-color: #C67605">&nbsp;&nbsp;</span> Consultas a confirmar.<br/>
+	<span class="label success" style="background-color: #378006">&nbsp;&nbsp;</span> Consultas confirmadas.<br/>
+	<span class="label success" style="background-color: #C0C0C0">&nbsp;&nbsp;</span> Consultas Expiradas.
+</span>
+
+<script type='text/javascript'>
+	$(document).ready(function() {
+		
+		var date = new Date();
+		var y = date.getFullYear();
+		$('#calendar').fullCalendar({
+			editable: false,
+			eventClick: function(calEvent, jsEvent, view) {
+				$("#contato_form").modal({
+					backdrop: true,
+				});				
+				$("#avatar_usuario").html(calEvent.avatar_usuario);
+				$("#nome_usuario").html("<strong>Nome: </strong>").append(calEvent.nome_usuario);
+				$("#horario_usuario").html("<strong>Horário: </strong>").append(calEvent.horario_usuario);
+				$("#contato_usuario").html("<strong>Contato: </strong>").append(calEvent.contato_usuario);
+				$("#id_consulta").val(calEvent.id);		
+				$("#link_des").attr("href", "/consultas/" + calEvent.id +"/desmarcar?who=medico");
+				$("#link_mar").attr("href", "/consultas/" + calEvent.id +"/confirmar");
+				$("#situacao").html("");
+				$("#link_mar").show();
+				$("#link_des").show();
+				if(eval(calEvent.confirmada)) {
+					$("#link_mar").hide();
+				} else {
+					$("#link_mar").show();
+				}	
+				if(eval(calEvent.expirada)) {
+					$("#situacao").html("<strong>Consulta Expirada!</strong>");
+					$("#link_mar").hide();
+					$("#link_des").hide();
+				}
+			},
+			events: [
+			<% @consultas.each do |consulta| %>
+				{
+					title: "<%= consulta.horario.strftime('%H:%M') %> - <%= (consulta.horario + (@agenda.tempo_consulta.hour.hour + @agenda.tempo_consulta.min.minutes)).strftime('%H:%M') %>",
+					avatar_usuario: "<%= escape_javascript avatar(consulta.usuario) %>",
+					nome_usuario: "<%= consulta.usuario.nome %>",
+					horario_usuario: "<%= consulta.horario.strftime('%d/%m/%Y as %H:%M') %>",
+					contato_usuario: "<%= consulta.usuario.email %>",
+					id: "<%= consulta.id %>",					
+					color: "<%= consulta.color %>",
+					start: "<%= consulta.horario %>",
+					confirmada: "<%= consulta.confirmada? %>",
+					expirada: "<%= consulta.expirada? %>"
+				},
+			<% end %>
+			{}			
+			],
+			eventRender: function(calEvent, element){
+				element.tooltip({'placement':'top', 'trigger':'hover', 'title': calEvent.nome_usuario + "<br/>" + calEvent.contato_usuario});
+			}
+		});
+	});
+</script>

@@ -1,0 +1,117 @@
+"pt":
+  # Attributes names common to most models
+  #attributes:
+    #created_at: "Created at"
+    #updated_at: "Updated at"
+
+  # Active Record models configuration
+  activerecord:
+    errors:
+      messages:
+        taken: "já foi utilizado"
+        record_invalid: "A validação falhou: %{errors}"
+    models:
+      categoria: "Categoria"
+      conteudo: "Conteúdo"
+    attributes:
+      agenda:
+        tempo_consulta: "Intervalo de consulta"
+        dom_inicio: "Horário de início de domingo"
+        dom_fim: "Horário de fim de domingo"
+        seg_inicio: "Horário de início de segunda"
+        seg_fim: "Horário de fim de segunda"
+        ter_inicio: "Horário de início de terça"
+        ter_fim: "Horário de fim de terça"
+        qua_inicio: "Horário de início de quarta"
+        qua_fim: "Horário de fim de quarta"
+        qui_inicio: "Horário de início de quinta"
+        qui_fim: "Horário de fim de quinta"
+        sex_inicio: "Horário de início de sexta"
+        sex_fim: "Horário de fim de sexta"
+        sab_inicio: "Horário de início de sábado"
+        sab_fim: "Horário de fim de sábado"
+      user:
+        nome: "Nome"
+        cidade: "Cidade"
+        data_nascimento: "Data de Nascimento"
+        sexo: "Sexo"
+        cep: "CEP"
+        rua: "Rua"
+        numero: "Número"
+        complemento: "Complemento"
+        bairro: "Bairro"
+        telefone_celular: "Telefone Celular"
+        email: "E-mail"
+        created_at: "Data do Cadastro"
+        updated_at: "Data de Alteração"
+        password: "Senha"
+        current_password: "Senha Atual"
+        password_confirmation: "Confirmação de Senha"
+      categoria:
+        nome: "Nome"
+        sigla: "Sigla"
+        created_at: "Data do Cadastro"
+        updated_at: "Data de Alteração"
+      cidade:
+        nome: "Nome"
+        estado_id: "Estado"
+        ativo: "Ativada?"
+        capital: "Capital?"
+        created_at: "Data do Cadastro"
+        updated_at: "Data de Alteração"
+      conteudo:
+        titulo: "Título"
+        categoria: "Categoria"
+        texto: "Texto"
+        created_at: "Data do Cadastro"
+        updated_at: "Data de Alteração"
+      empresa:
+        nome: "Nome"
+        titulo: "Título"
+        cnpj: "CNPJ"
+        codigo_unico: "Código Único"
+        email: "E-mail"
+        website: "Website"
+        telefone: "Telefone"
+        cep: "CEP"
+        rua: "Rua"
+        numero: "Número"
+        complemento: "Complemento"
+        bairro: "Bairro"
+        cidade: "Cidade"
+        logo: "Logotipo"
+        descricao: "Descrição"
+        created_at: "Data do Cadastro"
+        updated_at: "Data de Alteração"
+      capitulo_tema:
+        num_capitulo: "Número do Capítulo"
+        descricao: "Descrição"
+        descabrev: "Descrição Abreviada"
+        # Append your own errors here or at the model/attributes scope.
+
+      # You can define own errors for models or model attributes.
+      # The values :model, :attribute and :value are always available for interpolation.
+      #
+      # For example,
+      #   models:
+      #     user:
+      #       blank: "This is a custom blank message for %{model}: %{attribute}"
+      #       attributes:
+      #         login:
+      #           blank: "This is a custom blank message for User login"
+      # Will define custom blank validation message for User model and
+      # custom blank validation message for login attribute of User model.
+      #models:
+
+    # Translate model names. Used in Model.human_name().
+    #models:
+      # For example,
+      #   user: "Dude"
+      # will translate User model name to "Dude"
+
+    # Translate model attribute names. Used in Model.human_attribute_name(attribute).
+    #attributes:
+      # For example,
+      #   user:
+      #     login: "Handle"
+      # will translate User attribute "login" as "Handle"

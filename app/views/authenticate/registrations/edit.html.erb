@@ -1,0 +1,108 @@
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" >
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#senha" data-toggle="tab">Configurações de Senha</a></li>
+			<!-- <li><a href="#conta" data-toggle="tab">Configurações de Conta</a></li> -->
+			<li><a href="#seguranca_privacidade" data-toggle="tab">Segurança e Privacidade</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="senha">	
+				<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put , :class => 'form-stacked'}) do |f| %>
+        
+					<%= error_messages_for resource %>
+
+					<div class="row-fluid">
+						<div class="span5">
+							<div class="clearfix">
+								<%= f.label :email %>
+								<div class="input"> 
+									<%= f.email_field :email %>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="span8">
+							<div class="clearfix">
+								<%= f.label :current_password %>
+								<div class="input"> 
+									<%= f.password_field :current_password %><span class="help-inline"><i>(informe sua senha atual para confirmar as alterações)</i></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					</br>
+					<div class="row-fluid">
+						<div class="span10">
+							<div class="clearfix">
+								<%= f.label "Nova Senha"%>
+								<div class="input"> 
+									<%= f.password_field :password %> <span class="help-inline"><i>(deixe em branco se você não quer mudá-la)</i></span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="span5">
+							<div class="clearfix">
+								<%= f.label "Confirmar nova senha" %>
+								<div class="input"> 
+									<%= f.password_field :password_confirmation %>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					
+
+					<div class="form-actions">
+						<%= link_to "Cancelar", "/profile", :class => "btn btn-danger" %>
+						<%= f.submit "Salvar", :class => "btn btn-success", :disable_with => "Salvando..." %>
+					</div>
+				<% end %>
+			</div>
+			<!-- Conta -->
+			<div class="tab-pane" id="conta">
+				<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+					<%= error_messages_for resource %>
+					<h2 style="color:#51517F;font-size:20px;">Escolha seu novo perfil</h2>
+						<br/>
+				    <%= f.radio_button :tipo_usuario_id, "3" %> Sou Paciente
+						<br/>
+				    <%= f.radio_button :tipo_usuario_id, "1" %> Sou Estudante
+						<br/>
+				    <%= f.radio_button :tipo_usuario_id, "2" %> Sou Profissional
+						<br/>
+					<%= f.select(:profissao_saude_id, ProfissaoSaude.all.collect{|e|["#{e.descricao}",e.id]}, { :prompt => "Escolha sua profissão" }, {:style => "display:none"}) %>
+						<br/>
+					<%= link_to "Cancelar", "/profile", :class => "btn btn-danger" %>
+					<%= f.submit "Salvar", :class => "btn btn-success", :disable_with => "Salvando..." %>
+				<% end %>
+			</div>
+
+			<!-- Segurança e Privacidade -->
+			<div class="tab-pane" id="seguranca_privacidade">
+				<p>Você está tentando excluir sua Conta Med1!!! </p>
+				<p>Você compreende que não poderá mais usar nenhum de nossos serviços e que sua página pública e suas informações, pontuações, nível de usuário, créditos, além de conexões com outros usuários e participação em grupos serão todos apagados. 
+				Você poderá ter acesso novamente a todos esses serviços somente se criar um novo cadastro, mas terá que fazer tudo a partir do início.</p>
+				<%= link_to "Apagar conta?", registration_path(resource_name), :confirm => "Confirmo que sou o responsável por essa conta e por todo o conteúdo através dela publicado e que compreendo que ao clicar no botão abaixo todos os meus dados serão excluídos, mas mantenho a responsabilidade por qualquer ato ilícito praticado na plataforma Med1?", :method => :delete, :class => "btn btn-danger btn-large" %>
+			</div>
+		</div>
+
+	</div>
+</div>
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {	
+		$("#user_tipo_usuario_id_2").change(function(){
+			$("#user_profissao_saude_id").show();
+		});
+		$("#user_tipo_usuario_id_1").change(function(){
+			$("#user_profissao_saude_id").hide();
+		});
+		$("#user_tipo_usuario_id_3").change(function(){
+			$("#user_profissao_saude_id").hide();
+		});
+    });
+</script>

@@ -1,0 +1,52 @@
+<div class="well mini-container-central">
+    <div class="tabbable tab-central" >
+    	<ul class="nav nav-tabs">
+    		<li class="active"><a href="#artigos" data-toggle="tab">Consultas</a></li>
+    	</ul>
+		<ul class="nav nav-pills">
+		  <li class="<%= params[:state] == 'proximas' ? 'active' : '' %>"><a href="/consultas/filtrar/proximas">Próximas</a></li>
+		  <li class="<%= params[:state] == 'pendentes' ? 'active' : '' %>"><a href="/consultas/filtrar/pendentes">Pendentes</a></li>
+		  <li class="<%= params[:state] == 'canceladas' ? 'active' : '' %>"><a href="/consultas/filtrar/canceladas">Canceladas</a></li>
+		  <li class="<%= params[:state] == 'expiradas' ? 'active' : '' %>"><a href="/consultas/filtrar/expiradas">Expiradas</a></li>
+		  <li class="<%= params[:state] == 'historico' ? 'active' : '' %>"><a href="/consultas/filtrar/historico">Histórico</a></li>
+		</ul>
+
+		<table id="consultas" class="med1">
+			<thead>
+			<tr>
+				<th>Profissional</th>
+				<th>Local</th>
+				<th>Horário</th>				
+				<th>Opções</th>
+			</tr>
+			</thead>
+			<tbody>
+	    	<% @consultas.each do |consulta| %>
+			  <tr class="success" id="c_<%= consulta.id %>">
+			    <td><strong><a href="<%=consulta.medico.url_usuario%>"><%= consulta.medico.nome_completo %></a></strong></td>
+			    <td>
+					<strong><%= consulta.local_atendimento.nome %></strong><br/>
+					<%= endereco_local(consulta.local_atendimento) %>
+				</td>
+			    <td>
+					<%= I18n.l consulta.horario, :format => "%A" %><br/>
+					<%= I18n.l consulta.horario, :format => "%d/%m/%Y" %><br/>
+					<%= I18n.l consulta.horario, :format => "%H:%M" %>
+				</td>
+			    <td>
+				<% if((consulta.a_confirmar? || consulta.confirmada?) && (consulta.horario >= DateTime.now)) %>
+				<%= link_to 'Desmarcar', desmarcar_consulta_path(consulta, :who => "usuario"), :class=>"btn btn-danger btn-mini", confirm: 'Você deseja desmarcar o horário?', method: :post, :remote => "true" %>
+				<% elsif consulta.cancelada? %>
+					<span class="btn disabled">Cancelada</span>
+				<% elsif consulta.expirada? %>
+					<span class="btn disabled">Expirada</span>
+				<% else %>
+					<span class="btn disabled"><%= consulta.state.humanize %></span>
+				<% end %>
+				</td>
+			  </tr>
+			<% end %>
+			</tbody>
+		</table>		
+	</div>
+</div>

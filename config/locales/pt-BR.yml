@@ -1,0 +1,115 @@
+pt-BR:
+  date:
+    formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: "%d-%m-%Y"
+      short: "%b %d"
+      long: "%B %d, %Y"
+
+    day_names: [Domingo, Segunda, Terça, Quarta, Quinta, Sexta, Sabádo]
+    abbr_day_names: [Dom, Seg, Ter, Qua, Qui, Sex, Sab]
+
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: [~, Janeiro, Fevereiro, Março, Abril, Maio, Junho, Julho, Agosto, Setembro, Outubro, Novembro, Dezembro]
+    abbr_month_names: [~, Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez]
+    # Used in date_select and datetime_select.
+    order:
+      - :day
+      - :month
+      - :year
+
+  time:
+    formats:
+      default: "%a, %d %b %Y %H:%M:%S %z"
+      short: "%d %b %H:%M"
+      long: "%B %d, %Y %H:%M"
+      biglong: "%B, %d de %Y"
+    am: "am"
+    pm: "pm"
+
+  # CRUD
+  new: "Novo"
+  edit: "Editar"
+  delete: "Remover"
+  show: "Mostrar"
+  options: "Opções"
+  
+  # TABS
+  hello: "Hello world"
+  publish: "Publicar"
+  articles: "Artigos"  
+  pictures: "Fotos"
+  text: "Texto"
+  youtube_video: "Video do YouTube"  
+  vimeo_video: "Video do Vimeo"
+  profile: "Perfil"
+  person_data: "Dados Pessoais"
+  minicurriculo: "Minicurrículo"
+  education: "Formação Acadêmica"
+  themes: "Temas de Interesse"
+  health_plan: "Planos de Saúde"
+  field: "Área de Atuação"
+  specialties: "Especialidades"
+  places: "Locais de Atendimento"
+  settings: "Configurações"
+  notifications: "Notificações"
+  connections: "Conexões"
+  search: "Busca"
+  searching: "buscando..."
+  my_connections: "Minhas Conexões"
+  invite_friends: "Convidar amigos"
+  books: "Agendas"
+  appointments: "Consultas"
+  my_appointments: "Minha Consultas"
+  book_appointment: "Agendar horário"
+  groups: "Grupos"
+  friends: "Amigos"
+  by: "Por"
+  related_people: "Pessoas Relacionados"
+  
+  # Barra profissionais
+  specialtist_in: "Especialista em"
+  interest_in: "Interesse em"
+  document: "Documento Conselho"
+  indication: "Indicação"
+  recommendation: "Recomendação"
+  follow: "Seguir"
+  unfollow: "Deixar de Seguir"
+  followers: "Seguidores"
+  
+  # confirmacoes
+  confirm_follow: "Deseja deixar de seguir?"
+  confirm: "Você tem certeza?"
+  
+  layouts:
+    application:
+        title: "Olá"
+        main: "Principal"
+        my_area: "Minha Área"
+        my_articles: "Meus Artigos"
+        exit: "Sair"
+        about_us: "Quem Somos"
+        contact: "Entre em Contato"
+        user: "Usuário"
+        password: "Senha"
+        use: "ou utilize"
+        enter: "Entrar"
+        
+  home:
+      index:
+          by: "Por"
+          
+          
+  users:
+      show:
+          basic_info: "Informações Básicas"
+          profession: "Profissão"
+          birthday: "Aniversário"
+          sex: "Sexo"
+          city: "Cidade"
+          contact: "Contato"
+          contacts: "Contatos"
+          my_content: "Meus Conteúdos"
+          recommendations: "Recomendações"

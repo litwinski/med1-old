@@ -1,0 +1,71 @@
+<div id="post_imagem" class="modal hide fade">
+	<%=form_for :imagem , :url => '/conteudo/imagem' , :multipart => true, :html => {:id => 'texto_form'} do |f|%>
+        <div class="modal-header">
+  		  <a id='fechar_modal_imagem' class="close" data-dismiss="modal">×</a>
+          <h3>Escolha o arquivo</h3>
+        </div>
+        <div class="modal-body">
+          <%= f.text_field :texto,:class =>"span6",:placeholder => "Insira um texto...", :maxlength => 500, :id => "texto_imagem" %> <span style="margin-left: 10px" class="contador" id="contador_imagem"></span>
+          <br/>
+  				<%= f.file_field :imagem, :id => "conteudo_imagem",:onchange => "readURL(this);" %>
+  				<br/>
+                  <%= f.check_box :privado , :value => 'privado'%><span style="margin-left:5px; top: 0px">Privado</span>
+                  <br/>
+  				<img id="preview" src="#" alt="your image" style="display:none;">
+        </div>
+        <div class="modal-footer">              
+          <%= f.submit "Publicar",:id=>"submit_imagem",:class => "btn btn-success btn-central", :disable_with => "Aguarde..." %>
+          <button type="reset" id="reset_btn" class="btn btn-danger btn-central" data-dismiss="modal">Cancelar</button>
+        </div>
+	<%end%>
+</div>
+
+<div id="post_youtube" class="modal hide fade" style="display: none; ">
+	<%= render :partial => "shared/video", :locals => {:provider => "YouTube"} %>
+</div>
+
+<div id="post_vimeo" class="modal hide fade" style="display: none; ">
+	<%= render :partial => "shared/video", :locals => {:provider => "Vimeo"} %>
+</div>
+<script type="text/javascript" charset="utf-8">
+
+	$("#fechar_modal_imagem").click(function(){
+		$('#preview').attr('src', '').width(0).height(0);
+	});
+	
+  $("#submit_imagem").click(function(event){
+    if($('#conteudo_imagem').val() == ""){
+        alert("Não pode publicar imagem, sem conteudo.");
+         event.preventDefault();
+    }else{
+      bloquearTela();
+    }
+  });
+
+	function readURL(input) {
+         if (input.files && input.files[0]) {
+             var reader = new FileReader();
+
+             reader.onload = function (e) {
+                 $('#preview')
+                     .attr('src', e.target.result)
+                     .width(250)
+                     .height(150);
+				$('#preview').fadeIn();
+             };
+
+             reader.readAsDataURL(input.files[0]);
+         }
+	}
+
+  $(document).ready(function(){ 
+    $('#contador_imagem').html(500 - $('#texto_imagem').val().length);
+    $('#texto_imagem').keyup(function(){
+      $('#contador_imagem').html(500 - $(this).val().length);
+    });
+  });
+
+</script>
+
+
+

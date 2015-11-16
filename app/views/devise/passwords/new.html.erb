@@ -1,0 +1,17 @@
+<div class="row hero-unit">
+  <h2>Esqueceu a sua senha?</h2>
+  <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => {:class => "form-stacked", :method => :post }) do |f| %>
+	 <%= devise_error_messages! %>
+	 <h5>Para redefinir sua senha, digite o e-mail que você usa para fazer login no Med1.</h5>
+	<br/>
+	 <label>E-mail*</label>
+	 <%= f.email_field :email %><br/><br/>
+	 <%= f.submit "Enviar", :class => "btn info" %>
+	
+	 <div class="form-actions">
+	         <%= link_to "Ja sou cadastrado", new_session_path(resource_name), :class => "btn left"%> ou utilize 
+				<%=render :partial => 'shared/social_login'%>
+	    </div>
+  <% end %>
+</div>
+<br/><br/><br/>

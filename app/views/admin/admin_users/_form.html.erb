@@ -1,0 +1,10 @@
+<%= semantic_form_for [:admin, @admin_user]  do |f| %>
+	<%= f.inputs "Admin Details" do %>
+	  <%= f.input :nome %>
+	  <%= f.input :email %>
+	  <% if(@admin_user.id == current_admin_user.id) %>
+	  	<%= f.input :password %>
+	  <% end %>
+	<% end %>
+	<%= f.buttons %>	
+<% end %>

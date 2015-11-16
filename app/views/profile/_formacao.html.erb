@@ -1,0 +1,9 @@
+<tr id="<%= dom_id(formacao) %>">
+	<td><%= image_tag formacao.instituicao_ensino.logo(:search) %></th>
+	<td><%= formacao.tipo_formacao.descricao %></th>
+	<td><%= formacao.curso %></th>
+	<td><%= formacao.fim.strftime("%Y") %></th>
+	<td>
+		<%= link_to "Deletar", profile_delete_formacao_academica_url(:id => formacao), confirm: 'Você deseja apagar essa formação?', :method => :delete, :remote => true, :class => 'btn error' %>
+	</td>
+</tr>

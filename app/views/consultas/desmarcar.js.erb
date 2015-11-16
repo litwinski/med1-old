@@ -1,0 +1,13 @@
+<% if @pode_desmarcar == true %>
+	$('#c_'+<%= @consulta.id %>).fadeOut('slow').delay(800).remove();
+<% end %>
+
+$('#contato_form').modal("hide");
+$.unblockUI();
+<% if @pode_desmarcar == false %>
+	alert("Não foi possível desmarcar esse horário.\nEntre em contato com o profissional.")
+<%end%>
+
+if(document.URL.toString().indexOf("agendas") != -1) {
+	window.location.reload( true )
+}

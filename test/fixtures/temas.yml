@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  capitulo_cid: MyString
+  cid9: MyString
+  cid10: MyString
+  descricao_cid: MyString
+  descricao: MyString
+
+two:
+  capitulo_cid: MyString
+  cid9: MyString
+  cid10: MyString
+  descricao_cid: MyString
+  descricao: MyString

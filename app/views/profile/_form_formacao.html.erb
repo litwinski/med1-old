@@ -1,0 +1,73 @@
+<div id="formacao_form" class="modal hide fade" style="height: 450px">	
+	<div class="modal-header">
+      <a id='fechar_modal' class="close" data-dismiss="modal">×</a>
+      <h3>Formação Acadêmica</h3>
+    </div>
+    <div class="modal-body">
+		<%= form_for @formacao, :url => url, :html => {:class => 'form-stacked'} do |f| %>
+      <%= error_messages_for(@formacao) %>
+			<div class="row">
+	          <div class="span5">
+	            <div class="clearfix">
+	              <label>Instituição de Ensino</label>
+				  <img id="instituicao_logo" class="ui-state-default" style="margin-right: 5px;"/>				  
+	              <div class="input" style="width: 500px;">	
+	                <input type="text" style="width: 80%; margin-top: 25px;" id="instituicao_nome"></input>
+	              </div>
+	            </div>
+	         </div>
+	        </div>
+			<div class="row">
+              <div class="span5">
+                <div class="clearfix">
+                  <%= f.label :tipo_formacao, "Escolha o tipo de formação" %>
+                  <div class="input">
+                    <%= f.select :tipo_formacao_id, TipoFormacao.all.collect{|t| [t.descricao, t.id]} %>
+                  </div>
+                </div>
+             </div>
+	        </div>
+			<div class="row">
+              <div class="span5">
+                <div class="clearfix">
+                  <%= f.label :fim, "Ano de Formatura" %>
+                  <div class="input">
+                    <%= f.date_select :fim, :discard_day => true, :discard_month => true, :start_year => 1920, :end_year => (Time.now.year + 10) %>
+                  </div>
+                </div>
+             </div>
+	        </div>
+			<div class="row">
+              <div class="span5">
+                <div class="clearfix">
+                  <%= f.label :curso %>
+                  <div class="input" style="width: 500px;">
+                    <%= f.text_field :curso, :class => "texto_curso", :maxlength => 70 %>
+                  </div>
+                </div>
+             </div>
+	        </div>   		    
+			<%= f.hidden_field :user_id, { :value => current_user.id } %>
+			<%= f.hidden_field :instituicao_ensino_id %>
+      <%= f.hidden_field :id %>
+			<div class="modal-footer">
+				<button type="reset" id="reset_btn" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+				<%= f.submit "Salvar",:id=>"submit", :class => "btn btn-success", :disable_with => "Salvando..." %>&nbsp;
+			</div>
+		<% end %>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function() {
+      $("#submit").click(function(event){
+        if($('#instituicao_nome').val() == "" || $('#formacao_academica_curso').val() == ""){
+          alert("Instituição de ensino e nome do curso não pode estar em branco");
+          event.preventDefault();
+        }else{
+          bloquearTela();
+        }
+      });
+      
+    });
+</script>

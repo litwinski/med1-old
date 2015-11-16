@@ -1,0 +1,15 @@
+<%@users.each do |u| %>
+<% unless u.id == current_user.id%>
+	<div class="row" id="mini_profile_row_<%=u.id%>">
+		<%=render :partial => 'shared/mini_profile', 
+			:locals => {:span_size => 9, :user => u}%>
+		<div class="span2">
+			<%=link_to "Ver Agenda" , "/agendas/locais?id=#{u.id}", 
+						  :class => "btn success" %>			
+		</div>
+	</div>
+	<br/>
+<% 
+  end
+    end 
+%>

@@ -1,0 +1,26 @@
+<div class="block">
+  <br/>
+  <div class="content">          
+    <h2 class="title">Histórico da Compra</h2>
+    <div class="inner">
+	<table class="index_table">
+      <tr>             
+        <th class="first">Status</th>
+		  	<th>Data</th>
+		  	<th>Tipo</th>
+		  </tr>          
+		  <% @historicos.each do |compra| %>
+       	<tr >
+				<td><%=compra.state%></td>
+				<td><%=compra.created_at.strftime("%d/%m/%y %H:%M")%></td>
+				<td ><%= (compra.user_id) ? "Gerada pelo usuário #{compra.user.nome} (#{compra.user.email})" : "Gerado automaticamente pelo sistema"%></td>
+		  	</tr>
+		  <% end %>
+    </table>
+    <div class="actions-bar wat-cf">
+      <div class="form-actions">
+      </div>
+    </div>
+	</div>
+  </div>
+</div>

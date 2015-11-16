@@ -1,0 +1,3 @@
+$('#recommend_message').val("");
+$('#recommend_form').modal("hide");
+$('#recommend_user').html('<%= escape_javascript(render :partial => "shared/recommend_user", :locals => {:user => @user}) %>');

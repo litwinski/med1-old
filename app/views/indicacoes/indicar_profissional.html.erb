@@ -1,0 +1,86 @@
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" > <!-- Only required for left/right tabs -->
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#indicar" data-toggle="tab">Indique esse Profissional</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="indicar">
+				<h4>Escolha quais de seus amigos deseja indicar <%=@profissional.nome_completo%></h4>
+				<input type="text" id="nome" style="width: 611px; height:30px" class="large" placeholder="Começe a digitar para pesquisar"></input>
+				<br/>
+				<br/>
+				<div class="well" style="overflow: auto; width: 581px; height: 400px; background-color: white; border: 1px solid #CCC">			
+					<ul class="nav nav-tabs nav-stacked">
+						<% current_user.friends.each do |f| %>
+							<% unless f == @profissional %>
+								<li id="li_nome_<%= f.nome.downcase.gsub(' ', '_') %>">
+						      		<a id="indicacao_link_<%= f.id %>" amigo="<%= f.id %>" class="indicaco_normal">
+										<%= foto(f, :thumb, :width => "30px", :style => "display: inline") %>					
+										<strong id="nome_<%= f.nome.downcase %>" style="margin-left: 5px;">
+											<%= f.nome %>
+										</strong>
+										<img src="/assets/marcado.gif" id="marcado_<%#= f.id %>" style="display: none; float:right;" width="20px" />
+				          			</a>
+				        		</li>
+							<% end %>
+						<% end %>
+					</ul>		
+				</div>
+				</br>
+				</br>
+				<%= form_for Indicacao.new, :url => "/indicacoes/indicar" do |f| %>		
+					<input type="hidden" name="users" id="users"/>
+					<%= f.hidden_field :user_id, :value => current_user.id %>
+					<%= f.hidden_field :profissional_id, :value => @profissional.id %>
+					<br/><br/>
+					<%= f.submit "Indicar", :id=>"submit_btn", :class => "btn btn-primary btn-central-preto", :disable_with => "Aguarde..." %>&nbsp;		
+					<button type="reset" id="reset_btn" class="btn btn-danger">Cancelar</button>		
+				<% end  %>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$("a[id^='indicacao_link_']").click(function(){
+		if($(this).attr("class") == "selected") {
+			$(this).removeClass("selected");
+			$(this).addClass("indicaco_normal");
+			$("#marcado_"+$(this).attr("amigo")).hide();			
+		} else {
+			$(this).removeClass("indicaco_normal");
+			$(this).addClass("selected");
+			$("#marcado_"+$(this).attr("amigo")).show();			
+		}
+		indicar_pessoa($(this).attr("amigo"));
+	});
+	
+	$("#nome").keydown(function(){
+		$('#nome').addClass("loading-busca");
+		var aux = $("#nome").val().toLowerCase();
+		$("li[id^='li_nome_']").hide();
+		$("li[id^='li_nome_']").each(function(){
+			if($(this).attr("id").indexOf(aux.replace(" ","_").toString()) != -1) {	
+				$(this).show();	
+			}
+		})
+		$('#nome').removeClass("loading-busca");
+	});
+	
+	var pessoa = new Array();
+
+	function indicar_pessoa(id){
+		if((idx = jQuery.inArray(id, pessoa)) >= 0){
+			pessoa.splice(idx, idx+1);
+		}else{
+			pessoa.push(id);
+		}
+	}
+
+	$(document).ready(function() {	
+		$('#submit_btn').click(function(){
+			$('#users').val(pessoa);
+		});
+	});
+</script>

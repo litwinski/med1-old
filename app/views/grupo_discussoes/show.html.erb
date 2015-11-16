@@ -1,0 +1,109 @@
+<%= render :partial => "/profile/form_abuso", :locals => {:url => abuso_grupo_discussao_path(@grupo_discussao)} %>
+
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" >
+		<ul class="nav nav-tabs">
+			<li><a href="/grupos">Meus Grupos</a></li>
+			<li class="active"><a href="#grupo" data-toggle="tab">Grupo</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="grupo">
+				<div class="row-fluid">
+					
+					
+					    <div class="span2" style="height:60px">
+								<ul class="thumbnails left" style="height:60px">
+					    	<li>	
+									<a href="#" class="thumbnail">
+										<% if @grupo_discussao.avatar.url(:mini) %>
+											<%=image_tag(@grupo_discussao.avatar.url(:thumb,false), :size => "50x50") %>
+										<% else %>
+											<%=image_tag("avatar_grupo.gif", :size => "50x50") %>
+										<% end %>
+					    		</a>
+								</li>
+					    </div>
+							<div style="font-size:20px; line-height: 20px;" class="span9"><%= @grupo_discussao.nome.truncate(90) %></div>
+							
+							<% if(@grupo_discussao.existo_no_grupo?(current_user)) %>
+								<a href="#denunciar_abuso" data-toggle="modal" id="abuso_grupo_discussao_<%= @grupo_discussao.id %>" data-controls-modal="denunciar_abuso" data-backdrop="true" title="Denunciar abuso">
+									<i class="icon-ban-circle"></i>
+								</a>
+							<% end %>
+							
+				    <ul>
+				    	<td style="width: 10px;">
+								<%= link_to('Entrar', aceitar_grupo_discussao_path(@grupo_discussao, current_user), :class => "btn btn-primary btn-central-preto", :style => "margin-left: 300px") if(can?(:aceitar, @grupo_discussao) and !@grupo_discussao.existo_no_grupo?(current_user) )%>
+							</td>
+				    </ul>
+					
+				</div>
+				<br/>
+				<p><%= @grupo_discussao.descricao %></p>
+				<hr />
+				
+				<div class="row-fluid">
+						<h2 class="span7">Tópicos</h2>
+						<% if(@grupo_discussao.existo_no_grupo?(current_user)) %>
+							<%= link_to new_grupo_discussao_topico_path(@grupo_discussao), :class => 'btn btn-success right', :id => 'btn_novo_topico' do %>
+								<i class="icon-plus icon-white"></i> Novo Tópico
+							<% end %>
+						<% end %>
+				</div>
+				<br/>
+				<% if @topicos.present? %>
+					<table class="med1">
+						<thead>
+					  		<tr>
+							    <th></th>
+							    <th></th>
+						  	</tr>
+						</thead>
+						<tbody>
+							<% @topicos.each do |topico| %>
+							  <tr class="middle">
+							    <td><%= link_to topico.nome, grupo_discussao_topico_path(@grupo_discussao, topico) %>	
+										<span class="help-block">Por <%= topico.user.nome %> - atualizado em <%= l(topico.updated_at, :format => :master_long) %></span>
+								</td>
+							    <td style="width: 110px;">
+										<% if(can? :update, topico) %>
+										<%= link_to(edit_grupo_discussao_topico_path(@grupo_discussao, topico),:title => "Editar tópico", :id => 'btn_edit_topico' ) do %>
+											<%=image_tag('backend/edit.png')%>
+											<% end %>
+										<% end %>
+										<% if(can? :destroy, topico) %>
+										<%= link_to([@grupo_discussao, topico], confirm: 'Você tem certeza?',:title => "Excluir tópico", method: :delete) do %>
+												<%=image_tag('backend/delete.png')%>
+											<% end %>
+										<% end %>
+								</td>
+							  </tr>
+							<% end %>
+						</tbody>
+					</table>
+				<% else %>
+					<div class="alert alert-block">
+						Não existem tópicos registrado nesse momento para este grupo.
+					</div>
+				<% end %>
+			
+			</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+
+	$("#btn_novo_topico").click(function(){
+		bloquearTela();
+	});
+	$("#btn_edit_topico").click(function(){
+		bloquearTela();
+	});
+	
+	$("a[id^=abuso_grupo_discussao_]").click(function(){
+		$("#abuso_grupo_discussao_id").val($(this).attr("id").split("abuso_grupo_discussao_")[1])
+	});
+</script>

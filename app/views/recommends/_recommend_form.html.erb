@@ -1,0 +1,30 @@
+<div id="recommend_form" class="modal hide fade">	
+	<div class="modal-header">
+      <a id='fechar_modal' class="close" data-dismiss="modal">×</a>
+      <h3>Recomendar</h3>
+    </div>
+    <div class="modal-body">		
+		<%= form_for Recommend.new, :url => user_recommends_path(user.id), :remote => true , :html => {:class => 'form-stacked'} do |f| %>
+			<div class="row">
+              <div class="span5">
+                <div class="clearfix">
+                  <label>Recomendação</label>
+                  <div class="input">
+                    <%= f.text_area :message, :class => "xxlarge", :rows => "10", :cols => "35", :style => "width: 500px" %></textarea>	
+                  </div>
+                </div>
+             </div>
+	        </div>			   		    
+			<%= f.hidden_field :recommendable_id, { :value => user.id } %>
+			<%= f.hidden_field :recommender_id, { :value => current_user.id } %>
+			<div class="modal-footer">
+				<%= f.submit "Salvar",:id=>"submit", :class => "btn primary", :disable_with => "Aguarde..." %>&nbsp;
+				<button type="reset" id="reset_btn" class="btn" data-dismiss="modal">Cancelar</button>
+			</div>
+		<% end %>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+
+</script>

@@ -1,0 +1,23 @@
+<div class="input-append">
+		<input class="span5 filtro" id="texto_consulta_artigo" size="60" 
+		placeholder="buscar pelo titulo dos meus artigos"  style="width:412px;" type="text">
+		<a class="btn btn-primary btn-central-preto" id="btn_consulta_artigo" data-remote="true">
+			<i class="icon-search"></i> Buscar
+		</a>
+	
+		<%=link_to new_artigo_path, :class => 'btn btn-success', :id => "novo_button" do %>
+			<i class="icon-plus icon-white"></i> Novo Artigo
+		<% end %>
+</div>
+<br/>			
+
+<div id="search_artigo">
+	<%= render :partial => 'artigos/form_search' %>
+</div>
+
+
+<script type="text/javascript" charset="utf-8">
+    $("#btn_consulta_artigo").click(function(){
+    	$.get("/artigos/busca?titulo="+ $("#texto_consulta_artigo").val());
+    });
+</script>

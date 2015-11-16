@@ -1,0 +1,39 @@
+<li>
+	<% @valido = true %>
+	<% model.all.each do |resource| %>	
+			<% if conditions and query %> 
+				<% values = resource.send(itens).send(conditions, query) %>
+			<% else %>
+				<% values = resource.send(itens) %>
+			<% end %>
+			<% if values.present? %>
+				<div style="padding: 2px;">
+				<h5 style="background-color: #DFE1E2"><%= resource.descricao %></h5>
+				<% values.each do |res| %>
+					<% if @valido %>
+						<input id="artigo_<%= res.class.to_s.tableize.singularize %>_ids_" type="hidden" value="" name="artigo[<%= res.class.to_s.tableize.singularize %>_ids][]">
+						<input id="artigo_<%= res.class.to_s.tableize.singularize %>_aux" type="hidden" value="" name="artigo[<%= res.class.to_s.tableize.singularize %>_aux][]">
+						<% @valido = false %>
+						<% @nome_method = res.class.to_s.tableize.singularize %>
+					<% end %>
+				
+					<input style="margin-right: 5px" id="artigo_<%= res.class.to_s.tableize.singularize %>_ids_<%= res.id %>" name="artigo[<%= res.class.to_s.tableize.singularize %>_ids][]" type="checkbox" value="<%= res.id %>" <%= options.call(res.id) %> ><%= res.descricao %></input><br/>
+				<% end %>
+				</div>
+				<br/>
+			<% end %>
+	<% end %>
+</li>
+
+<script type="text/javascript" charset="utf-8">
+	function <%= @nome_method %>1(id){
+		if((idx = jQuery.inArray(id, <%= @nome_method %>)) >= 0){
+			<%= @nome_method %>.splice(idx, idx+1);
+		}else{
+			<%= @nome_method %>.push(id);
+		}
+	}
+	$("input[id^='artigo_<%= @nome_method %>_ids_']").click(function(){
+		<%= @nome_method %>1(this.id);
+	});
+</script>

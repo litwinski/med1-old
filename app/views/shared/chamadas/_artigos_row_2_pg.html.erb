@@ -1,0 +1,20 @@
+<div class="span8 well container-central" style="overflow: hidden;">
+	<!-- <img src="http://placehold.it/450x130"></img> -->
+	<%if left.present?%>
+		<%=link_to(image_tag(left.banner.right.url , :size => '450x130'), artigo_path(left))%>
+		<h2 class="explorar"><%=link_to left.titulo_left, artigo_path(left)%></h2>
+		<p>
+			<%=truncate(strip_tags(left.chamada_left), :length=>200).chomp.html_safe%>
+			<strong>Por <%=link_to left.user.nome_completo, left.user.url_usuario%></strong>
+		</p>
+	<%end%>	
+</div>
+<div class="span4 well container-central" style="overflow: hidden;">
+	<!-- <img src="http://placehold.it/210x130"></img> -->
+	<%if right.present?%>
+		<%=link_to(image_tag(right.banner.left.url , :size => '210x130'), artigo_path(right))%>
+		<h2 class="explorar"><%=link_to right.titulo_right, artigo_path(right)%></h2>
+		<%=truncate(strip_tags(right.chamada_right), :length=>80).chomp.html_safe%>
+		<strong>Por <%=link_to right.user.nome_completo, right.user.url_usuario%></strong>
+	<%end%>
+</div>

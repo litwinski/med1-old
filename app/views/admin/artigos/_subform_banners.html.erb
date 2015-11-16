@@ -1,0 +1,15 @@
+<li>	
+	<div class="dividido left"><span><strong>Banners</strong></span></div>
+	<div class="clear"></div>
+	
+		<ul id="registros_search_results" style="width: 70%; overflow: auto" >			
+			<% Banner.all.each do |banner| %>
+				<li objeto="<%= banner.id %>" class="registro objeto" id="registro_<%= banner.id %>">					
+					<div style="float: left;margin-right: 15px;margin-top: 60px;">						
+						<input artigo="<%= artigo.id %>" id="artigo_banner_id_<%= banner.id %>" name="artigo[banner_id]" type="checkbox" value="<%= banner.id %>">						
+					</div>
+					<span id="banner_consulta_<%= banner.id %>" artigo="<%= artigo.id %>" objeto="<%= banner.id %>" style="cursor: hand"><%= image_tag(banner.top.url ,:width => '700px') %><br/></span>
+		        </li>				
+			<%end%>
+		</ul>
+</li>

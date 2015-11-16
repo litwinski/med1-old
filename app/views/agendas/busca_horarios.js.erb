@@ -1,0 +1,24 @@
+$.unblockUI();
+
+// if(startDate.getDate() > (new Date).getDate()){
+//     $("#wrapper_1").html("<%= j render(:partial => 'tabela_horarios', :locals => {horarios: @horarios, data: @data.to_datetime }) %>");
+// }else {
+$("#wrapper_1").html("<%= j render(:partial => 'tabela_horarios', :locals => {horarios: @horarios, data: @data.to_datetime}) %>");
+// }
+
+$("a[id^=link_]").click(function(){
+    dt = startDate
+    aux = this.id.split("_")
+    if(aux[1].length < 3) {
+        dt.setHours(aux[1][0],aux[1].substr(1,3),0,0);
+    } else if(aux[1].length == 3) { // pode ser 110 ou 930
+        // entra se for 930, 830
+        if(aux[1].indexOf("30") != -1){
+            dt.setHours(aux[1][0],aux[1].substr(1,3),0,0);
+        } else {
+            dt.setHours(aux[1].substr(0,2),aux[1].substr(2,4),0,0);
+        }
+    } else {
+        dt.setHours(aux[1].substr(0,2),aux[1].substr(2,4),0,0);
+    }
+});

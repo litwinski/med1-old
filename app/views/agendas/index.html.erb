@@ -1,0 +1,66 @@
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" > <!-- Only required for left/right tabs -->
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#artigos" data-toggle="tab">Agendas</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="artigos">
+				<% if can? :criar_agenda, current_user %>
+				<% if current_user.local_atendimentos.present? %>
+				<%=link_to new_agenda_path, :class => 'btn btn-success right', :id => "novo_button" do %>
+				<i class="icon-plus icon-white"></i> Nova Agenda
+				<% end %>
+				<br/><br/>	
+				<table id="agendas" class="med1">
+					<thead>
+						<tr>
+							<th colspan="2">Local</th>
+							<th></th>
+							<th>Horários</th>
+							<th>Ações</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @agendas.each do |agenda| %>
+						<tr>
+							<td colspan="2"><%= "#{agenda.nome} - " if agenda.nome.present? %><%= "#{agenda.local_atendimento.nome}" %>
+								<%= dias_atendimento(agenda) %></td>
+								<td>
+									<%= link_to agenda do %>
+										<%=image_tag('backend/show.png', title: "Mostrar Agenda")%>
+									<% end %>
+									<%= link_to edit_agenda_path(agenda) do %>
+										<%=image_tag('backend/edit.png', title: "Editar Agenda")%>
+									<% end %>
+									<%= link_to agenda_path(agenda), :method => :delete, :confirm => 'Você tem certeza?' do %>
+										<%=image_tag('backend/delete.png', title: "Remover Agenda")%>
+									<% end %>
+								</td>
+							</tr>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
+				<% else %>
+				<div class="row">
+					<div class="span12" style="width: 600px;">
+						<h2 class="alert-message block-message" >Cadastre um local de atendimento antes de prosseguir.</h2>
+					</div>
+				</div>
+				<% end %>
+				<% else %>
+				<%= render partial: "shared/mensagem_erro_conselho_invalido", locals: {label: "agenda"} %>
+				<% end %>					
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$("#novo_button").click(function(){
+		bloquearTela();
+	});
+	$("#editar_button").click(function(){
+		bloquearTela();
+	});
+</script>

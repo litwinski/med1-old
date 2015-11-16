@@ -1,0 +1,53 @@
+<%= form_for [@grupo_discussao, @topico, @mensagem_topico], :html => {class: 'form-stacked',:id => 'artigo_form'} do |f| %>
+	<%= error_messages_for @mensagem_topico if @mensagem_topico.errors[:url].present? %>
+		<label>Copie o link do <%= provider %></label>
+		<div class="clearfix">
+			<div class="input">
+				<%=f.text_field :url, :class => "span6", :id => "#{provider.downcase}_url"%>
+				<%= f.hidden_field :video_provider, :value => provider.downcase %>
+			</div>
+		</div>
+		<div id="embed_<%= provider.downcase.to_s %>" style="display: none">
+			<iframe id="<%= provider.downcase.to_s %>_embed" style="padding-left: 35px;" title="YouTube video player" width="450" height="225" src="#" frameborder="0" allowfullscreen></iframe>
+		</div>
+		<div class="clearfix">
+			<label>Mensagem</label>
+			<div class="input">
+				<%= f.text_area :mensagem, :size => "15x5", :class => "span6" %>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="form-actions">
+		    	<%= f.submit "Salvar", :class => "btn btn-success", :disable_with => "Salvando..." %>
+		  	</div>
+		</div>
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+
+	$("#<%= provider.downcase %>_url").bind('paste',function(e){
+		$(e.target).keyup(function(){
+			if("<%= provider.downcase %>" == "youtube") {
+				id = $("#<%= provider.downcase %>_url").val().match(/v=(.{11})/)[1];
+				$("#<%= provider.downcase.to_s %>_embed").attr("src", "http://www.youtube.com/embed/" + id);
+			} else {
+				id = vimeo_id_extract($("#<%= provider.downcase %>_url").val());
+				$("#<%= provider.downcase.to_s %>_embed").attr("src", "http://player.vimeo.com/video/" + id);
+			}
+			$("#embed_<%= provider.downcase.to_s %>").delay(1000).fadeIn();
+		});
+	});
+	
+	function vimeo_id_extract(url) {
+	  var re;
+	  var match;
+	  re = new RegExp('[0-9]+', "g");
+	  match = re.exec(url);
+	  if(match != null) {
+	    return match[0];
+	  }
+	  else {
+	    return -1;
+	  }
+	}
+</script>

@@ -1,0 +1,13 @@
+<% unless user == current_user %>
+  <% if current_user.recommended?(user) %>
+	<!-- <a href="<%=user_follow_path(user.id, current_user.id)%>" data-remote="true" data-method="delete" data-confirm="Deseja deixar de seguir?" class="btn mini disabled" style="margin-top: 0px; margin-bottom: 15px; text-decoration:none; width: 150px" title="Seguir">
+			<%= image_tag("/assets/recommend.png", :size => "20x20") %>
+			<span style="font-size: 15px; margin-left: 3px;">Remover Recomendação</span>
+		</a> -->
+  <% else %>
+		<a href="#" id="recomendar" data-controls-modal="recommend_form" data-backdrop="true" class="btn mini" style="margin-top: 0px; text-decoration:none; width: 150px;" title="Seguir">
+		<%= image_tag("/assets/recommend.png", :size => "20x20") %>
+		<span style="font-size: 15px; margin-left: 3px;">Recomendar</span>
+	</a>
+  <% end %>
+<% end %>

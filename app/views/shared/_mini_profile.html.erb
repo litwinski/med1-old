@@ -1,0 +1,5 @@
+<td style="padding-left:5px">
+	<%= link_to(foto(user, "mini", :size => "30x30"), "#{user.url_usuario}", :target => "_blank") %>
+	<strong><%= link_to(user.nome_completo, "#{user.url_usuario}", :target => "_blank") %></strong>
+</td>
+<td style="padding-left:5px"><%= user.formacao_academicas.last.format_formacao if user.formacao_academicas.present? %></td>

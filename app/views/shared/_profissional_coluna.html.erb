@@ -1,0 +1,98 @@
+<div id="menu-lateral" class="span3" style="width:200px" >
+	<div class="secao-lateral well">
+		<div class="well mini-container">
+				<a href="<%=user.url_usuario%>">
+					<%= foto(user, "thumb", :size => "160x160") %>
+				</a>
+				<a href="<%=user.url_usuario%>" style="color: #FFFFFF;">
+					<p class="nome"><%=user.nome_completo%></p>
+				</a>
+				
+			<% if user.crm.present? %>
+				<p class="separador_mini">
+					<%=image_tag('backend/selo.png', class: 'selo') if user.conselho_valido %>
+					</p>
+					<p>
+					<span style=" display: inline-table">
+						<strong>
+							<%= user.crm_ok? ? user.profissao_saude.tipo_conselho.tipo_conselho_estado(user) : "" %>
+							<%= user.crm %>
+						</strong>
+					</span>
+				</p>
+			<% end %>
+			
+			<p>
+				<%= "#{user.profissao_saude.descricao} " if user.profissao_saude.present? %> 
+				<%= "especialista em" if user.especialidade_medicas.present? %> 
+        <% user.especialidade_medicas.order('descricao').each_with_index do |obj, index| %>
+					<!-- <%= " e " if user.especialidade_medicas.size == index + 1 %> -->
+	        <% if index != 0 %>
+	        	<%= " e " if obj.descricao.present? %>
+	        <% end %>
+	        <strong><%= obj.descricao.curto.camelize %></strong>
+        <% end %>
+			</p>
+			<p class="separador_mini"></p>
+			<%= user_badge(user) %>
+			
+			<!-- <p>Usuário Novato <br/>(735 pontos)</p> -->
+		</div>
+		<% if user.profissional? %>
+			<% if user == current_user %>
+				<div class="well mini-container">
+					<ul class="unstyled scores">
+						<li> <a href="/minha_conta" class="label" id="saiba_mais_creditos" rel="popover" data-content="Esse é valor atual dos seus créditos. Clique e veja como funciona." data-original-title="Créditos" style="text-decoration:none;"><%=image_tag('backend/ico_moeda.png')%> <%= user.saldo %> Créditos</a> </li>
+					</ul>
+				</div>
+			<% end %>
+			<div class="well mini-container">
+				<ul class="unstyled scores" >
+					<li><%=image_tag('backend/pin.png')%> <%= user.artigos.visiveis.size %> Artigos publicados</li>
+					<li><%=image_tag('backend/star.png')%> <%= user.indicacoes_count %> Indicações</li>
+					<li><%=image_tag('backend/chat.png')%> <%= user.recommend_count %> Elogios</li>
+				</ul>
+			</div>
+		<% end %>
+		<% if user.profissional? && current_user != user %>
+			<% if current_user.present? %>
+				<div class="well mini-container mini-container-agendar" id="btn_agendar_consulta">
+					<a class="btn btn-success btn-agendar" ><%=image_tag('backend/agenda.png')%> Agendar Consulta</a>
+				</div>
+			<% else %>
+				<div class="well mini-container mini-container-agendar">
+					<a href="/agendas/locais?id=<%= user.id %>&direto=1" class="btn btn-success btn-agendar" ><%=image_tag('backend/agenda.png')%> Agendar Consulta</a>
+				</div>
+			<% end %>
+		<% end %>
+	</div>
+
+	<div class="secao-lateral well" id="secao_lateral_conexoes">
+		<%= render(:partial => "shared/form_conexoes", :locals => {:user => user}) %>
+	</div>
+</div>
+
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		$("#btn_agendar_consulta").find("a").click(function() {
+			bloquearTela();
+			$.get("/agendas/locais?id=<%= user.id %>", function(data){
+				if(!$("a").is("[href^='#agenda']")) {
+						location.href = "/profissionais/<%= user.slug %>#agenda";
+				}
+				$("#agenda").html(data);
+			}).complete(function(){ 
+				location.hash = "agenda";
+				$.unblockUI(); 
+			});
+			$('#second_tabs a[href="#agenda"]').tab('show');
+		});
+
+		$.unblockUI();
+	});
+
+	$("#saiba_mais_pontos").popover({ html : true});
+	$("#saiba_mais_creditos").popover({ html : true});
+
+</script>

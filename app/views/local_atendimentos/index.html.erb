@@ -1,0 +1,74 @@
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" > <!-- Only required for left/right tabs -->
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#locais" data-toggle="tab">Locais de Atendimento</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="locais">
+        <% if can? :criar_local, current_user %>
+				
+	        <div class="row-fluid">
+						<%=link_to "local_atendimentos/new", :class => 'btn btn-success right', :id => "novo_button" do %>
+							<i class="icon-plus icon-white"></i> Novo Local Atendimento
+						<% end %>
+	        </div>
+					<br/>
+					<table class="med1">
+						<thead>
+							<tr>
+								<th style="width:30%">Local</th>
+								<th style="width:40%">Endereço</th>
+								<th style="width:12%">Telefone</th>
+								<th style="width:8%">Opções</th>
+							<tr>
+						</thead>
+						<tbody>
+							<%= render partial: 'local_atendimento', collection: @local_atendimentos  %>
+						</tbody>
+					</table>
+         <% else %>
+             <%= render partial: "shared/mensagem_erro_conselho_invalido", locals: {label: "local de atendimento"} %>
+         <% end %>
+				 
+ 				<div class="form-actions">
+ 					<a href='/minha_conta' class='btn btn-primary btn-central-preto navegacao'>Próxima Etapa</a>
+ 				</div>
+			</div>
+		</div>
+	</div>
+</div>	
+
+<script type="text/javascript" charset="utf-8">
+    $('#endereco_estado_id').change(function() {
+        $("#loadingCityImg").show();
+        $.getJSON('/ajax/busca_cidades?estado_id=' + this.value,{
+            format: "json"
+        }, function(data){
+            var options = '';
+            for (var i = 0; i < data.length; i++) {
+                options += '<option value="'+data[i].id+'">' + data[i].nome + '</option>';
+            }
+            $('#cidade_id').html(options).show();
+            $('#loadingCityImg').hide();
+        });
+     });
+
+    $('#cidade_id').change(function(){
+        $('#local_atendimento_cidade_id').val($(this).val())
+    });
+
+    $('#local_atendimento_cep').blur(function(){
+        if ((this.value.length == 8) && !(this.value[0] == " ")) {
+          $('#cep_load').show();
+                $.ajax({
+                    url: "/ajax/busca_cep?cep=" + $(this).val() + "&quem=correio",context: document.body
+                });
+        }else if(this.value[0] == " "){
+            $("#local_atendimento_cep").val("");
+        }
+    });
+
+    $("#novo_button").click(function(){
+		bloquearTela();
+	});
+</script>

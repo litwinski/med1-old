@@ -1,0 +1,32 @@
+<div class="well mini-container-central">
+    <div class="tabbable tab-central" > <!-- Only required for left/right tabs -->
+    	<ul class="nav nav-tabs">
+    		<li class="active"><a href="#amigos" data-toggle="tab">Convidar amigos</a></li>
+    	</ul>
+    	<div class="tab-content">
+				<div class="tab-pane active" id="amigos">
+					<p>Aumente sua rede de contatos, importe agora seus contatos do <strong>Gmail</strong>, <strong>Yahoo</strong> ou <strong>Hotmail</strong>.</p>
+					
+					<%= form_tag({:action => :contatos})  do %>
+						<div class="clearfix">
+							<label for="email">E-mail</label>
+				            <div class="input">
+				              <%= text_field_tag :email, nil, :class => "txt" %>
+				            </div>
+				        </div>
+						<div class="clearfix">
+							<label for="password">Senha</label>
+				            <div class="input">
+				              <%= password_field_tag :password, nil, :class => "txt" %>
+				            </div>
+				        </div>
+						<div class="form-actions">					
+		            <div class="input">
+		              <%= submit_tag "Importar", :class => "btn btn-primary btn-central-preto", :disable_with => "Importando..." %>
+		            </div>
+		        </div>
+					<% end %>
+				</div>
+    	</div>
+    </div>
+</div>

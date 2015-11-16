@@ -1,0 +1,319 @@
+<%= content_for(:meta) do %>
+	<%= @user.nome_completo %> - <%= @user.minicurriculo %>
+<% end %>
+
+<%= content_for(:title) do %>
+	<%= @user.nome_completo %>
+	<% if @user.profissional? %>
+		<% if @user.profissao_saude.present? %>
+			- <%= @user.profissao_saude.descricao %> - 
+		<% end %>
+		<% if @user.estado_conselho.present? %>
+			<%= @user.estado_conselho.sigla %> -
+		<% end %>
+		<%= @user.crm %>
+	<% end %>
+<% end %>
+
+<%= content_for(:keywords) do %>
+	<%=@user.area_atuacoes.to_a.map{|e| e.descricao}.join(' ')%> <%=@user.especialidade_medicas.to_a.map{|e| e.descricao}.join(' ')%> 	<%=@user.temas.to_a.map{|e| e.descricao}.join(' ')%>
+<% end %>
+
+<div class="well mini-container-central">
+    <div class="tabbable tab-central" >
+    	<ul class="nav nav-tabs">
+    		<li class="active">
+					<a href="#mais" data-toggle="tab" class="no-border">Mais Informações</a>
+				</li>
+				<span style="display:inline-table" class="right">	
+					<fb:like href="<%= request.url %>" width="40" send="false" layout="button_count" show_faces="true" action="like" style="height: 23px;width: 112px;vertical-align: top;"></fb:like>
+					<a href="https://twitter.com/share" data-url="<%= request.url %>" class="twitter-share-button" data-lang="en" data-via="med1br">Tweet</a>
+					<g:plusone size="medium" href="<%= request.url %>"></g:plusone>
+				</span>
+    	</ul>
+    	<div class="tab-content">
+    		<div class="tab-pane active" id="mais">	
+    				<% if @user.email.present? and @user.mostrar("permissao_email",current_user) %>
+						<%= render :partial => "shared/edit_button", :locals => {:url => "/profile/dados_pessoais"} %>
+						<h3><%=image_tag('backend/contato.png') %>Contato</h3>
+						<p>- <%= @user.email %> </p>
+						<hr/>
+					<% end %>
+					
+					<% if @user.profissao_saude.present? || @user.data_nascimento.present? || @user.sexo.present? || @user.cidade.present? %>
+						<%= render :partial => "shared/edit_button", :locals => {:url => "/profile/dados_pessoais"} %>
+						<% if @user.campos_validos?(current_user) %>
+						<h3><%=image_tag('backend/contato.png') %>Mais Informações</h3>
+						<p>
+							<% if @user.profissao_saude %> 
+								- Profissão: <%= @user.profissao_saude.descricao %><br/>
+							<% end %>
+							<% if @user.data_nascimento and @user.mostrar("permissao_data_nascimento", current_user) %>
+								- Aniversário: <%= @user.data_nascimento.strftime("%d/%m/%Y") %><br/>
+							<% end %>
+							<% if @user.sexo and @user.mostrar("permissao_sexo", current_user) %>
+								- Sexo: <%= @user.sexo.capitalize %><br/>
+							<% end %>
+							<%  if @user.cidade and @user.mostrar("permissao_cidade", current_user) %>
+								- Cidade: <%= @user.cidade.nome %>/<%= @user.cidade.estado.sigla %><br/>
+							<% end %>
+						</p>
+						<hr/>
+						<% end %>
+					<% end %>
+					
+					
+					<% if @user.profissional? && @user.formacao_academicas.present? %>
+						<%= render :partial => "shared/edit_button", :locals => {:url => "/profile/formacao_academica"} %>
+						<h3><%=image_tag('backend/formacao.png') %>Formação Acadêmica</h3>
+						<p>
+							<% @user.formacao_academicas.each do |formacao| %>
+							- <%= "#{formacao.tipo_formacao.descricao.titleize} em #{formacao.curso.titleize} na(o) " if formacao.instituicao_ensino.present?%><%= formacao.instituicao_ensino.nome.titleize if formacao.instituicao_ensino.present?%><br/>		
+							<% end %>
+						</p>
+						<hr/>
+					<% end %>
+					
+					<% if @user.mostrar("permissao_minicurriculo", current_user)%>
+						<% if @user.minicurriculo.present? %>
+							<%= render :partial => "shared/edit_button", :locals => {:url => "/profile/minicurriculo"} %>
+							<% if @user.usuario? %>
+								<h3><%=image_tag('backend/formacao.png') %>Sobre Você</h3>
+							<% else %>
+								<h3><%=image_tag('backend/formacao.png') %>Minicurrículo</h3>
+							<% end %>
+							<p><%=@user.minicurriculo%></p>
+							<hr/>
+						<% end %>
+					<% end %>
+					
+					<% if @user.profissional? && @user.local_atendimentos.present? %>
+						<%= render :partial => "shared/edit_button", :locals => {:url => "/local_atendimentos"} %>
+						<h3><%=image_tag('backend/formacao.png') %>Locais de Atendimento</h3>
+						<p id="todos_locais">
+							<% @user.local_atendimentos.each do |l| %>
+								<% if l.agenda.present? %>
+									<a style="text-decoration:none" id="local_<%= l.id %>" class="label" ><%= endereco_local(l) %></a></br>
+								<% end %>
+							<% end %>
+						</p>
+						<hr/>
+					<% end %>
+					
+					<!-- INICIO PACIENTE -->
+					<% if @user.usuario? && (@user.mostrar("permissao_temas", current_user) || @user.mostrar("permissao_planos", current_user)) %>
+							<% if @user.mostrar("permissao_temas", current_user) %>
+								<%= render :partial => "shared/edit_button", :locals => {:url => "/profile/temas"} %>
+						    <h3><%=image_tag('backend/formacao.png') %>Temas</h3>
+								<p>
+									<% @user.temas.each do |t| %>
+										<a href="/tema/<%=t.slug%>" style="text-decoration:none" title="<%=t.descricao%>">
+											<span class="label label-inverse"><%=t.descricao.curto.upcase%></span>
+										</a>
+									<% end %>
+								</p>
+								<hr/>
+							<% end %>
+							
+							
+							<% if @user.mostrar("permissao_planos", current_user) %>
+								<%= render :partial => "shared/edit_button", :locals => {:url => "/profile/planos_de_saude"} %>
+								<h3><%=image_tag('backend/formacao.png') %>Planos de Saúde</h3>
+								<p>
+									<% @user.plano_de_saudes.each do |p| %>
+										<span class="label label-warning"><%=p.nome.curto.upcase%></span>
+									<% end %>
+								</p>
+							<% end %>
+							<hr/>
+					<% end %>
+					<!-- FIM AREA PACIENTE -->
+					
+					<% if (@user.profissional? || @user.estudante?) && (@user.mostrar("permissao_especialidade", current_user) || @user.mostrar("permissao_temas", current_user)) %>
+					<% if @user.profissional? && @user.mostrar("permissao_especialidade", current_user)  %>
+							<%= render :partial => "shared/edit_button", :locals => {:url => "/profile/especialidades_medicas"} %>
+							<h3><%=image_tag('backend/formacao.png') %>Especialidades</h3>
+							<p>
+								<% @user.especialidade_medicas.each do |e| %>
+									<a href="/especialidade/<%=e.slug%>" style="text-decoration:none" title="<%=e.descricao%>">
+										<span class="label label-success"><%=e.descricao_upcase%></span>
+									</a>
+								<% end %>
+							</p>
+							<hr/>
+						<% end %>
+
+						<% if @user.mostrar("permissao_temas", current_user) %>
+							<% if @user.temas.present? %>
+								<%= render :partial => "shared/edit_button", :locals => {:url => "/profile/temas"} %>
+								<h3><%=image_tag('backend/formacao.png') %>Temas</h3>
+								<p>
+									<% @user.temas.each do |t| %>
+										<a href="/tema/<%=t.slug%>" style="text-decoration:none" title="<%=t.descricao%>">
+											<span class="label label-info"><%=t.descricao_upcase%></span>
+										</a>
+									<% end %>
+								</p>
+								<hr/>
+							<% end %>
+						<% end %>
+					<% end %>
+					
+					<% if @user.profissional? && (@user.mostrar("permissao_area", current_user) || @user.mostrar("permissao_planos", current_user)) %>
+						<% if @user.mostrar("permissao_area", current_user) %>
+							<%= render :partial => "shared/edit_button", :locals => {:url => "/profile/areas_de_atuacao"} %>
+						  <h3><%=image_tag('backend/formacao.png') %>Areas</h3>
+							<p>
+								<% @user.area_atuacoes.each do |a| %>
+									<a href="/area/<%=a.slug%>" style="text-decoration:none" title="<%=a.descricao%>">
+										<span class="label label-warning"><%=a.descricao_upcase%></span>
+									</a>
+								<% end %>
+							</p>
+							<hr/>
+						<% end %>
+
+						<% if @user.mostrar("permissao_planos", current_user) %>
+							<%= render :partial => "shared/edit_button", :locals => {:url => "/profile/planos_de_saude"} %>
+						  <h3><%=image_tag('backend/formacao.png') %>Planos</h3>
+							<p>
+								<% @user.plano_de_saudes.each do |p| %>
+									<span class="label"><%=p.nome_upcase%></span>
+								<% end %>
+							</p>
+							<hr/>
+						<% end %>
+					<% end %>
+					
+					<% if @user.recommend_count > 0 %>
+						<h3><%=image_tag('backend/formacao.png') %>Elogios</h3>
+						<div class="accordion" id="accordion2">
+							<% @user.recommendations.each_with_index do |r, index| %>
+								<div class="accordion-group">
+									<div class="accordion-heading">
+										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<%= index %>">
+											<%= r.message.truncate(190) %>
+										</a>
+									</div>
+									
+									<div id="collapse<%= index %>" class="accordion-body collapse">
+							      <div class="accordion-inner">
+											<blockquote>
+												<p>"<%= r.message %>"</p>
+												<small><a href="<%=r.recommender.url_usuario%>" ><%= r.recommender.nome_completo %></a><br/><%= l(r.created_at,:format => :biglong)%></small>
+											</blockquote>
+							      </div>
+							    </div>
+								</div>
+							<% end %>
+						</div>
+						<hr/>
+					<% end %>
+			</div>
+   	</div>
+  	<%=image_tag('backend/sombra_quadrado_central.png',class: 'sombra_quadrado_central')%>
+	</div>
+</div>
+
+<div class="well mini-container-central">
+    <div class="tabbable tab-central" > <!-- Only required for left/right tabs -->
+    	<ul class="nav nav-tabs" id="second_tabs">
+    		<li class="active"><a href="#publicacoes" data-toggle="tab">Publicações</a></li>
+    		<% if current_user.present? %>
+	    		<li ><a href="#conexoes" data-toggle="tab">Conexões</a></li>
+				<% if @user.profissional? %>
+					<li><a href="#agenda" data-toggle="tab">Agenda</a></li>
+				<% end %>
+			<% end %>
+			<li ><a href="#grupos" data-toggle="tab">Grupos</a></li>
+    	</ul>
+    	<div class="tab-content">
+				<div class="tab-pane active" id="publicacoes">
+					<% if @meus_conteudos.present? %>
+						<%= render :partial => "artigo" %>
+						<%= will_paginate @meus_conteudos %>
+					<% else %>
+						<div class="alert alert-block">
+							Este usuário não possui atualizações
+						</div>
+					<% end %>
+				</div>
+				<div class="tab-pane" id="conexoes"></div>
+				<div class="tab-pane" id="agenda"></div>
+				<div class="tab-pane" id="grupos">
+					<% if @grupo_discussoes.present? %>
+						<table class="med1">
+							<thead>
+								<tr>
+									<th style="width: 7%"></th>
+									<th style="text-align: center">Nome</th>
+									<th style="text-align: center">Membros</th>
+									<th style="text-align: center">Tópicos</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% @grupo_discussoes.each do |grupo_discussao| %>
+									<% if grupo_discussao.ativo? and !grupo_discussao.privado? %>
+										<tr>
+											<td style="width: 7%">
+												<ul class="thumbnails" style="height:30px">
+											    <li style="height:24px;">
+														<%= link_to grupo_discussao, :class => "thumbnail" do %>
+															<% if grupo_discussao.avatar.url(:mini) %>
+																<%=image_tag(grupo_discussao.avatar.url(:mini,false), :size => "30x30") %>
+															<% else %>
+																<i class="icon-question-sign"></i>
+															<% end%>
+											    	<% end %>
+											    </li>
+										    </ul>
+											</td>
+											<td style="text-align: center">
+												<%= link_to grupo_discussao.nome, grupo_discussao %>
+											</td>
+											<td style="text-align: center">
+												<%= link_to "#{grupo_discussao.convidados_grupo_discussoes.count} (ver)", membros_grupo_discussao_path(grupo_discussao) %>
+											</td>
+											<td style="text-align: center"><%= grupo_discussao.topicos.count %></td>
+										</tr>
+									<% end %>
+								<% end %>
+							</tbody>
+						</table>
+						<br/>
+					<% else %>
+						<div class="alert alert-block">
+							Esse usuário no momento não está participando de grupo público.
+						</div>
+					<% end %>
+				</div>
+				<div class="" id="loading"></div>
+    	</div>
+    </div>
+</div>
+
+
+<script type="text/javascript" charset="utf-8">
+	$('#second_tabs a[href="#conexoes"]').bind("click show", function(){
+		bloquearTela();
+		$.get("/profile/conexoes/<%= @user.slug %>", function(data){
+			$("#conexoes").html(data);
+		}).complete(function(){ $.unblockUI(); });
+	});	
+	$('#second_tabs a[href="#agenda"]').bind("click show", function(){
+		bloquearTela();
+		$.get("/agendas/locais?id=<%= @user.id %>", function(data){
+			$("#agenda").html(data);
+		}).complete(function(){ $.unblockUI(); });
+	});
+	$(document).ready(function() {
+		$("#todos_locais").find("a").click(function() {
+			bloquearTela();
+			$.get("/agendas/locais?id=<%= @user.id %>", function(data){
+				$("#agenda").html(data);
+			}).complete(function(){ $.unblockUI(); });
+			$('#second_tabs a[href="#agenda"]').tab('show');
+			window.location = "#agenda";
+		});
+	});
+</script>

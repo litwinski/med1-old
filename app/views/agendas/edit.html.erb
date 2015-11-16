@@ -1,0 +1,12 @@
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" >
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#newartigo" data-toggle="tab">Editando Agenda - <%= @agenda.local_atendimento.nome %></a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="newagenda">
+				<%= render :partial => 'form', :locals => {:editing => true} %>
+			</div>
+		</div>
+	</div>
+</div>

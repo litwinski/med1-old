@@ -1,0 +1,76 @@
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" > <!-- Only required for left/right tabs -->
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#avatar" data-toggle="tab">Avatar</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="avatar">
+				<%= form_for current_user, :url => '/profile/change_avatar', :html => {:multipart => true,:class => 'form-stacked'} do |f| %>
+				<%= error_messages_for @user || current_user %>
+				
+				<label>Escolha o arquivo</label>
+				<span class="btn btn-success fileinput-button">
+					<i class="icon-plus icon-white"></i>
+					<span>Escolher foto</span>
+					<%= f.file_field :avatar %>
+				</span>
+				<span class="hide" style="color: red;" id="error">
+					<b>Nenhum arquivo foi carregado. Informe-o primeiro para prosseguir.</b>
+				</span>
+				<% end %>
+				
+				<% if current_user.avatar_url %>
+				<div>
+					<br/><br/><p><h6>Escolha qual parte da imagem você deseja utilizar</h6></p>
+					<div class="jcrop-holder"> 
+						<div style="width:100px; height:100px; overflow:hidden; background-color:#ccc;">
+							<%= image_tag current_user.avatar.url(:large), id: "preview_avatar" %>
+						</div>		
+					</div>
+					<br/>
+				
+					<div class="jcrop-holder" style="padding-bottom: 10px;">
+						<%=image_tag(current_user.avatar.url(:large), id: "cropbox") %>
+					</div>
+				
+					<div class="form-actions">
+						<%= form_for current_user, :url => profile_crop_url do |f| %>
+						<% %w[x y w h].each do |attribute| %>
+						<%= f.hidden_field "crop_#{attribute}"%>						
+						<% end %>
+						<%= hidden_field_tag :vai_avancar %>
+						<%= link_to "Cancelar", "/profile", :class => "btn btn-danger" %>	
+						<%= f.submit "Salvar", :class => 'btn btn-success' ,:disable_with => "Salvando..." %>
+						<%= f.submit "Próxima Etapa", :id=> "avancar", :class => "btn btn-primary btn-central-preto" %>
+						<% end %>
+					</div>
+				</div>
+				<% end %>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript" charset="utf-8">	
+
+	$("input[id=user_avatar]").change(function() {
+		$(this).closest("form").submit();
+	});
+	
+	$("#trocar_avatar").click(function(){
+		if($("#user_avatar").val() == "")
+		{
+			$("#error").show();
+			return false;
+		}else
+		{
+			return true;
+		}
+	});
+	
+	$("#avancar").click(function(){
+		$("#vai_avancar").val("true");
+	});
+</script>

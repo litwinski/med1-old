@@ -1,0 +1,19 @@
+<% @users_profissional.each do |user|%>
+	<hr class="atualizacao" style="border:1px solid #F9FAFE"/>
+	<div class="row-fluid" >
+		<div class="span2" style="height: 36px;width:33px">
+			<a href="<%=user.url_usuario%>" class="thumbnail">
+				<%= foto(user, "mini", :size => "28x28") %>
+			</a>							    	
+		</div>
+				
+		<div class="span10">
+			<h4 class="atualizacao" style="height: 36px;">
+				<a href="<%=user.url_usuario%>"><%=user.nome_completo %></a>
+				<span><%= user.profissao_saude.descricao %></span> 
+				<span><%= user.cidade %></span>
+			</h4>
+			<br/>
+		</div>
+	</div>
+<%end%>

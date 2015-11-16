@@ -1,0 +1,17 @@
+<div class="btn-group <%= class_left ||= false ? 'left' : 'right' %>" id="ul_<%= namespace %>">
+	<a class="btn btn-small btn-primary" href="#" id="tog_<%= namespace %>"><i class="icon-lock"></i></a>
+  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+  <ul class="dropdown-menu">
+		<% TipoPermissao::PERMISSOES.each do |k, v| %>
+		<li><a href="#" id="item_<%= namespace %>" chave="<%= v %>" ><%= image_tag("/assets/backend/publicar.png", :id => "img_#{namespace}_#{v}", :style => "display: #{v.to_s == selected_field.to_s ? '' : 'none'}")%> <%= k %></a></li>
+	<% end %>
+  </ul>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$('a[id^="item_<%=namespace%>"]').click(function(){
+		$('img[id^="img_<%=namespace%>"]').hide();
+		$("#user_permissao_<%= namespace %>").val($(this).attr("chave"));
+		$("#img_<%=namespace%>_"+$(this).attr("chave")).show();
+	})
+</script>

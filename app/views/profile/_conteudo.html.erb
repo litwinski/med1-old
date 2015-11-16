@@ -1,0 +1,30 @@
+<% @conteudos.each do |conteudo|%>
+	<% display_visible = "none" %>
+	
+	<%= render :partial => "profile/conteudo_#{conteudo.type.downcase}", :locals => {:c => conteudo}%>
+	<br/><br/>
+	
+	<span class="label label-comentario" id="count_comentarios"><%= conteudo.comentarios.size %> COMENTÁRIOS</span>
+	<!-- <% if current_user %>
+		<a href="#denunciar_abuso" id="abuso_conteudo_<%= conteudo.id %>" data-toggle="modal" data-controls-modal="denunciar_abuso" data-backdrop="true">
+			<i class="icon-ban-circle"></i>
+		</a>
+	<% end %> -->
+	<br/><br/>
+		
+		<span id="lista_comentarios_<%= conteudo.id.to_s %>">
+			 <%= render :partial => 'profile/comentario_amigo', :locals => {:conteudo => conteudo, :comentarios => conteudo.comentarios }  %>
+		</span>
+		
+	<hr/>
+<%end%>
+<script type="text/javascript" charset="utf-8">	
+	$(".comment_label").click(function(){
+		if($(this).next().next().is(":visible")) {
+			$(this).next().next().fadeOut();
+		} else {
+			$(this).next().next().fadeIn();
+		}
+	});
+
+</script>

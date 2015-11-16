@@ -1,0 +1,39 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  local_atendimento: 
+  dom_inicio: 1
+  dom_fim: 1
+  seg_inicio: 
+  seg_fim: 
+  ter_inicio: 1
+  ter_fim: 1
+  qua_inicio: 1
+  qua_fim: 1
+  qui_inicio: 1
+  qui_fim: 1
+  sex_inicio: 1
+  sex_fim: 1
+  sab_inicio: 1
+  sab_fim: 1
+  user: 
+  tempo_consulta: 1
+
+two:
+  local_atendimento: 
+  dom_inicio: 1
+  dom_fim: 1
+  seg_inicio: 
+  seg_fim: 
+  ter_inicio: 1
+  ter_fim: 1
+  qua_inicio: 1
+  qua_fim: 1
+  qui_inicio: 1
+  qui_fim: 1
+  sex_inicio: 1
+  sex_fim: 1
+  sab_inicio: 1
+  sab_fim: 1
+  user: 
+  tempo_consulta: 1

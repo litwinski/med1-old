@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Standard Favicon -->
+	  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+	<!-- For iPhone 4 Retina display: -->
+	  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/apple-touch-icon-114x114-precomposed.gif">
+	<!-- For iPad: -->
+	  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/apple-touch-icon-72x72-precomposed.gif">
+	<!-- For iPhone: -->
+	  <link rel="apple-touch-icon-precomposed" href="/assets/apple-touch-icon-57x57-precomposed.gif">
+		
+  <% if yield(:title).present? %>
+	        <title><%= yield(:title) %></title>
+	    <% else %>
+	        <title>Med1 - Rede de Informação em Saúde</title>
+	    <% end %>
+	    <%= yield(:header) %>
+	  <meta name="keywords" content="<%=yield(:keywords) %> Saúde Doenças Artigos Rede Social Agendamento de Consultas Encontre Médico Certo Diagnósticos">
+	  <meta name="description" content="<%=yield(:meta).chomp!%> - O Med1 é uma rede de informação em saúde. Fornece informações de qualidade para médicos e pacientes">
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-27632363-1']);
+		_gaq.push(['_setDomainName', 'med1.com.br']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+</head>
+<body>
+	
+	<%=render partial: 'layouts/barra', locals: {logado: current_user.present?, land_page: false }%>
+	
+	<div class="container">
+		<div class="backend">
+			<div class="row">
+				<div class="span3">
+					<div class="secao-lateral">
+						<%=image_tag('backend/setinha_pra_cima.png',class: 'setinha_pra_cima')%>
+						<ul class="menu-estatico">
+							<li id="como_funciona"><a id="link_como_funciona" href="/paginas/como_funciona">Como Funciona </a></li>
+							<li id="quem_somos"><a id="link_quem_somos" href="/paginas/quem_somos"> Quem Somos </a></li>
+							<li id="pontuacao"><a id="link_pontuacao" href="/paginas/pontuacao"> Pontuação </a></li>
+							<li id="privacidade"><a id="link_privacidade" href="/paginas/privacidade">Política de Privacidade </a></li>
+							<li id="termos"><a id="link_termos" href="/paginas/termos">Termos de Uso </a></li>
+							<li id="contatos"><a id="link_contatos" href="/paginas/contatos">Fale Conosco </a></li>
+						</ul>
+					</div>
+				</div>
+				<div id="conteudo" class="span9">
+					<%=yield%>
+				</div>
+			</div>	
+		</div>
+		<%= render :partial => "shared/openid" %>
+		
+		<div class="row-fluid" style="margin-left: auto;margin-right: auto;width: 920px;padding-bottom: 20px;">
+			<% banners = BannerPropaganda.where(:posicao => "R").limit(3) %>
+			<% if banners.present? %>
+				<% banners.each do |banner| %>
+				<%= content_tag("iframe", nil , :scrolling => "no", :frameborder => 0 , :width => 300, :height => 250, :src => banner.url) %>
+				<% end %>
+			<% end %>
+		</div>
+		
+	    <div id="contactable"></div>
+	</div>
+
+
+<%#=image_tag('frontend/seta_menu_estatico.png')%>
+<%=render partial: 'layouts/rodape'%>
+
+</body>
+</html>
+
+
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		$('#tipo_busca').dropkick();
+	});
+
+	function RemoverClass()
+	{
+		$('#como_funciona').removeClass("menu-estatico-active");
+		$('#quem_somos').removeClass("menu-estatico-active");
+		$('#contatos').removeClass("menu-estatico-active");
+		$('#privacidade').removeClass("menu-estatico-active");
+		$('#termos').removeClass("menu-estatico-active");
+		$('#pontuacao').removeClass("menu-estatico-active-link");
+
+		$('#link_como_funciona').removeClass("menu-estatico-active-link");
+		$('#link_quem_somos').removeClass("menu-estatico-active-link");
+		$('#link_contatos').removeClass("menu-estatico-active-link");
+		$('#link_privacidade').removeClass("menu-estatico-active-link");
+		$('#link_pontuacao').removeClass("menu-estatico-active-link");
+		$('#link_termos').removeAttr("src");
+	}
+
+	function AdicionarClass(item)
+	{
+		$('#'+item).addClass("menu-estatico-active");
+		$('#link_'+item).addClass("menu-estatico-active-link");
+	}
+
+</script>
+
+<script type="text/javascript" charset="utf-8">
+	$(function(){$('#contactable').contactable({subject: 'feedback URL:'+location.href});});
+</script>

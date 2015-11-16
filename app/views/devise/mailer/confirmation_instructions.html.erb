@@ -1,0 +1,9 @@
+<p>Seja bem-vindo ao Med1 <%= @resource.nome %>.</p>
+
+<p>
+  Parabéns por criar sua conta no Med1!<br/> 
+</p>
+
+<p>Você pode confirmar a criação da sua conta acessando o link abaixo:</p>
+
+<p><%= link_to 'Confirmar minha conta', confirmation_url(@resource, :confirmation_token => @resource.confirmation_token) %></p>

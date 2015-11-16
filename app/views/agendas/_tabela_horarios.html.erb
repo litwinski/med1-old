@@ -1,0 +1,118 @@
+<table border="0" cellspacing="0">
+	<tr>
+		<th>&nbsp;&nbsp;</th>	
+		<th valign="middle" style="width:20px;">
+			<a id="last_week" style="cursor: pointer;"><img src="/assets/seta_esquerda.png" alt=""></a>
+		</th>
+		<% data_superior = [] %>
+		<% ((data.beginning_of_week-1.day)..(data.end_of_week-1.day)).each_with_index do |d, index| %>
+		<th>
+			<%#= d.strftime("%A") %>
+			<%= t("date.day_names")[index] %>
+			<span><%= d.strftime("%d/%m/%Y") %></span>
+		</th>
+		
+		<% data_superior[index] = compara_horario(d) %>
+		
+		<% end %>					
+		<th valign="middle" style="width:20px;">
+			<a id="next_week" style="cursor: pointer;"><img src="/assets/seta_direita.png" alt=""></a>
+		</th>
+	</tr>
+	
+		<% max = horarios.map(&:size).max - 1 %>
+		<%(0..max).each do |j| %>
+		<tr style="display: <%= (j > 3) ? 'none' : '' %>" id ="tb_hr<%= (j > 3) ? '_mais' : ''  %>">
+			<!-- hack -->
+			<td>&nbsp;&nbsp;</td>
+			<!-- hack -->
+			<td>&nbsp;&nbsp;</td>
+			<!-- domingo -->
+			<td>
+				<% if data_superior[0] %>
+					<a id="link_0_<%= j %>" data-hora="<%= horarios[0][j].to_f %>" href="#"  data-backdrop="true" data-toggle="modal"><%= horarios[0][j].strftime("%H:%M") if horarios[0][j].present? %></a>
+				<% end %>
+			</td>
+			<!-- segunda -->
+			<td>
+				<% if data_superior[1] %>
+					<a id="link_1_<%= j %>" data-hora="<%= horarios[1][j].to_f %>"  href="#"  data-backdrop="true" data-toggle="modal"><%= horarios[1][j].strftime("%H:%M") if horarios[1][j].present? %></a>
+				<% end %>
+			</td>
+			<!-- terca -->
+			<td>
+				<% if data_superior[2] %>
+					<a id="link_2_<%= j %>" data-hora="<%= horarios[2][j].to_f %>"  href="#"  data-backdrop="true" data-toggle="modal"><%= horarios[2][j].strftime("%H:%M") if horarios[2][j].present? %></a>
+				<% end %>
+			</td>
+			<!-- quarta -->
+			<td>
+				<% if data_superior[3] %>
+					<a id="link_3_<%= j %>" data-hora="<%= horarios[3][j].to_f %>"  href="#"  data-backdrop="true" data-toggle="modal"><%= horarios[3][j].strftime("%H:%M") if horarios[3][j].present? %></a>
+				<% end %>
+			</td>
+			<!-- quinta -->
+			<td>
+				<% if data_superior[4] %>
+					<a id="link_4_<%= j %>" data-hora="<%= horarios[4][j].to_f %>"  href="#"  data-backdrop="true" data-toggle="modal"><%= horarios[4][j].strftime("%H:%M") if horarios[4][j].present? %></a>
+				<% end %>
+			</td>
+			<!-- sexta -->
+			<td>
+				<% if data_superior[5] %>
+					<a id="link_5_<%= j %>" data-hora="<%= horarios[5][j].to_f %>"  href="#"  data-backdrop="true" data-toggle="modal"><%= horarios[5][j].strftime("%H:%M") if horarios[5][j].present? %></a>
+				<% end %>
+			</td>
+			<!-- sabado -->
+			<td>
+				<% if data_superior[6] %>
+					<a id="link_6_<%= j %>" data-hora="<%= horarios[6][j].to_f %>"  href="#"  data-backdrop="true" data-toggle="modal"><%= horarios[6][j].strftime("%H:%M") if horarios[6][j].present? %></a>
+				<% end %>
+			</td>
+			<!-- hack -->
+			<td>&nbsp;&nbsp;</td>
+			<!-- hack -->			
+		</tr>
+	<% end %>													
+</table>
+<div style="text-align: center; padding: 10px 0">
+	<a id="mostrar_horarios" style="cursor: pointer">Exibir todos os horários</a>	
+</div>	
+
+<script type="text/javascript" charset="utf-8">
+	$("#mostrar_horarios").click(function(){
+		// if($("tr[id^='tb_hr_mais']").is(":visible")) {
+		// 	$("tr[id^='tb_hr_mais']").slideUp('slow');
+		// } else {
+		// 	$("tr[id^='tb_hr_mais']").slideDown('slow');
+		// }
+		$("tr[id^='tb_hr_mais']").slideToggle();
+	}) 
+	$(document).ready(function(){
+		$("a[id^=link_]").click(function(){		
+				dt = new Date($(this).attr("data-hora") * 1000);
+				var now_utc = new Date(dt.getUTCFullYear(), dt.getUTCMonth(), dt.getUTCDate(),  dt.getUTCHours(), dt.getUTCMinutes(), dt.getUTCSeconds());
+				
+				//dt = new Date();
+		    $("#data_consulta").empty();
+		    $("#data_consulta").append();
+		    $("#data_consulta").append($.datepicker.formatDate("DD, dd 'de' MM 'de' yy ", now_utc));
+		    $("#data_consulta").append("às " + now_utc.getHours() + ":" + (now_utc.getMinutes().toString().length < 2 ? "0" + now_utc.getMinutes() : now_utc.getMinutes()) + "hs");
+		    $("#horario_js").val(Math.round(now_utc.getTime() / 1000));
+		    // $(".modal-body #horario_js").val($(this).attr("data-hora"));
+		    $('#agendamento_form').modal('show');
+		});
+	});
+	
+	$("#last_week").click(function(){
+		startDate = new Date(startDate.setUTCDate(startDate.getUTCDate()-7));
+		bloquearTela();
+		busca_horarios(Math.round(startDate.getTime() / 1000), $("#locais_atendimentos").val());			
+	});
+		
+	$("#next_week").click(function(){
+		startDate = new Date(startDate.setUTCDate(startDate.getUTCDate()+7));
+		bloquearTela();
+		busca_horarios(Math.round(startDate.getTime() / 1000), $("#locais_atendimentos").val());			
+	});
+</script>

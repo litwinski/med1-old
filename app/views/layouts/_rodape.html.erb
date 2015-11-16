@@ -1,0 +1,43 @@
+<div class="footer">
+	<div class="container">
+		<div class="row-fluid">
+			<div class="span10">
+				<ul class="links-rodape">
+					<li style="color: #515180;font-weight: bolder;">©2012 Med1. Todos os direitos Reservados</li>
+					<li class="separacao-lista-rodape"><%=image_tag('backend/separador_links_rodape.png')%></li>
+					<li><a href="/">Inicio</a></li>
+					<li class="separacao-lista-rodape"><%=image_tag('backend/separador_links_rodape.png')%></li>
+					<li><a href="/paginas/quem_somos">Quem Somos</a></li>
+					<li class="separacao-lista-rodape"><%=image_tag('backend/separador_links_rodape.png')%></li>
+					<li><a href="/paginas/contatos">Fale Conosco</a></li>
+					<li class="separacao-lista-rodape"><%=image_tag('backend/separador_links_rodape.png')%></li>
+					<li><a href="/paginas/privacidade">Política de Privacidade</a></li>
+					<li class="separacao-lista-rodape"><%=image_tag('backend/separador_links_rodape.png')%></li>
+					<li><a href="/paginas/termos">Termo de Uso</a></li>
+				</ul>
+				
+				<div id="fb-root"></div>
+				<script>(function(d, s, id) {
+				  var js, fjs = d.getElementsByTagName(s)[0];
+				  if (d.getElementById(id)) return;
+				  js = d.createElement(s); js.id = id;
+				  js.src = "//connect.facebook.net/pt_BR/all.js#xfbml=1&appId=405312622838587";
+				  fjs.parentNode.insertBefore(js, fjs);
+				}(document, 'script', 'facebook-jssdk'));</script>
+				<div class="fb-like" data-href="http://www.facebook.com/med1br" data-send="true" data-width="700" data-show-faces="true"></div>
+				
+				<p class="nota-rodape">
+					As informações contidas neste site têm caráter estritamente informativo. Elas não substituem o aconselhamento e o acompanhamento presencial de profissionais de saúde. O MED1 não promove, veicula ou estimula em hipótese alguma consultas não presenciais.
+				</p>
+			</div>
+			<div class="span2">
+				<div class="rodape-social">
+					<div><a href="http://www.facebook.com/med1br"><%=image_tag('backend/facebook_rodape.png')%></a></div>
+					<div><a href="http://www.twitter.com/med1br"><%=image_tag('backend/twitter_rodape.png')%></a></div>
+					<div><a href="https://plus.google.com/u/0/117761633565636791599"><%=image_tag('backend/google_plus_rodape.png')%></a></div>
+					<div><a href="http://blog.med1.com.br/"><%=image_tag('backend/blog_rodape.png')%></a></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

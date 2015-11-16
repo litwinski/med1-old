@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Usuario:</b>
+  <%= @consulta.usuario %>
+</p>
+
+<p>
+  <b>Medico:</b>
+  <%= @consulta.medico %>
+</p>
+
+<p>
+  <b>Local atendimento:</b>
+  <%= @consulta.local_atendimento %>
+</p>
+
+<p>
+  <b>Horario:</b>
+  <%= @consulta.horario %>
+</p>
+
+<p>
+  <b>State:</b>
+  <%= @consulta.state %>
+</p>
+
+<p>
+  <b>Cancelada por:</b>
+  <%= @consulta.cancelada_por %>
+</p>
+
+
+<%= link_to 'Edit', edit_consulta_path(@consulta) %> |
+<%= link_to 'Back', consulta_path %>

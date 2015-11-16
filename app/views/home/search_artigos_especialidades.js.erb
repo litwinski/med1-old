@@ -1,0 +1,5 @@
+<% if @artigos.present? %>
+	$('#resultados_artigos').html("<%= j render(:partial => 'resultado_artigos_especialidade', :collection => @artigos, :as => :artigo) %>");
+<% else %>
+	$('#resultados_artigos').html("<div class='alert alert-block'>Não foram encontrados artigos para esta especialidade, tente outra.</div>");
+<% end %>

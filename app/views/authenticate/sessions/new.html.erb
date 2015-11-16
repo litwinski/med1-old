@@ -1,0 +1,39 @@
+<h1 style="text-align:center;color:#51517F">Entre Agora no Med1</h1>
+<br/>
+<div class="row-fluid">
+	<div class="span2"></div>
+	<div class="span4 well" style="background-color:#fff;border:1px solid #D9E1FD;">
+		<%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => "form-stacked"}) do |f| %>
+			<h2 style="color:#51517F;font-size:20px;">Dados do Usuário:</h2>
+			<%= flash_message_for %>
+			<br/>
+			<%= f.email_field :email, :placeholder => "E-mail", :class => "estatico" %>
+			<br/>
+			<%= f.password_field :password, :placeholder => "Senha", :class => "estatico"  %>
+			<br/>		<br/>
+			<button class="btn btn-success" style="width:100%;height:40px">Entrar Agora</button>
+			<br/>		<br/>
+	    <% if devise_mapping.rememberable? -%>
+	      <%= f.check_box :remember_me %><p class="estatico" 
+			style="display:inline;position:relative;top:3px;margin-left:10px;">Desejo permanecer conectado</p>
+	    <% end -%>
+			<br/>
+			<br/>
+		<% end %>
+		<%= link_to "Esqueceu a senha? Clique aqui", new_password_path(resource_name) %>
+	</div>
+	
+	<%=render :partial => 'shared/social_login'%>
+	
+</div>
+<div class="row-fluid">
+	<div class="span2"></div>
+	<div class="span8 well" style="background-color:#fff;border:1px solid #D9E1FD">
+		<p class="estatico" style="font-size:18px;font-weight:bolder;margin-top:8px;">Ainda não tem um usuário cadastrado no Med1? 
+			<%= link_to "Cadastre-se", new_registration_path(resource_name) , :style => "color:#009900" %>
+		</p>
+	</div>
+	<div class="span2">
+	</div>
+</div>
+</div>

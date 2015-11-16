@@ -1,0 +1,50 @@
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" >
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#especialidades" data-toggle="tab">Especialidades</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="especialidades">
+				<%=render :partial => 'shared/label_choice' , 
+						  	:locals => {
+						  	:title => 'Especialidades',
+						  	:hint => 'Escolha suas especialidades',
+							:data => current_user.especialidade_medicas.representacao("descricao"),
+							:namespace => 'especialidade_medica', #Para isolar os ids desse componente
+							:js_callback => '',
+							:url => '/profile/especialidades_medicas',
+							:url_return => "/label/especialidades.json",
+							:js_callback => '',
+							:limit => 2 					
+						  } %>
+				
+				<%= hidden_field_tag :permissao_especialidade %>
+				<div class="row-fluid">
+					<p><%= render :partial => "permissao", :locals => {:selected_field => current_user.permissao_especialidade, :namespace => "especialidade"} %></p>
+				</div>
+				<div class="form-actions">
+					<a href='/local_atendimentos' class='btn btn-primary btn-central-preto navegacao'>Próxima Etapa</a>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	// $("#label_choice_panel").append("<hr><br/><a href='/local_atendimentos' class='btn success navegacao'>Próxima Etapa</a>")
+	// $("#label_choice_panel").append("<%= j hidden_field_tag :permissao_especialidade %>");
+	// $("#label_choice_panel").append('<%= j render :partial => "permissao", :locals => {:selected_field => current_user.permissao_especialidade, :namespace => "especialidade"} %>')
+	$("#ul_especialidade").css("float", "left");
+	
+	$('a[id^="item_especialidade"]').click(function(){
+		bloquearTela();
+		$.ajax({
+		  url: "/ajax/salvar_permissao?permissao_especialidade=" + $(this).attr("chave"),
+		  context : this,
+		  success: function(){			
+			$.unblockUI();
+		  }
+		});
+	})
+</script>

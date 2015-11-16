@@ -1,0 +1,15 @@
+<%= form_tag([:admin, @compra, :alterar_estado], :method => 'put', :class => "formtastic")  do %>
+<fieldset class="inputs" name="Alterar Status do Pedido"><legend><span>Alterar Status da Compra</span></legend>
+  <%=hidden_field_tag "user_id" , current_admin_user.id %>
+  <ol>
+    <li><h3>Status atual: <b><%= @compra.state %></b></h3></li>
+    <li><h3>Status permitidos:</h3>
+    <% @estados.each do |estado| %>
+      <b><%= radio_button_tag "state", estado %> <%= estado %></b><br/>
+    <% end %></li>
+  </ol>
+</fieldset>
+  <br/>
+  <%= submit_tag("Salvar") %>
+  <%= link_to "Cancelar", admin_compras_path, class: "cancel" %>
+<% end %>

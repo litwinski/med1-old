@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  compra: 
+  user: 
+  state: MyString
+
+two:
+  compra: 
+  user: 
+  state: MyString

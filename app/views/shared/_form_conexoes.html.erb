@@ -1,0 +1,20 @@
+<%=image_tag('backend/setinha_pra_cima.png',class: 'setinha_pra_cima')%>
+<div class=" mini-container mini-container-agendar" style="margin-top:0px">
+	<% if current_user != user %>
+		<% if user.profissional? %>
+			<%= render(:partial => "shared/indicacoes", :locals => {:user => user}) %>
+			<a class="btn btn-primary btn-agendar btn-lateral" href="/recomendacoes/<%= user.slug %>">
+				<%=image_tag('backend/recomendar.png')%>Elogiar profissional
+			</a>
+		<% end %>
+		<%= render :partial => "shared/follow_user", :locals => {:user => user}%>
+	
+		<% if current_user.present? && current_user.permissao_add_friends?(user) %>
+		  	<%= render :partial => "shared/add_user", :locals => {:user => user}%>
+		<% end %>
+	<% end %>
+
+	<%= render :partial => 'shared/amigos_coluna', :locals => {:user => user} %>
+	<%= render :partial => 'shared/amigos_relacionados', :locals => {:user => user} %>
+
+</div>

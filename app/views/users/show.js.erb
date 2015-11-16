@@ -1,0 +1,7 @@
+$('#atualizacoes').append("<%= j render(:partial => 'artigo') %>");
+$('.pagination').remove();
+<% if @meus_conteudos.next_page %>
+	$('#atualizacoes').append("<%= j will_paginate(@meus_conteudos) %>");
+<% else %>
+	$('#atualizacoes').append("<div style='display:none;'><%= j will_paginate(@meus_conteudos) %></div>");
+<% end %>

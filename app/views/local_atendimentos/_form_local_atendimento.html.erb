@@ -1,0 +1,114 @@
+<div id="local_atendimento_form" class="modal hide fade" style="max-height: 600px">	
+	<div class="modal-header">
+      <a id='fechar_modal' class="close" data-dismiss="modal">×</a>
+      <h3>Local de Atendimento</h3>
+    </div>
+    <div class="modal-body">		
+		<%= form_for @local_atendimento, :html => {:class => 'form-stacked'} do |f| %>
+			<div class="row">
+	          <div class="span5">
+	            <div class="clearfix">
+	              <%= f.label :nome %>
+	              <div class="input">	
+	                <%= f.text_field :nome %>
+	              </div>
+	            </div>
+	         </div>
+	        </div>
+			<div class="row">
+              <div class="span5">
+                <div class="clearfix">
+                  <%= f.label :telefone %>
+                  <div class="input">
+                    <%= f.text_field :telefone %>
+                  </div>
+                </div>
+             </div>
+	        </div>
+			<div class="row">
+              <div class="span5">
+                <div class="clearfix">
+                  <%= f.label :cep %>
+                  <div class="input">
+                    <%= f.text_field :cep, :maxlength => 8 %>
+				    <span id="cep_load" style="display:none;">
+				      <h2>CARREGANDO... <img src="/assets/ui-anim_basic_16x16.gif" style="margin-left:2px;width:24px;height:24px;"></h2>
+				    </span>
+                  </div>
+                </div>
+             </div>
+	        </div>
+			<div class="row">
+              <div class="span5">
+                <div class="clearfix">
+                  <%= f.label :endereco %>
+                  <div class="input">
+                    <%= f.text_field :endereco %>
+                  </div>
+                </div>
+             </div>
+	        </div>
+			<div class="row">
+              <div class="span5">
+                <div class="clearfix">
+                  <%= f.label :numero %>
+                  <div class="input">
+                    <%= f.text_field :numero %>
+                  </div>
+                </div>
+             </div>
+	        </div>
+			<div class="row">
+              <div class="span5">
+                <div class="clearfix">
+                  <%= f.label :complemento %>
+                  <div class="input">
+                    <%= f.text_field :complemento %>
+                  </div>
+                </div>
+             </div>
+	        </div>
+			<div class="row">
+              <div class="span5">
+                <div class="clearfix">
+                  <%= f.label :bairro %>
+                  <div class="input">
+                    <%= f.text_field :bairro %>
+                  </div>
+                </div>
+             </div>
+	        </div>
+			<div class="row">
+              <div class="span5">
+                <div class="clearfix">
+                  <label>Estado</label>
+                  <div class="input">
+                    <%= collection_select(:endereco, :estado_id, Estado.all, :id, :nome, {:id => "estado_id", :prompt => "Selecione o Estado"}, {:class => "campo-select"})%>
+                  </div>
+                </div>
+             </div>
+	        </div>
+			<div class="row">
+              <div class="span5">
+                <div class="clearfix">
+                  <label>Cidade*</label>
+                  <div class="input">
+                    <select id="cidade_id" class="campo-select"></select>
+					<%= f.hidden_field :cidade_id %>
+					<img id="loadingCityImg" valign="bottom" src="/assets/ui-anim_basic_16x16.gif" style="display:none;"></img>
+                  </div>
+                </div>
+             </div>
+	        </div>
+			<%= f.hidden_field :user_id, { :value => current_user.id } %>
+			<div class="modal-footer">
+				<%= f.submit "Salvar", :class => "btn primary", :disable_with => "Aguarde..." %>&nbsp;
+				<button type="reset" id="reset_btn" class="btn" data-dismiss="modal">Cancelar</button>
+			</div>
+		<% end %>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+ 
+</script>

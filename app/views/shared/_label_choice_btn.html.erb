@@ -1,0 +1,96 @@
+<div class="hero-unit" id="label_choice_panel">
+	<%unless title  == ''%>
+		<h3><%=title%></h3>		
+		<h6><%=hint%>
+		<% if limit.nil? == false and limit > 0 %>
+			 . Restantes 
+			<span class="label grande warning" style="position:relative;top:-3px" id="counter_<%="#{namespace}"%>"><%= limit  %></span>
+		<% end %>
+		</h6>	
+	<% end %>
+		<%for l in 'A'..'Z' do%>
+		 <a href="javascript:filter_<%=namespace%>('<%=l%>')"><%=l%></a>
+		<%end%>
+		- <a href="javascript:filter_<%=namespace%>('')">Todos</a>
+		<br/>
+		<br/>
+
+
+	<% data.each do |d| %>
+		<span class="label grande <%=selected_class if selected_class and selected_values[d.id]%>"  
+			  style="cursor:pointer" 
+			  <%="data-slug='#{d.slug}'" unless selected_class %>
+			  id="label_<%="#{namespace}_#{d.id}"%>"><%=d.send(label_method)%></span>
+	<% end %>
+</div>
+<script type="text/javascript" charset="utf-8">
+	function filter_<%=namespace%>(letter){
+		if (letter == ''){
+			$('span[id^="label_<%=namespace%>_"]').show();
+			return;
+		}
+		$('span[id^="label_<%=namespace%>_"]').each(function(index){
+
+			if ($(this).text().toUpperCase()[0] == letter){
+				if (!$(this).is(":visible")){
+					$(this).show();
+				}
+			}else{
+				if ($(this).is(":visible")){
+					$(this).hide();
+				}
+			}
+		})
+	}
+
+	$(document).ready(function() {
+		<% if selected_class %>
+		$("#counter_"+"<%= namespace %>").text("<%= limit.to_i %>" - $(".hero-unit > ." + "<%=selected_class%>").size())
+		$('span[id^="label_'+'<%=namespace%>'+'_"]').click(function() {
+			if(("<%= limit.to_i %>" > 0) && ("<%= limit.to_i %>" == $(".hero-unit > ." + "<%=selected_class%>").size()) && (!$(this).is(".<%=selected_class%>"))){
+				alert("O limite de escolhas foi atingido!")
+			} else {
+				bloquearTela();
+				var id = this.id.split(/\_/).pop()
+				if('<%=url%>' != ''){					
+					$.ajax({
+					  url: "<%=url%>?id=" + id,
+					  context : this,
+					  success: function(){
+						if ($(this).is(".<%=selected_class%>")){				
+							$(this).removeClass("<%=selected_class%>");												
+						}else{							
+					    	$(this).addClass("<%=selected_class%>");													
+						}
+						$("#counter_"+"<%= namespace %>").text("<%= limit.to_i %>" - $(".hero-unit > ." + "<%=selected_class%>").size())
+						$.unblockUI();
+					  }
+
+					});
+				}else{
+					<%=js_callback%>(id);
+					if ($(this).is(".<%=selected_class%>")){
+						$(this).removeClass("<%=selected_class%>");					
+					}else{
+				    	$(this).addClass("<%=selected_class%>");
+					}
+					$("#counter_"+"<%= namespace %>").text("<%= limit.to_i %>" - $(".hero-unit > ." + "<%=selected_class%>").size())
+					$.unblockUI();
+				}
+			}
+		});
+		<% else %>
+			$('span[id^="label_'+'<%=namespace%>'+'_"]').click(function() {
+				window.location = '<%=url%>' + $(this).attr("data-slug");
+			});
+		<% end %>
+		<%
+		unless js_callback.blank?
+			selected_values.each_key do |k| %>
+				<%="#{js_callback}('#{k}')"%>
+		<% end 
+		end 
+		%>
+
+	});
+</script>

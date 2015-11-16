@@ -1,0 +1,13 @@
+<% if current_user && (current_user != artigo.user) %>
+	Avalie este artigo:
+	<ul class="star-rating">
+		<li style="width:<%= artigo.avaliacao_atual %>%;" class="current-rating"></li>
+			<% unless artigo.avliado_por?(current_user) %>
+		    	<li><%= link_to 1, avaliar_artigo_path(artigo, :estrelas => 1), :method => :post, :remote => true, :class => 'one-star', :title => '1 estrela de 5' %></li>
+			    <li><%= link_to 2, avaliar_artigo_path(artigo, :estrelas => 2), :method => :post, :remote => true, :class => 'two-stars', :title => '2 estrelas de 5' %></li>
+			    <li><%= link_to 3, avaliar_artigo_path(artigo, :estrelas => 3), :method => :post, :remote => true, :class => 'three-stars', :title => '3 estrelas de 5' %></li>
+			    <li><%= link_to 4, avaliar_artigo_path(artigo, :estrelas => 4), :method => :post, :remote => true, :class => 'four-stars', :title => '4 estrelas de 5' %></li>
+			    <li><%= link_to 5, avaliar_artigo_path(artigo, :estrelas => 5), :method => :post, :remote => true, :class => 'five-stars', :title => '5 estrelas de 5' %></li>
+		    <% end %>
+	</ul>
+<% end %>

@@ -1,0 +1,67 @@
+<%=form_for :video , :url => '/conteudo/video', :html => {:id => 'video_form'} do |f|%>
+     <div class="modal-header">
+	  <a id="fechar_modal_video_<%= provider.downcase.to_s %>" class="close" data-dismiss="modal">×</a>
+       <h3>Copie o link do <%= provider %></h3>
+     </div>
+     <div class="modal-body">
+     	<%= f.text_field :texto,:class =>"span6",:placeholder => "Insira um texto...",:maxlength => 500, :id => "#{provider.downcase}_texto" %> <span style="margin-left: 10px" class="contador" id="contador_<%= provider.downcase.to_s %>"></span>
+		<%=f.text_field :url, :class => "span6", :id => "#{provider.downcase}_url", :placeholder => "Insira a url..."%>
+		<%= f.hidden_field :video_provider, :value => provider.downcase %>
+		<br/><br/>
+		<div id="embed_<%= provider.downcase.to_s %>" style="display: none">
+			<iframe id="<%= provider.downcase.to_s %>_embed" style="padding-left: 35px;" title="YouTube video player" width="450" height="225" 
+			        src="#" 
+			        frameborder="0" allowfullscreen></iframe>
+		</div>
+		<%=f.check_box :privado , :value => 'privado'%><span style="margin-left:5px; top: 0px">Privado</span>
+     </div>
+     <div class="modal-footer">
+	     <%= f.submit "Publicar",:id=>"submit_video_#{provider.downcase}",:class => "btn btn-success btn-central", :disable_with => "Aguarde..." %>
+	     <button type="reset" id="reset_btn" class="btn btn-danger btn-central" data-dismiss="modal">Cancelar</button>
+     </div>
+<%end%>
+
+<script type="text/javascript" charset="utf-8">
+	$("#<%= provider.downcase %>_url").bind('paste',function(e){
+		$(e.target).keyup(function(){
+			if("<%= provider.downcase %>" == "youtube") {
+				id = $("#<%= provider.downcase %>_url").val().match(/v=(.{11})/)[1];
+				$("#<%= provider.downcase.to_s %>_embed").attr("src", "http://www.youtube.com/embed/" + id);
+			} else {
+				id = vimeo_id_extract($("#<%= provider.downcase %>_url").val());
+				$("#<%= provider.downcase.to_s %>_embed").attr("src", "http://player.vimeo.com/video/" + id);
+			}
+			$("#embed_<%= provider.downcase.to_s %>").delay(1000).fadeIn();
+		});
+	});
+
+  	  $("#submit_video_<%= provider.downcase %>").click(function(event){
+	    if($("#<%= provider.downcase %>_url").val() == ""){
+	        alert("Não pode publicar video, sem conteudo.");
+	         event.preventDefault();
+	    }else{
+	      bloquearTela();
+	    }
+	  });
+	
+	function vimeo_id_extract(url) {
+	  var re;
+	  var match;
+	  re = new RegExp('[0-9]+', "g");
+	  match = re.exec(url);
+	  if(match != null) {
+	    return match[0];
+	  }
+	  else {
+	    return -1;
+	  }
+	}
+
+	$(document).ready(function(){	
+		$('#contador_<%= provider.downcase.to_s %>').html(500 - $('#<%= provider.downcase %>_texto').val().length);
+		$('#<%= provider.downcase %>_texto').keyup(function(){
+			$('#contador_<%= provider.downcase.to_s %>').html(500 - $(this).val().length);
+		});
+	});
+
+</script>

@@ -1,0 +1,10 @@
+Gmaps.map = new Gmaps4RailsGoogle();
+Gmaps.load_map = function() {
+    Gmaps.map.map_options.maxZoom = 15;
+    Gmaps.map.initialize();
+    Gmaps.map.markers = <%= raw @agenda.local_atendimento.to_gmaps4rails %>;
+    Gmaps.map.create_markers();
+    Gmaps.map.adjustMapToBounds();
+    Gmaps.map.callback();
+};
+Gmaps.loadMaps()

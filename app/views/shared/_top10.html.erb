@@ -1,0 +1,53 @@
+<div class="row-fluid well container-central" style="height: auto;width: auto;">
+<h3>TOP 5</h3>
+<div class="span5">
+		<strong>Temas</strong>
+		<br/>
+		<ol>
+			<% Tema.select("distinct temas.id, temas.slug, temas.descricao").where("descricao <> ''").joins(:artigos).limit(5).each do |d|%>
+			<li>
+				<%=link_to d.descricao.capitalize, "/tema/#{d.slug}"%>
+			</li>
+			<% end %>
+		</ol>
+		<!-- <a href="/temas" class="btn btn-primary btn-central-preto">Veja Todos</a> -->
+		<br/><br/>
+</div>
+<div class="span5">
+		<strong>Especialidades</strong>
+		<br/>
+		<ol>
+			<% EspecialidadeMedica.select("distinct especialidade_medicas.id, especialidade_medicas.slug, especialidade_medicas.descricao").joins(:artigos).limit(5).order("titulo").each do |em| %>
+			<li >
+				<%=link_to em.descricao.capitalize, "/especialidade/#{em.slug}" %>
+			</li>
+			<% end %>
+		</ol>
+		<!-- <a href="/especialidades" class="btn btn-primary btn-central-preto">Veja Todas</a> -->
+		<br/><br/>
+</div>
+<div class="span5">
+		<strong>Profissionais</strong>
+		<br/>
+		<ol>
+			<% User.select("distinct users.id, users.slug, users.nome, users.pronome_de_tratamento_id").joins(:artigos).limit(5).each do |u| %>
+			<li>
+				<a  href="<%=u.url_usuario%>"><%=u.nome_completo%></a>
+			</li>
+			<% end %>
+		</ol>
+		<!-- <a href="/profissionais" class="btn btn-primary btn-central-preto">Veja Todos</a> -->
+</div>
+<div class="span5">
+		<strong>Áreas de Atuação</strong>
+		<br/>
+		<ol>
+			<% AreaAtuacao.select("distinct area_atuacoes.id, area_atuacoes.slug, area_atuacoes.descricao").joins(:artigos).limit(5).order("titulo").each do |a| %>
+			<li >
+				<%=link_to a.descricao.capitalize, "/area/#{a.slug}"%>
+			</li>
+			<% end %>
+		</ol>
+		<!-- <a href="/areas" class="btn btn-primary btn-central-preto">Veja Todos</a> -->
+	</div>
+</div>

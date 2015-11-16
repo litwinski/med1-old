@@ -1,0 +1,144 @@
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" > <!-- Only required for left/right tabs -->
+		<ul class="nav nav-tabs" id="publicacao">
+			<li class="active"><a href="#topico" data-toggle="tab">Publicar Tópico</a></li>
+			<% unless current_user.usuario? %> 
+			<li ><a href="#artigos" data-toggle="tab">Meus Artigos</a></li>
+			<% end %>
+		</ul>
+		<%=render :partial => 'shared/post'%>
+		<div class="tab-content">
+			<div class="tab-pane active" id="topico">
+				<%=form_for :texto , :url => '/conteudo/texto', :html => {:id => 'texto_form'} do |f|%>
+				<%= f.text_field :texto, :class =>"span7",:placeholder => "Publique agora...",:maxlength => 500, :style => "width: 500px;" %>
+				<span style="margin-left:5px; top: -3px">
+					<%=f.check_box :privado , :value => 'privado'%> <span style="position:relative;top:3px">Privado</span>
+				</span>
+				<br/>
+				<!-- <input type="text" class="span8" value="publique agora"/> -->
+
+				<a href="#post_imagem" data-toggle="modal" id="imagem" data-controls-modal="post_imagem" data-backdrop="true" class="btn btn-primary btn-central btn-central-preto btn-agendar">
+					<i class="icon-picture"></i> Adicionar Imagem
+				</a>
+
+				<a href="#post_youtube" data-toggle="modal" id="video" data-controls-modal="post_youtube" data-backdrop="true" class="btn btn-primary btn-central btn-central-preto btn-agendar">
+					<i class="icon-film"></i> Video Youtube
+				</a>
+
+				<a href="#post_vimeo" data-toggle="modal" id="video1" data-controls-modal="post_vimeo" data-backdrop="true" class="btn btn-primary btn-central btn-central-preto btn-agendar">
+					<i class="icon-film"></i> Video Vimeo
+				</a>
+				<button class="btn btn-success btn-central" id="btn_publicar_texto"><i class="icon-bullhorn icon-white"></i> Publicar</button>
+				<span class="contador" id="contador"></span>
+
+				<% end %>
+			</div>
+			<div class="tab-pane" id="artigos">
+				<%= render :partial => 'artigos/artigos' %>
+			</div>
+		</div>
+		<%=image_tag('backend/sombra_quadrado_central.png',class: 'sombra_quadrado_central')%>
+
+	</div>
+</div>
+
+	<div class="well mini-container-central">
+	    <div class="tabbable tab-central" > <!-- Only required for left/right tabs -->
+	    	<ul class="nav nav-tabs" id="second_tabs">
+	    		<li class="active"><a href="#atualizacoes" data-toggle="tab">Atualizações <span class="label label-important"><%=@cont_atualizacoes%></span></a></li>
+
+	    		<li ><a href="#conexoes" data-toggle="tab">Conexões</a></li>
+	    		<li ><a href="#notificacoes" data-toggle="tab">Notificações 
+					<%if current_user.pending_invited_by.count > 0 %>
+						<span class="label label-important"><%= current_user.pending_invited_by.count%></span>
+					<%end%>
+				</a></li>    		
+				<% if current_user.profissional? %>
+					<li>
+						<a href="/agendas/<%= current_user.agendas.last.id if current_user.agendas.present? %>">Minha Agenda
+						<%if current_user.numero_consultas_a_confirmar.present?%>
+							<span class="label label-important"><%=current_user.numero_consultas_a_confirmar%></span>
+					    <%end%>
+					    </a>
+					</li>   
+				<% end %>	
+				<li>
+					<a href="/grupos">Grupos</a>
+				</li>
+	    	</ul>
+	    	<div class="tab-content">
+					<div class="tab-pane active" id="atualizacoes">
+						<%=render :partial => "conteudo"%>
+						<%= will_paginate @conteudos %>
+					</div>
+					<div class="tab-pane" id="conexoes"></div>
+					<div class="tab-pane" id="notificacoes"></div>
+					<div class="tab-pane" id="agenda"></div>
+			</div>
+		</div>
+	</div>
+
+
+<script type="text/javascript" charset="utf-8">
+		$('#second_tabs a[href="#conexoes"]').bind("click show", function(){
+			bloquearTela();
+			$.get("/profile/conexoes", function(data){
+				$("#conexoes").html(data);
+			}).complete(function(){ $.unblockUI(); });
+		});
+	
+		$('#second_tabs a[href="#notificacoes"]').bind("click show", function(){
+			bloquearTela();
+			$.get("/profile/notificacoes", function(data){
+				$("#notificacoes").html(data);
+			}).complete(function(){ $.unblockUI(); });
+		});
+
+		$(document).ready(function(){	
+			$('#contador').html(500 - $('#texto_texto').val().length);
+			$('#texto_texto').keyup(function(){
+				$('#contador').html(500 - $(this).val().length);
+			});
+		});
+
+		$("#novo_button").click(function(){
+			bloquearTela();
+		});
+		$("#editar_button").click(function(){
+			bloquearTela();
+		});
+		$("#btn_consulta_artigo").click(function(){
+			bloquearTela();
+		});
+		$("#btn_publicar_texto").click(function(event){
+			if($('#texto_texto').val().length == 0){
+				alert("Não pode publicar texto, sem conteudo.");
+				 event.preventDefault();
+			}else{
+				bloquearTela();
+			}	
+		});
+		
+		$("#imagem").click(function(){
+			$("#imagem_texto").val($("#texto_texto").val());
+		});
+		
+		$("#video").click(function(){
+			$("#youtube_texto").val($("#texto_texto").val());
+		});
+		
+		$("#video1").click(function(){
+			$("#vimeo_texto").val($("#texto_texto").val());
+		});
+		
+
+		<% if params[:tab].present? %>
+			$(document).ready(function() {
+				$('#publicacao a[href="#<%=params[:tab]%>"]').tab('show');
+			});
+		<% end %>
+
+		
+
+</script>
+

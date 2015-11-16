@@ -1,0 +1,55 @@
+<% if @artigos.present? %>
+	<table class="med1">
+		<thead>
+			<tr>
+				<th style="width:70%">Título</th>
+				<th style="width:20%">Status</th>
+				<th style="width:10%">Ações</th>
+			</tr>		
+		</thead>
+		<tbody>
+			<% @artigos.each do |artigo| %>
+				<tr>
+					<td style="padding-left:5px"><%=link_to_if !artigo.rascunhado?, artigo.titulo, artigo_path(artigo)%></td>
+					<td style="padding-left:5px"><%= artigo.state %></td>
+					<td style="padding-left:5px">
+						<%= link_to edit_artigo_path(artigo) do %>
+						<%=image_tag('backend/edit.png', :title => "Editar artigo")%>
+						<% end %>
+						<%= link_to artigo_path(artigo), :method => :delete, :confirm =>"Você tem certeza que deseja excluir o artigo", :id => "btn_excluir_artigo_#{artigo.id}" do %>
+							<%=image_tag('backend/delete.png', :title => "Excluir artigo")%>
+						<% end %>
+						<% if artigo.rascunhado?%>
+						<%= link_to publicar_artigo_path(artigo), :id => "btn_publicar_artigo_#{artigo.id}" do %>
+							<%=image_tag('backend/publicar.png', :title => "Publicar artigo")%>
+						<% end %>
+						<% end %>					
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+<% else %>
+	<table class="med1">
+		<thead>
+			<tr>
+				<th style="width:70%">Título</th>
+				<th style="width:20%">Status</th>
+				<th style="width:10%">Ações</th>
+			</tr>		
+		</thead>
+	</table>
+<% end %>
+<div class="btn-toolbar">
+  <div class="btn-group">
+		<%= will_paginate @artigos, params: {tab: "artigos"}, :class => "med1-paginate"  %>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+	  	$("a[id^=btn_publicar_artigo_]").click(function(){
+	    	bloquearTela();
+	  	});
+  	});
+</script>

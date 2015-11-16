@@ -1,0 +1,16 @@
+<% @artigos_destaque.each do |artigo|%>
+	<div class="row-fluid" >
+		<div class="span1" style="height: 36px;">
+			<a href="<%=artigo.user.url_usuario%>" class="thumbnail">
+				<%= foto(artigo.user, "mini", :size => "28x28") %>
+			</a>							    	
+		</div>
+		<div class="span11" style="height: 40px;">
+			<a href="/artigos/<%=artigo.slug%>">
+				<h4 class="atualizacao" style="height: 0px;"><%=strip_tags(artigo.titulo).truncate(60).html_safe%>
+			</a><br/>
+			<span>Por <%=artigo.user.nome_completo %></span></h4><br/>
+		</div>
+	</div>
+	<hr class="atualizacao" style="border:1px solid #F9FAFE"/>
+	<%end%>

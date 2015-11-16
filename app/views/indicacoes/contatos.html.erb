@@ -1,0 +1,74 @@
+<div class="well mini-container-central">
+    <div class="tabbable tab-central" > <!-- Only required for left/right tabs -->
+    	<ul class="nav nav-tabs">
+    		<li class="active"><a href="#contatos" data-toggle="tab">Contatos</a></li>
+    	</ul>
+    	<div class="tab-content">
+				<div class="tab-pane active" id="contatos">
+					<p>Selecione agora seus contatos do <strong>Gmail</strong>, <strong>Yahoo</strong> ou <strong>Hotmail</strong> para conhecer o <strong>Med1</strong>.</p>
+					
+					<%= "<p>Pessoas que talvez você conheça.</p>".html_safe if @emails_registrado.present? %>
+					<p>
+						<% @emails_registrado.each_with_index do |user, index| %>
+							<%= "<div class='row'>".html_safe if((index+1).odd?) %>
+								<div class="span5 well" id="mini_profile_row_<%=user.id%>">
+									<span class="span1"><%= foto(user, "mini", :size => "64x64") %></span>
+									<span class="span3"><%= "#{user.nome}" %><br/> <%= "(#{user.email})" %><br/>
+									<%=link_to "Adicionar" , "/profile/invite?id=#{user.id}", :class => "btn success", :id=>"add_button_#{user.id}", :remote => true, :onclick=>"bloquearDiv(id);" %></span>
+								</div>
+							<%= "</div>".html_safe if((index+1).even? or (index+1) == @emails_registrado.size) %>
+						<% end %>
+					</p>
+					
+					<p>Selecione os e-mails que deseja enviar os convites.</p>
+					<div>
+						<% ("A".."Z").each do |l| %>
+							<a href="#<%= l %>"><%= l %></a>
+						<% end %>
+						<% (0..9).each do |l| %>
+							<a href="#<%= l %>"><%= l %></a>
+						<% end %>
+					</div>
+					
+					
+					<%= form_tag({:action => :convidar})  do %>
+						<div class="row-fluid" style="height: 300px;overflow: auto;">
+						<div class="row-fluid">
+							<div class="" style="padding: 5px 0;"><input name="input" id="select_all" type="checkbox" value="" />Selecionar Todos</div>
+							<% @contacts_list.each_with_index do |contact, i| %>
+							<% if(@letter.nil? or @letter != contact[1][0].upcase) %>
+							<% @letter = contact[1][0].upcase %>
+							<a name=<%= @letter%> style="margin-top:70px;"></a>
+							<div class="" style="padding: 5px 0; text-align: right; border-bottom: solid 1px #CCC;"><h2><%= @letter %></h2></div>
+							<% end %>
+							<% if @provider == "hotmail" %>
+							<% contato =  (contact[1].split("&amp")[0]).gsub("%40", "@") %>
+							<div class="" style="padding: 5px 0;"><%= check_box_tag "emails[]", contato%> <%= contato %></div>			    
+							<% else %>
+							<div class="" style="padding: 5px 0;"><%= check_box_tag "emails[]",contact[1] %> <%= contact[1] %></div>			    
+							<% end %>
+							<% end %>
+						</div>			
+						</div>
+					<br/><hr/>
+					<%= submit_tag("Convidar", :class => "btn btn-primary btn-central-preto") %>
+					<% end %>
+				</div>
+    	</div>
+    </div>
+</div>
+
+
+<script type="text/javascript" charset="utf-8">
+	
+	$(document).ready(function() {
+		$("#select_all").click(function() {
+			var checked_status = this.checked;
+			$(':checkbox').each(function() {
+				this.checked = checked_status;
+			});
+		});					
+	});
+	
+
+</script>

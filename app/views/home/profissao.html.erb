@@ -1,0 +1,44 @@
+<div class="row">
+
+	<div class="span12">
+		<h2><%= @profissao.descricao.capitalize.pluralize %></h2>
+		<br/>
+		<% if @users.size > 0%>
+		<%@users.order("nome").each do |user|%>
+		<div class="row">
+			<div class="span1">
+				<ul class="media-grid">
+					<li>
+						<%=link_to avatar(user) , "#{user.url_usuario}"%>
+				  	</li>
+				</ul>
+			</div>
+			<div class="span11" >
+				<strong>
+					<%=link_to user.nome_completo , "#{user.url_usuario}"%>
+				</strong><br/>
+				<p><%=user.minicurriculo%></p>
+				<br/>
+				<ul class="tags" style="width:650px">
+					<%=spans_especialidades(user)%>
+					<%=spans_areas(user)%>
+					<%=spans_temas(user)%>
+				</ul>
+			</div>
+			</div>
+			<hr/>
+		<% end %>
+		<% else %>
+		<div class="alert-message block-message error">
+			Não encontramos nenhum profissional com essas caracteristicas
+		</div>
+		<% end %>
+	</div>
+	
+	<div class="span4">
+		<%=render :partial => 'shared/top10'%>
+	</div>
+
+</div>
+
+

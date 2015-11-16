@@ -1,0 +1,35 @@
+$.unblockUI();
+
+$("#data").html("<strong>"+$.datepicker.formatDate("DD", startDate)+"</strong><br>" + $.datepicker.formatDate("dd/mm/yy", startDate));
+if(startDate.getDate() > (new Date).getDate()){
+    $("#table_horarios").html("<%= j render(:partial => 'horarios', :locals => {:inicio => @inicio, :fim => @fim, :tempo_consulta => @agenda.tempo_consulta, :profissao => @agenda.user.profissao_saude.descricao, :data => 1 }) %>");
+}else {
+    $("#table_horarios").html("<%= j render(:partial => 'horarios', :locals => {:inicio => @inicio, :fim => @fim, :tempo_consulta => @agenda.tempo_consulta, :profissao => @agenda.user.profissao_saude.descricao, :data => -1 }) %>");
+}
+
+<% @consultas.each do |consulta| %>
+    c = new Date(Number(<%=consulta.sample[:inicio]%>) * 1000);
+    selecionarConsulta(c.getHours()+''+c.getMinutes());
+<% end %>
+
+$("a[id^=link_]").click(function(){
+    dt = startDate
+    aux = this.id.split("_")
+    if(aux[1].length < 3) {
+        dt.setHours(aux[1][0],aux[1].substr(1,3),0,0);
+    } else if(aux[1].length == 3) { // pode ser 110 ou 930
+        // entra se for 930, 830
+        if(aux[1].indexOf("30") != -1){
+            dt.setHours(aux[1][0],aux[1].substr(1,3),0,0);
+        } else {
+            dt.setHours(aux[1].substr(0,2),aux[1].substr(2,4),0,0);
+        }
+    } else {
+        dt.setHours(aux[1].substr(0,2),aux[1].substr(2,4),0,0);
+    }
+    $("#data_consulta").empty();
+    $("#data_consulta").append($.datepicker.formatDate("DD, dd 'de' MM 'de' yy ", dt));
+    $("#data_consulta").append("às " + dt.getHours() + ":" + (dt.getMinutes().toString().length < 2  ? dt.getMinutes()+"0" : dt.getMinutes()) + "hs");
+    $("#horario_js").val(Math.round(dt.getTime() / 1000));
+});
+

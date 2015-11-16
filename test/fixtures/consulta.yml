@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  usuario: 1
+  medico: 1
+  local_atendimento: 
+  horario: 2012-02-27 15:31:17
+  state: MyString
+  cancelada_por: MyString
+
+two:
+  usuario: 1
+  medico: 1
+  local_atendimento: 
+  horario: 2012-02-27 15:31:17
+  state: MyString
+  cancelada_por: MyString

@@ -1,0 +1,82 @@
+<%=render :partial => 'shared/post'%>
+<ul class="tabs">
+	<li class=<%= menu_item("profile") %>><a href="/profile">Home</a></li>
+	
+	<li class="dropdown <%= menu_item('artigos') %>" data-dropdown="dropdown">
+      <a href="#" class="dropdown-toggle">Publicar</a>
+	  <ul class="dropdown-menu">  
+		  <% if can? :profissional, :user %>
+			  <li><a href="/artigos">Artigos</a></li>
+		  <% end %>
+		  <li><a href="#" data-controls-modal="post_imagem" data-backdrop="true">Fotos</a></li>
+		  <li><a href="#" data-controls-modal="post_texto" data-backdrop="true">Texto</a></li>
+		  <li><a href="#" data-controls-modal="post_youtube" data-backdrop="true">Video do YouTube</a></li>
+		  <li><a href="#" data-controls-modal="post_vimeo" data-backdrop="true">Video do Vimeo</a></li>
+	  </ul>
+	</li>
+    
+	
+    <li class="dropdown <%= menu_item('perfil') %>"  data-dropdown="dropdown">
+      <a href="#" class="dropdown-toggle" >Perfil</a>
+      <ul class="dropdown-menu">
+        <li><a href="/profile/dados_pessoais">Dados Pessoais</a></li>
+		<% if can? :profissional, :user %>
+	        <li><a href="/profile/minicurriculo">Minicurrículo</a></li>
+		<% end %>
+		<% if can? :profissional, :user %>
+	        <li><a href="/profile/formacao_academica">Formação Acadêmica</a></li>
+		<% end%>
+        <li><a href="/profile/avatar">Avatar</a></li>
+        <!-- <li><a href="#">Endereços</a></li> -->
+	        <li class="divider"></li>
+	        <li><a href="/profile/temas">Temas de Interesse</a></li>
+	        <li><a href="/profile/planos_de_saude">Planos de Saúde</a></li>
+		<% if can? :profissional, :user %>
+	        <li><a href="/profile/areas_de_atuacao">Área de Atuação</a></li>
+	        <li><a href="/profile/especialidades_medicas">Especialidades</a></li>
+			<li class="divider"></li>
+			<li><a href="/local_atendimentos">Locais de Atendimento</a></li>
+		<% end %>
+        <li class="divider"></li>
+		<li><a href="/users/edit">Configurações</a></li>
+		<% if can? :profissional, :user %>
+			<li class="divider"></li>
+			<li><a href="/minha_conta">Conta</a></li>
+		<% end %>
+      </ul>
+	</li>
+
+    <li class=<%= menu_item("notificacao") %>>
+
+      <a href="/profile/notificacoes" >Notificações <%if current_user.pending_invited_by.count > 0%> <span class="label warning" id="notification-count"><%=current_user.pending_invited_by.count%></span><%end%></a>
+	</li>
+    <!-- <li class="dropdown" data-dropdown="dropdown">
+      <a href="#" class="dropdown-toggle">Recomendações</a>
+      <ul class="dropdown-menu">
+        <li><a href="#">Dadas</a></li>
+        <li><a href="#">Recebidas de Profissionais</a></li>
+		<li><a href="#">Recebidas de Pacientes</a></li>
+      </ul>
+	</li> -->
+
+	<li class="dropdown <%= menu_item('busca') %>" data-dropdown="dropdown">
+      <a href="#" class="dropdown-toggle">Conexões</a>
+	  <ul class="dropdown-menu">  
+		  <li><a href="/profile/busca">Busca</a></li>
+		  <li><a href="/profile/conexoes">Minhas Conexões<span class="label"><%=current_user.friends.count%></span></a></li>
+		  <li><a href="/indicacoes/new">Convidar amigos</a></li>
+	  </ul>
+	</li>
+	<% if can? :profissional, :user %>
+		<li class="<%= menu_item("agenda") %>"><a href="/agendas">Agendas</a></li>
+	<% end %>
+	<li class="dropdown <%= menu_item('consulta') %>" data-dropdown="dropdown">
+      <a href="#" class="dropdown-toggle">Consultas</a>
+	  <ul class="dropdown-menu">  
+		 <li><a href="/consultas">Minhas Consulta</a></li>
+		 <li><a href="/consultas/busca_medico">Agendar horário</a></li>
+
+	  </ul>
+	</li>
+
+</ul>

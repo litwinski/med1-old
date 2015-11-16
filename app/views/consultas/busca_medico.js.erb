@@ -1,0 +1,6 @@
+$('#users_container').append("<%= j render(:partial => 'busca_user_container') %>");
+<% if @users.next_page %>
+	$('.pagination').replaceWith("<%= j will_paginate(@users) %>");
+<% else %>
+	$('.pagination').hide();
+<% end %>

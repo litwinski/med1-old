@@ -1,0 +1,26 @@
+<% if current_user %>
+	<% unless user == current_user %>
+		<% unless current_user.friend_with? user %>
+			<% if current_user.following?(user) %>
+			<a id="btn_deixar_de_seguir" class="btn btn-primary btn-agendar btn-lateral" href="<%=user_follow_path(user.slug, current_user.get_follow(user).id)%>" data-remote="true" data-method="delete" >
+					<%=image_tag('backend/seguir.png')%>Deixar de seguir
+				</a>
+			<% else %>
+				<a id="btn_seguir_perfil" class="btn btn-primary btn-agendar btn-lateral" href="<%=user_follows_path(user.slug)%>" data-remote="true" data-method="post" >
+					<%=image_tag('backend/seguir.png')%>Seguir este perfil
+				</a>
+			<% end %>
+		<% end %>
+	<% end %>
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		$("#btn_deixar_de_seguir").click(function() {
+			bloquearTela();
+		});
+		$("#btn_seguir_perfil").click(function() {
+			bloquearTela();
+		});
+	});
+</script>

@@ -1,0 +1,98 @@
+<div class="row-fluid">
+	<div class="span7">
+		
+		<% unless explorar ||= false %>
+			<h2 class="titulo-fe">Artigos em destaque</h2>
+		<% end %>
+
+		<div id="conteudo">
+			<div class="secao-central well">
+				<%=image_tag('backend/setinha_pra_cima.png',class: 'setinha_pra_cima') unless explorar ||= false %>
+				<% if explorar ||= false %>
+					<h2 class="titulo-fe">Artigos em destaque
+						<%= select_tag "ordenar_artigos", "<option value='201'>Mais lidos</option><option value='202'>Mais recentes</option><option value='203'>Mais cotados</option>".html_safe, :class => "right input-medium" , :style => 'background-color:#515181;color:#F9FAFE' %>
+					</h2>
+					<hr class="atualizacao" style="border:1px solid #F9FAFE"/>
+				<% end %>
+				<div id="ordena_artigos">
+					<%= render :partial => 'shared/artigos_destaque' %>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<% unless explorar ||= false %>
+	<div class="span5">
+		<h2 class="titulo-fe">Atualizações recentes</h2>
+		<div id="conteudo">
+			<div class="secao-central well">
+				<%=image_tag('backend/setinha_pra_cima.png',class: 'setinha_pra_cima')%>
+				<%    
+			    atual_artigos = Artigo.visiveis.find(:all, :limit => 5, :order => "updated_at DESC")
+			    atual_conteudos = Conteudo.find(:all, :limit => 5, :order => "updated_at DESC")
+			    atualizacao = atual_artigos + atual_conteudos
+			    atualizacao = atualizacao.sort_by(&:updated_at).reverse
+				%>
+						<%atualizacao.first(5).each do |atual|%>
+						<div class="row-fluid" >
+							<div class="span2" style="height: 36px;width:33px">
+								<a href="<%=atual.user.url_usuario%>" class="thumbnail">
+									<%= foto(atual.user, "mini", :size => "28x28") %>
+								</a>							    	
+							</div>
+							<div class="span10" style="height: 40px;">
+								<h4 class="atualizacao" style="height: 36px;">
+									<% if atual.class.to_s == "Artigo" %>
+									<a href="/artigos/<%=atual.slug%>">
+										<%=truncate(strip_tags(atual.titulo), :length=>40).chomp.html_safe%>
+									</a>	
+									<% elsif atual.class.to_s == "Texto"%>
+									<a href="<%=atual.user.url_usuario%>?conteudo=<%=atual.id%>">
+										<%=truncate(strip_tags(atual.texto), :length=>40).chomp.html_safe%>
+									</a>
+									<% else %>
+									<a href="<%=atual.user.url_usuario%>?conteudo=<%=atual.id%>">
+										Postagem de <%=truncate(strip_tags(atual.type), :length=>40).chomp.html_safe%>
+									</a>
+									<% end %>
+									<span>Por <%=atual.user.nome_completo %></span></h4><br/>
+								</div>
+
+							</div>
+							<hr class="atualizacao" style="width:362px;border:1px solid #F9FAFE"/>
+							<%end%>
+
+						</div>
+				</div>
+			</div>
+		<% end %>
+		
+		<% if explorar ||= false %>
+			<div class="span5">
+				<div id="conteudo">
+					<div class="secao-central well">
+						<h2 class="titulo-fe">Profissionais
+							<%= select_tag "ordena_profissionais", "<option value='101'>Mais indicados</option><option value='102'>Mais recentes</option><option value='103'>Mais agendados</option><option value='104'>Mais pontuados</option>".html_safe, :class => "right input-medium",:style => 'background-color:#515181;color:#F9FAFE'  %></h2>
+								<div id="ordenar_profissionais">
+									<%=render :partial => 'shared/profissionais_destaque' %>
+								</div>
+					</div>
+				</div>
+			</div>
+		<% end %>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$("#ordena_profissionais").change(function(){
+		if(this.value){
+			$.get("/ordena_profissionais/" + this.value)
+		}else{ $.get("/ordena_profissionais/0") }
+	});
+	
+	$("#ordenar_artigos").change(function(){
+		if(this.value){
+			$.get("/ordenar_artigos/" + this.value)
+		}else{ $.get("/ordenar_artigos/0") }
+	});
+</script>

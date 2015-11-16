@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  artigo: 
+  estrelas: 1
+  user: 
+
+two:
+  artigo: 
+  estrelas: 1
+  user: 

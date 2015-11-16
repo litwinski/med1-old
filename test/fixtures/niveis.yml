@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  titulo: MyString
+  descricao: MyString
+  minimo: 1
+  maximo: 1
+
+two:
+  titulo: MyString
+  descricao: MyString
+  minimo: 1
+  maximo: 1

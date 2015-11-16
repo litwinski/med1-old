@@ -1,0 +1,49 @@
+
+<div id="label_choice_panel">
+	<%unless title  == ''%>
+		<!-- <h3><title%></h3> -->
+		<h6><%=hint%></h6>	
+	<% end %>
+  	<div class="field">
+  		<%= text_field_tag "#{namespace}", nil, data: { load: data }, :id => namespace %>
+	</div>
+</div>
+<script type="text/javascript" charset="utf-8">
+
+	$(document).ready(function() {
+		$('#<%= namespace %>').tokenInput("<%= url_return %>", {
+		    theme: 'facebook',
+		    hintText: "Digite um termo da pesquisa",
+		    searchingText: "Buscando...",
+		    noResultsText: "Não encontrado",
+			preventDuplicates: true,
+			<% if limit > 0 %>
+		    	tokenLimit: <%= limit %>,
+			<% end %>
+		    prePopulate: $('#<%= namespace %>').data('load'),
+	    	onAdd: function(item) {
+				<% if url.present? %>
+		     		$.ajax({
+			        	url: "<%= url %>?id=" + item.id,
+			        	context: this
+			    	});
+				<% else %>
+					<%= js_callback %>(item.id);
+				<% end %>
+		    },
+		    onDelete: function(item) {
+				<% if url.present? %>
+		     		$.ajax({
+			        	url: "<%= url %>?id=" + item.id,
+			        	context: this
+			    	});
+				<% else %>
+					<%= js_callback %>(item.id);
+				<% end %>
+		    }
+		  });
+		<% if js_callback.present? %>
+			$.each($('#<%= namespace %>').data('load'), function(index, data){ <%= js_callback %>(data.id)})
+		<% end %>
+	});
+</script>

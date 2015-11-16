@@ -1,0 +1,28 @@
+<%= render :partial => "contato_usuario" %>
+
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" >
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#newartigo" data-toggle="tab">Agendas</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="newagenda">
+				<%= select("agenda", "local_atendimento", current_user.agendas.collect{|agenda| ["#{agenda.nome} ( #{agenda.local_atendimento.nome})", agenda.id]}) %>
+				<br>
+				<%= render :partial => "contato_usuario"%>								
+				<div id='calendar' style="padding-left: 0px; margin-left: 0px;">
+					<%= render :partial => "form_calendario"%>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>	
+
+<script type='text/javascript'>
+	$(document).ready(function() {	
+		$("#agenda_local_atendimento").change(function(){
+	    	$.get("/agendas/busca_agenda?id="+ $("#agenda_local_atendimento").val());
+	    	bloquearTela();
+	    });
+	});
+</script>

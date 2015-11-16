@@ -1,0 +1,11 @@
+<% unless @consulta.errors.present? %>
+	alert("Consulta agendada com sucesso. Aguarde a confirmação do profissional.");
+	$('#new_consulta')[0].reset();
+	$('#agendamento_form').modal("hide");
+	selecionarConsulta(<%= @consulta.horario.hour.to_s + @consulta.horario.min.to_s %>);
+<% else %>
+	<% @consulta.errors.full_messages.each do |msg|  %>
+		alert("<%= j msg %>");
+		$('#agendamento_form').modal("hide");
+	<% end %>
+<% end %>

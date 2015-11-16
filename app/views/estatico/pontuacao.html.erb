@@ -1,0 +1,96 @@
+<div class="row-fluid">
+	<p><h1 class="estatico">Pontuação</h1></p>
+	<p>Quanto mais você participar no Med1 mais pontos você ganha! Mas o que são
+	pontos? Para cada atividade que você participar dentro da rede, como por
+	exemplo criar um grupo ou publicar um artigo, você sera recompensado com
+	uma pontuação. Por que é interessante acumular pontos? Profissionais tem a
+	chance de criar uma reputação online séria e acadêmica, apresentando ao
+	público informações valiosas sobre saúde e de interesse geral. Dessa forma
+	especialistas podem progredir alcançando níveis de participação cada vez
+	maiores, tornando-se usuários especiais dentro da rede. Por exemplo,
+	cardiologistas podem publicar conteúdos como videos, artigos, tópicos,
+	formar grupos e adicionar outros colegas para discutirem sobre hipertensão
+	arterial. Quanto mais ativo, mais pontos, quanto mais pontos, mais
+	importante esse professional se tornará dentro da rede e consequentemente
+	terá maior visibilidade relacionada a esse tema. Pacientes também podem
+	participar e acumular pontos. Nada melhor do que discutir temas de saúde,
+	passar suas experiências e colaborar com pessoas parecidas com você! Veja
+	quais são as atividades pontuadas e quais são os níveis de participação
+	dentro do Med1:</p>
+	
+	<div class="row-fluid">
+		<div class="span5" style="margin-left: 200px;">
+			<a class="fancybox" rel="gallery1" href="/assets/frontend/grafico_gamificacao.jpeg" title="Gráfico Pontuação">
+				<%=image_tag('frontend/grafico_gamificacao.jpeg')%>
+			</a>
+			<%=image_tag('frontend/sombra_estatica.png')%>
+		</div>
+	</div>
+	
+	<p><b>Atividades pontuadas:</b>
+		<ul>
+			<li>Profissionais</li>
+			<li>Visitante (Usuário Comum)</li>
+		</ul>
+	</p>
+	
+	<p><b>Realização de Cadastro Completo:</b></p>
+	<p>
+		<ul>
+			<li>Preenchimento completo do cadastro: 5pts</li>
+			<li>Preenchimento completo do cadastro: 2pts</li>
+			<li>Enviar documentação pelo site para validação de cadastro: 5pts (aprovado por admins)</li>
+		</ul>
+	</p>
+	
+	<p><b>Criação e Publicação de Conteúdo:</b></p>
+	<p>
+		<ul>
+			<li>Publicação de um artigo de qualidade (aprovado por editores): 15pts</li>
+			<li>Comentar artigo de um profissional: 2pts</li>
+			<li>Sinalizar conteúdo abusivo (e acatado por admins): 5pts</li>
+			<li>Publicar fotos/imagens médicas (aprovado por editores): 10pts</li>
+			<li>Publicar um caso clínico: 10pts</li>
+			<li>Publicação de um vídeo (aprovado por editores): 10pts (prof)/ 5pts (pcte)</li>
+			<li>Criação de um grupo (aprovado por editores): 10pts</li>
+			<li>Publicar um vídeo em um grupo (aprovado por editores): 2pts</li>
+			<li>Publicar uma imagem em um grupo (aprovado por editores): 2pts</li>
+			<li>Iniciar tópicos de discussão em um grupo (aprovado por editores): 5pts</li>
+		</ul>
+	</p>
+	
+	<p><b>Compartilhamento de Conteúdo / Convites:</b></p>
+	<p>
+		<ul>
+			<li>Ter sua publicação compartilhada em uma rede social ou no Med1: 2pts</li>
+			<li>Compartilhar uma publicação de profissional em uma rede social ou no Med1: 2pts</li>
+			<li>Para cada convite enviado no qual o usuario logou no site: 1pts</li>
+		</ul>
+	</p>
+	
+	<p><b>Número de Recomendações / Agendamentos / Seguidores:</b></p>
+	<p>
+		<ul>
+			<li>Renovação da utilização do sistema de agendamento online: 5pts (para cada renovação)</li>
+			<li>Aumentar um seguidor: 1pt (para cada seguidor)</li>
+			<li>Receber uma indicação de um paciente: 10pts (para cada indicação)</li>
+			<li>Receber uma indicação de um outro profissional: 10pts (para cada indicação)</li>
+			<li>Concretização de uma consulta agendada pelo sistema: 20pts (prof)</li>
+			<li>Concretização de uma consulta agendada pelo sistema: 10pts (pac)</li>
+			<li>Postar uma avaliação de um profissional: 5pts (após ter sido aprovada pelos admins)</li>
+		</ul>
+	</p>
+	<br/>
+	<br/>
+</div>
+
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		$(".fancybox").fancybox();
+		
+		RemoverClass();
+		AdicionarClass("pontuacao");
+	});
+
+</script>

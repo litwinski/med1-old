@@ -1,0 +1,64 @@
+<h4>Lista das minhas indicações</h4>
+<% if @indicacoes_minhas.present? %>
+	<ol>
+		<% @indicacoes_minhas.each do |indicacao| %>
+		<li>
+			<%= link_to indicacao.user.nome_completo, "#{indicacao.user.url_usuario}" %> indicou o seu perfil em <%=indicacao.created_at.strftime('%d/%m/%Y')%> para:
+			<%= link_to indicacao.profissional.nome_completo, "#{indicacao.profissional.url_usuario}" %>
+				
+		</li>
+		<% end %>
+	</ol>
+<% else %>
+	<div class="alert alert-block">
+		Você ainda não recebeu indicações de outros profissionais
+	</div>	
+<% end %>
+</br>
+
+<h4>Lista de indicações recebidas</h4>
+<% if @indicacoes_recebidas.present? %>
+	<ol>
+		<% @indicacoes_recebidas.each do |indicacao| %>
+		<li>
+			<%= link_to indicacao.user.nome_completo, "#{indicacao.user.url_usuario}" %> indicou o seu perfil em <%=indicacao.created_at.strftime('%d/%m/%Y')%> para:
+				<ul>
+					<% indicacao.users.each do |para_quem| %>
+						<li>
+							<%= link_to para_quem.nome_completo, "#{para_quem.url_usuario}" %>
+						</li>
+					<% end %>
+				</ul>
+		</li>
+		<% end %>
+	</ol>
+<% else %>
+	<div class="alert alert-block">
+		Este usuário não possui indicações
+	</div>	
+<% end %>
+</br>
+
+<h4>Lista de indicações feitas</h4>
+<% if @indicacoes_feitas.present? %>
+	<ol>
+		<% @indicacoes_feitas.each do |indicacao| %>
+		<li>
+			Você indicou <%= link_to indicacao.profissional.nome_completo, "#{indicacao.profissional.url_usuario}" %> em <%=indicacao.created_at.strftime('%d/%m/%Y')%> para:
+			<ul>
+				<% indicacao.users.each do |para_quem| %>
+					<li>
+						<%= link_to para_quem.nome_completo, "#{para_quem.url_usuario}" %>
+					</li>
+				<% end %>
+			</ul>
+		</li>
+		<% end %> 
+	</ol>
+<% else %>
+	<div class="alert alert-block">
+		Você ainda não indicou nenhum profissional. Para indicar, acesse a página do profissional e clique no botão INDICAR PROFISSIONAL. 
+	</div>
+<% end %>
+</br>
+

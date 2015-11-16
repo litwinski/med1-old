@@ -1,0 +1,24 @@
+<% if current_user %>
+	<% unless user == current_user %>
+		<% if current_user.connected_with?(user) && current_user.friend_with?(user) %>
+		<a id="btn_lateral_deixar_amigo" class="btn btn-primary btn-agendar btn-lateral" href="<%=profile_remover_path(:id => user.slug)%>" data-confirm="Deixar amizade?" onclick="bloquearDiv(id);" id="<%= "add_button_#{user.id}" %>" >
+			<%=image_tag('backend/adicionar_amigos.png')%>Deixar amizade
+		</a>
+		<% elsif !current_user.connected_with?(user) %>
+			<a id="btn_lateral_adicionar_amigo" class="btn btn-primary btn-agendar btn-lateral" href="<%=profile_invite_path(:id => user.slug)%>" onclick="bloquearDiv(id);" id="<%= "add_button_#{user.id}" %>" >
+				<%=image_tag('backend/adicionar_amigos.png')%>Adicionar amigo
+			</a>
+		<% end %>
+	<% end %>
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		$("#btn_lateral_deixar_amigo").click(function() {
+			bloquearTela();
+		});
+		$("#btn_lateral_adicionar_amigo").click(function() {
+			bloquearTela();
+		});
+	});
+</script>

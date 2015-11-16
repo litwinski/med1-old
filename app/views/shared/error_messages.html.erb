@@ -1,0 +1,6 @@
+<% if resource.errors.any? %>
+      Erro(s)
+      <% resource.errors.full_messages.each do |msg| %>
+        - <%= msg %>
+      <% end %>
+<% end %>

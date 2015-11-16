@@ -1,0 +1,123 @@
+<div id="agenda_form" class="modal hide fade" style="max-height: 600px">	
+	<div class="modal-header">
+      <a id='fechar_modal' class="close" data-dismiss="modal">×</a>
+      <h3>Agenda</h3>
+    </div>
+    <div class="modal-body">		
+		<%= form_for @agenda, :html => {:class => 'form-stacked'} do |f| %>
+			<div class="row">
+	          <div class="span5">
+	            <div class="clearfix">
+	              <%= f.label :local_atendimento %>
+	              <div class="input">	
+					<%= f.select :local_atendimento_id, LocalAtendimento.find_all_by_user_id(current_user.id).collect{|l| [l.nome, l.id]},:include_blank => 'Escolha o Local' %>
+	              </div>
+	            </div>
+	         </div>
+	        </div>
+			<div class="row">
+              <div class="span5">
+                <div class="clearfix">
+                  <label>Intervalo de Consultas</label>
+                  <div class="input">
+                    <%= f.number_field :tempo_consulta %>
+                  </div>
+                </div>
+             </div>
+	        </div>
+			<div class="row">
+              <div class="span5">
+                <div class="clearfix">
+                  <label>Domingo</label>
+                  <div class="input">
+                    <%= f.text_field :dom_inicio, :style=> "width: 40px;" %>
+					a
+					<%= f.text_field :dom_fim, :style=> "width: 40px;" %>
+                  </div>
+                </div>
+             </div>
+	        </div>
+			<div class="row">
+              <div class="span5">
+                <div class="clearfix">
+                  <label>Segunda</label>
+                  <div class="input">
+                    <%= f.text_field :seg_inicio, :style=> "width: 40px;" %>
+					a
+					<%= f.text_field :seg_fim, :style=> "width: 40px;" %>
+                  </div>
+                </div>
+             </div>
+	        </div>
+			<div class="row">
+              <div class="span5">
+                <div class="clearfix">
+                  <label>Terça</label>
+                  <div class="input">
+                    <%= f.text_field :ter_inicio, :style=> "width: 40px;" %>
+					a
+					<%= f.text_field :ter_fim, :style=> "width: 40px;" %>
+                  </div>
+                </div>
+             </div>
+	        </div>
+			<div class="row">
+              <div class="span5">
+                <div class="clearfix">
+                  <label>Quarta</label>
+                  <div class="input">
+                    <%= f.text_field :qua_inicio, :style=> "width: 40px;" %>
+					a
+					<%= f.text_field :qua_fim, :style=> "width: 40px;" %>
+                  </div>
+                </div>
+             </div>
+	        </div>
+			<div class="row">
+              <div class="span5">
+                <div class="clearfix">
+                  <label>Quinta</label>
+                  <div class="input">
+                    <%= f.text_field :qui_inicio, :style=> "width: 40px;" %>
+					a
+					<%= f.text_field :qui_fim, :style=> "width: 40px;" %>
+                  </div>
+                </div>
+             </div>
+	        </div>
+			<div class="row">
+              <div class="span5">
+                <div class="clearfix">
+                  <label>Sexta</label>
+                  <div class="input">
+                    <%= f.text_field :sex_inicio, :style=> "width: 40px;" %>
+					a
+					<%= f.text_field :sex_fim, :style=> "width: 40px;" %>
+                  </div>
+                </div>
+             </div>
+	        </div>
+			<div class="row">
+              <div class="span5">
+                <div class="clearfix">
+                  <label>Sábado</label>
+                  <div class="input">
+                    <%= f.text_field :sab_inicio, :style=> "width: 40px;" %>
+					a
+					<%= f.text_field :sab_fim, :style=> "width: 40px;" %>
+                  </div>
+                </div>
+             </div>
+	        </div>
+			<%= f.hidden_field :user_id, { :value => current_user.id } %>
+			<div class="modal-footer">
+				<%= f.submit "Salvar", :class => "btn primary", :disable_with => "Aguarde..." %>&nbsp;
+				<button type="reset" id="reset_btn" class="btn" data-dismiss="modal">Cancelar</button>
+			</div>
+		<% end %>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+
+</script>

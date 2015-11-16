@@ -1,0 +1,67 @@
+<h1 style="text-align:center;color:#51517F">Cadastre-se no Med1</h1>
+<br/>
+<div class="row-fluid">
+	<div class="span2"></div>
+	<div class="span4 well" style="background-color:#fff;border:1px solid #D9E1FD">
+		<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+			<%= error_messages_for resource %>
+			<h2 style="color:#51517F;font-size:20px;">Informe seus dados:</h2>
+			<br/>
+			<%= f.text_field :nome, :placeholder => "Nome", :class => "estatico" %>
+			<br/><br/>
+			<%= f.select :pronome_de_tratamento_id, PronomeDeTratamento.all.collect{|t| [t.descricao, t.id]}, :include_blank => 'Como quer ser chamado' %>
+			<br/><br/>
+			<%= f.email_field :email, :placeholder => "E-mail", :class => "estatico" %>
+			<br/><br/>
+			<%= f.password_field :password, :placeholder => "Senha", :class => "estatico"  %>
+			<br/><br/>
+			<%= f.password_field :password_confirmation, :placeholder => "Confirmação de senha", :class => "estatico" %>
+			<br/><br/>
+			<h2 style="color:#51517F;font-size:20px;">Escolha seu perfil:</h2>
+			<br/>
+	    <%= f.radio_button :tipo_usuario_id, "3" %> Sou Paciente
+			<br/>
+	    <%= f.radio_button :tipo_usuario_id, "1" %> Sou Estudante
+			<br/>
+	    <%= f.radio_button :tipo_usuario_id, "2" %> Sou Profissional
+			<br/>
+			<br/>
+			<%= f.select(:profissao_saude_id, ProfissaoSaude.all.collect{|e|["#{e.descricao}",e.id]}, { :prompt => "Escolha sua profissão" }, {:style => "display:none"}) %>
+			<br/><br/>
+			<button class="btn btn-success" style="width:100%;height:40px">Cadastrar agora</button>
+		<% end %>
+	</div>
+	
+	<%=render :partial => 'shared/social_login'%>
+	<div class="span4 well" style="background-color:#fff;border:1px solid #D9E1FD">
+		<p class="estatico" style="font-size:18px;font-weight:bolder;margin-top:8px;">
+			Sou cadastrado!
+			<%= link_to "Entrar agora", new_session_path(resource_name) , :style => "color:#009900" %>
+		</p>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+        $("#user_new").submit( function () {
+            var ok = true;
+            if($("#user_tipo_usuario").val() == "") {
+                alert("Escolha primeiro o seu perfil. Paciente, Estudante ou Profissional.")
+                ok = false;
+            } else if($("#user_tipo_usuario_id").val() == "2") {
+                $("#user_profissao_saude_id").val($("#profissional_tipo option:selected").val());
+            }
+            return ok;
+        });
+				
+		$("#user_tipo_usuario_id_2").change(function(){
+			$("#user_profissao_saude_id").show();
+		});
+		$("#user_tipo_usuario_id_1").change(function(){
+			$("#user_profissao_saude_id").hide();
+		});
+		$("#user_tipo_usuario_id_3").change(function(){
+			$("#user_profissao_saude_id").hide();
+		});
+    });
+</script>

@@ -1,0 +1,188 @@
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" > <!-- Only required for left/right tabs -->
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#meus_creditos" data-toggle="tab">Meus Créditos</a></li>
+			<li><a href="#como_funciona_credito" data-toggle="tab">Como os Créditos Funcionam?</a></li>
+			<li><a href="#comprar" data-toggle="tab">Comprar Créditos</a></li>
+		</ul>
+		
+		<div class="tab-content">
+			<div class="tab-pane active" id="meus_creditos">
+				<%= link_to "#comprar", :class => 'btn btn-success right', :id => "novo_button" do %>
+					<i class="icon-shopping-cart icon-white"></i> Comprar créditos
+				<% end %>
+				<br/><br/>
+				<h3>
+					Você tem um saldo de <%=current_user.saldo%> crédito(s).
+				</h3>
+				<br/><br/>
+				<% if @compras.present? %>
+					<table class="med1">
+						<thead>
+							<tr>
+								<th>Data</th>
+								<th>Valor</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+							<tbody>
+								<% @compras.each do |compra| %>
+									<tr>
+										<td><%= compra.data.strftime("%d/%m/%Y") %></td>
+										<td><%= number_to_currency(compra.valor) %></td>
+										<td><span class="label" style="background: <%= compra.cor %>"><%= compra.estado_humanizado %></span></td>
+									</tr>
+								<% end %>
+							</tbody>
+					</table>
+				<% else %>
+					<div class="row-fluid">
+						<h2 class="alert">Você não possui histórico de compra de créditos.</h2>
+					</div>
+				<% end %>
+			</div>
+			
+			<%= render :partial => 'form_modal_explicacao' %>
+			<div class="tab-pane" id="comprar">
+				<h4 class="central" >Se deseja comprar créditos, o MED1 oferece as seguintes opções de pacotes:
+ 				</h4>
+ 				<h4 class="central">
+ 					<a href="#como_funciona_creditos" data-toggle="modal" id="funciona_creditos" data-controls-modal="como_funciona_creditos" data-backdrop="true" class="central">
+					Clique aqui e veja como funciona.
+					</a>
+ 				</h4>
+				<div style="padding:10px;">
+					<div class="row-fluid">
+						<div class="span4 creditos">
+							<%= form_for @compra, :url => cinco_creditos_compras_path, :remote => true, :method => :post, :html => {:class => "form-horizontal"} do |f|%>
+								<h2>Pacote 1</h2>
+								<h3>5 Créditos</h3>
+								<h4>R$5,00<br/>
+								(R$1,0 por crédito)</h4>
+								<%= f.hidden_field :user_id, :value => current_user.id %>
+								<p>
+									<button class="btn btn-success btn-central" >
+										<i class="icon-shopping-cart icon-white"></i> Comprar Agora
+									</button>
+								</p>
+							<% end %>
+						</div>
+						<div class="span4 creditos">
+							<%= form_for @compra, :url => dez_creditos_compras_path, :remote => true, :method => :post, :html => {:class => "form-horizontal"} do |f|%>
+								<h2>Pacote 2</h2>
+								<h3>10 Créditos</h3>
+								<h4>R$8,50<br/>
+									(R$0,85 por crédito)</h4>
+									<%= f.hidden_field :user_id, :value => current_user.id %>
+									<p>		
+										<button class="btn btn-success btn-central" >
+											<i class="icon-shopping-cart icon-white"></i> Comprar Agora
+										</button>
+									</p>
+								<% end %>
+						</div>
+						<div class="span4 creditos">
+							<%= form_for @compra, :url => vinte_creditos_compras_path, :remote => true, :method => :post, :html => {:class => "form-horizontal"} do |f|%>
+								<h2>Pacote 3</h2>
+								<h3>20 Créditos</h3>
+								<h4>R$15,00<br/>
+									(R$0,75 por crédito)</h4>
+									<%= f.hidden_field :user_id, :value => current_user.id %>
+									<p>		
+										<button class="btn btn-success btn-central" >
+											<i class="icon-shopping-cart icon-white"></i> Comprar Agora
+										</button>
+									</p>
+							<% end %>
+							<div id="div_pagseguro" style="display:none">			
+							</div>
+						</div>
+					</div>
+				</div>
+				<div style="padding:10px;">
+					<div class="row-fluid">
+						<div class="span4 creditos">
+							<%= form_for @compra, :url => outros_creditos_compras_path, :remote => true, :method => :post, :html => {:class => "form-horizontal"} do |f|%>
+								<h2>Pacote 4</h2>
+								<h3>40 Créditos</h3>
+								<h4>R$28,00<br/>
+								(30% de desconto)</h4>
+								<%= f.hidden_field :valor, :value => 40 %>
+								<%= f.hidden_field :user_id, :value => current_user.id %>
+								<p>
+									<button class="btn btn-success btn-central" >
+										<i class="icon-shopping-cart icon-white"></i> Comprar Agora
+									</button>
+								</p>
+							<% end %>
+						</div>
+						<div class="span4 creditos">
+							<%= form_for @compra, :url => outros_creditos_compras_path, :remote => true, :method => :post, :html => {:class => "form-horizontal"} do |f|%>
+								<h2>Pacote 5</h2>
+								<h3>70 Créditos</h3>
+								<h4>R$49,00<br/>
+									(30% de desconto)</h4>
+									<%= f.hidden_field :valor, :value => 70 %>
+									<%= f.hidden_field :user_id, :value => current_user.id %>
+									<p>		
+										<button class="btn btn-success btn-central" >
+											<i class="icon-shopping-cart icon-white"></i> Comprar Agora
+										</button>
+									</p>
+								<% end %>
+						</div>
+						<div class="span4 creditos">
+							<%= form_for @compra, :url => outros_creditos_compras_path, :remote => true, :method => :post, :html => {:class => "form-horizontal"} do |f|%>
+								<h2>Pacote 6</h2>
+								<h3>100 Créditos</h3>
+								<h4>R$70,00<br/>
+									(30% de desconto)</h4>
+									<%= f.hidden_field :valor, :value => 100 %>
+									<%= f.hidden_field :user_id, :value => current_user.id %>
+									<p>		
+										<button class="btn btn-success btn-central" >
+											<i class="icon-shopping-cart icon-white"></i> Comprar Agora
+										</button>
+									</p>
+							<% end %>
+							<div id="div_pagseguro" style="display:none">			
+							</div>
+						</div>
+					</div>
+				</div>
+				<h4 class="central" >Observações:</h4>
+				<h4 class="central" >- O processo para compra de créditos é totalmente seguro, uma vez que é feito por intermédio do PagSeguro. </h4>
+				<h4 class="central" >- Esta transação aparecerá em seu extrato bancário como PagSeguro.</h4><br/>
+			</div>
+			<div class="tab-pane" id="como_funciona_credito">
+				<h4 class="central" >
+					No Med1 você compra créditos para usar o sistema de agendamento de consultas presenciais. Quanto mais créditos comprar, maior é o desconto que você recebe. Enviando a documentação comprobatória profissional você ganha 20 créditos podendo usar o sistema de agendamento e ter 4 consultas agendadas, gratuitamente. Nosso diferencial em relação a outros sistemas de marcação online de consultas presenciais é que no Med1 você não paga uma mensalidade e sim só paga se tiver um agendamento efetivo pelo site. Caso programe férias ou faça uma viagem, seus créditos permanecem inalterados. Além disso, o Med1 contempla a participação ativa de visitantes possibilitando que seus interesses, recomendações, aptidões e publicações sejam encontradas dentro da rede.</br>
+				    </br>
+				    Funciona assim:
+				    </br>
+				    1 – Você envia o documento comprovando seu registro no conselho profissional e ganha 20 créditos para testar gratuitamente o sistema, tendo direito a receber 4 agendamentos de pacientes.</br>
+				    2 – Seus créditos não expiram a cada mês, nem perdem a validade caso você não os utilize.</br>
+				    3 – Caso uma consulta seja marcada, 5 créditos são debitados da sua conta.</br>
+				    4 – Você pode comprar mais créditos quando quiser, de forma segura e rápida pelo nosso sistema.</br>
+				    </br>
+				    Caso seus créditos acabem, nada lhe será cobrado a mais, mas seu sistema de agendamento irá parar de funcionar, sem afetar seus acesso ao restante do Med1. Viu como é fácil? Você só paga se usar e ainda ganha o direito de testar sem pagar!
+				</h4>
+			</div>
+			<div class="tab-pane" id="comprar_outros_valores">
+				<h4 class="central" >Se deseja comprar outros valores de créditos, o MED1 oferece os seguintes valores com desconto de 30%.
+ 				</h4>
+ 				<h4 class="central">
+ 					<a href="#como_funciona_creditos" data-toggle="modal" id="funciona_creditos" data-controls-modal="como_funciona_creditos" data-backdrop="true" class="central">
+					Clique aqui e veja como funciona.
+					</a>
+ 				</h4>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$("#novo_button").bind('click', function(){
+		$('a[href="#comprar"]').tab('show');
+	});
+</script>

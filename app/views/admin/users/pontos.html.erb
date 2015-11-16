@@ -1,0 +1,29 @@
+<div class="panel">
+	<h3>Histórico de Atividades</h3>
+	<div class="panel_contents">
+	  <table border="0" cellspacing="0" cellpadding="0">
+	    <thead>
+	      <tr>
+	        <th class="">ID</th>
+	        <th class="">Atividade</th>
+	        <th class="">Recorrente</th>
+	        <th class="">Ponto</th>
+	        <th class="">Data</th>
+					<th></th>
+	      </tr>
+	    </thead>
+	    <tbody>
+		  <% @user.atividades_users.each_with_index do |au, ix| %>
+		      <tr class="<%= ix.odd? ? 'odd' : 'even' %>" id="order_55">
+		        <td class=""><%= au.id %></td>
+		        <td class=""><%= au.atividade.descricao %></td>
+		        <td class=""><%= au.atividade.recorrente ? "Sim" : "Não" %></td>     
+		        <td class=""><%= au.atividade.ponto %></td>     
+		        <td class=""><%= au.created_at.strftime("%d/%m/%Y") %></td>
+						<td class=""><%= link_to "REMOVER", "" %></td>
+		      </tr>	      
+		  <% end %>
+	    </tbody>
+	  </table>
+	</div>
+</div>

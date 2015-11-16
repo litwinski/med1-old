@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user: 
+  data: 2012-05-08 14:53:49
+  valor: 9.99
+  state: MyString
+  id_transacao_pagseguro: MyString
+  metodo_pagamento_pagseguro: MyString
+  data_transacao_pagseguro: MyString
+
+two:
+  user: 
+  data: 2012-05-08 14:53:49
+  valor: 9.99
+  state: MyString
+  id_transacao_pagseguro: MyString
+  metodo_pagamento_pagseguro: MyString
+  data_transacao_pagseguro: MyString

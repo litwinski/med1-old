@@ -1,0 +1,7 @@
+$("#abuso_observacao").val("");
+$("#denunciar_abuso").modal("hide");
+$('#abuso_mensagem_topico_'+<%= @mensagem_topico.id %>).fadeOut('slow');
+$("#abuso_mensagem_topico_"+<%= @mensagem_topico.id %>).prev().fadeOut('slow');
+$("#abuso_mensagem_topico_"+<%= @mensagem_topico.id %>).fadeOut('slow');
+$("#abuso_mensagem_topico_"+<%= @mensagem_topico.id %>).fadeOut('slow');
+alert("A mensagem foi sinalizada para os administradores e será revisado pela nossa equipe.\n Obrigado!")

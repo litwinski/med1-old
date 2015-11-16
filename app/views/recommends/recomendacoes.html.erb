@@ -1,0 +1,38 @@
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" >
+		<ul class="nav nav-tabs">
+			<li class="active">
+				<a href="#recomendacao" data-toggle="tab">
+				Elogios 
+				<% if @user.profissional?%>
+				desse Profissional
+				<% end %>
+				</a>
+			</li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="recomendacao">
+				<% unless @user == current_user %>
+					<%= form_for Recommend.new, :url => user_recommends_path(@user.id), :html => {:class => 'form-stacked'} do |f| %>
+						<div class="row">
+				          <div class="span5">
+				            <div class="clearfix">
+				              <label>Escreva um elogio</label>
+				              <div class="input">
+				                <%= f.text_area :message, :class => "xxlarge", :rows => "10", :cols => "35", :style => "width: 500px" %></textarea>	
+				              </div>
+				            </div>
+				         </div>
+				        </div>			   		    
+						<%= f.hidden_field :recommendable_id, { :value => @user.id } %>
+						<%= f.hidden_field :recommender_id, { :value => current_user.id } %>
+						<%= link_to "Cancelar", "/profile", :class => "btn btn-danger" %>
+						<%= f.submit "Salvar",:id=>"submit", :class => "btn btn-success", :disable_with => "Salvando..." %>
+					<% end %>
+				<% end %>
+	
+				<%=render :partial => "list_recommend" %>
+			</div>
+		</div>
+	</div>
+</div>

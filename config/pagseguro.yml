@@ -1,0 +1,18 @@
+development: &development
+    authenticity_token: 12B6318097194E81A7FC1C2930D6B954
+    email: pagamento@med1.com.br
+    return_to: "/compras/notificacao"
+  
+
+stage:
+  authenticity_token: 12B6318097194E81A7FC1C2930D6B954
+  email: pagamento@med1.com.br
+  return_to: "/compras/notificacao"
+
+test:
+  <<: *development
+
+production:
+  authenticity_token: 12B6318097194E81A7FC1C2930D6B954
+  email: pagamento@med1.com.br
+  return_to: "/compras/notificacao"

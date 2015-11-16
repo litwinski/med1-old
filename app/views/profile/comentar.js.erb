@@ -1,0 +1,6 @@
+var id = <%= @conteudo.id %>
+//$("<%= escape_javascript(render :partial => 'profile/comentario_amigo', :locals => {:conteudo => @conteudo, :comentarios => @conteudo.comentarios })%>").appendTo("#lista_comentarios_"+id).hide().fadeIn()
+
+$("#lista_comentarios_"+id).html("<%= escape_javascript(render :partial => 'profile/comentario_amigo', :locals => {:conteudo => @conteudo, :comentarios => @conteudo.comentarios })%>").hide().fadeIn()
+$("form:first",'#div_comentarios_'+id)[0].reset();
+

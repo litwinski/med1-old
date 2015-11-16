@@ -1,0 +1,56 @@
+<%@meus_conteudos.each do |conteudo|%>
+	<% if(conteudo.class == Artigo)%>
+		<table id="conteudo_<%= conteudo.id %>">
+			<tr >
+				<td >
+					<ul class="thumbnails" style="height:30px">
+					    <li style="height:30px">
+					    	<a href="#" class="thumbnail">
+					    		<%= avatar(conteudo.user) %>
+					    	</a>
+					    </li>
+				    </ul>
+				</td>	
+				<td class="titulo_atualizacao" ><%= user_name_timeline(conteudo) %></td>
+				<td style="width: 300px;">
+					<div class="span1" style="vertical-align: top; text-align: right; width: 300px;">
+						<%= link_to image_tag("backend/link_symbol.gif", :size => "22x22"), "#conteudo_#{conteudo.id}" %>
+					</div>
+				</td>
+			</tr>
+		</table>
+		<br/>
+		<h3><%=link_to conteudo.titulo, artigo_path(conteudo)%></h3>
+		<p>
+			<%=truncate(strip_tags(conteudo.corpo), :length=>500).chomp.html_safe%> <%=link_to "Continue lendo", artigo_path(conteudo)%>
+		</p>
+		<p>
+			<%=spans_areas(conteudo)%>
+			<%=spans_especialidades(conteudo)%>
+		</p>
+		<hr/>
+	<% else %>	
+			<% display_visible = "none" %>
+			<%=render :partial => "profile/conteudo_#{conteudo.type.downcase}", :locals => {:c => conteudo}%>
+			
+			<%# if conteudo.comentarios.size > 0 %>
+				<% display_visible = "block" %>
+			<%# end %>
+			<br/><br/>
+			<span class="label label-comentario" id="count_comentarios"><%= conteudo.comentarios.size %> COMENTÁRIOS</span>
+			<br/><br/>
+			<div id="div_comentarios_<%= conteudo.id.to_s %>" style="display: <%= display_visible %>">		
+				<span id="lista_comentarios_<%= conteudo.id.to_s %>">
+					<%= render :partial => 'profile/comentario_amigo', :locals => {:conteudo => conteudo, :comentarios => conteudo.comentarios }  %>
+				</span>
+		  </div>
+	<% end %>
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+		<% if params[:conteudo].present? %>
+		    $(window).load(function() {
+				location.href = "#conteudo_<%=params[:conteudo]%>";
+			});
+		<% end %>
+</script>

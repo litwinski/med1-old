@@ -1,0 +1,87 @@
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" >
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#grupos" data-toggle="tab">Meus Grupos</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="grupos">
+				<%= render :partial => "search" %>
+				
+				<% if @grupo_discussoes.present? %>
+				<table class="med1">
+					<thead>
+						<tr>
+							<th style="width: 7%"></th>
+							<th style="text-align: left">Nome</th>
+							<th style="text-align: left">Membros</th>
+							<th style="text-align: left">Tópicos</th>
+							<th style="text-align: left">Função</th>
+							<th style="text-align: left">Ativo</th>
+							<th style="text-align: right;width: 50px;"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @grupo_discussoes.each do |grupo_discussao| %>
+							<% if grupo_discussao.ativo? or grupo_discussao.propietario == current_user %>
+								<tr>
+									<td style="width: 7%">
+										<ul class="thumbnails" style="height:30px">
+									    <li style="height:24px;">
+												<%= link_to grupo_discussao, :class => "thumbnail" do %>
+													<% if grupo_discussao.avatar.url(:mini) %>
+														<%=image_tag(grupo_discussao.avatar.url(:mini,false), :size => "30x30") %>
+													<% else %>
+														<%=image_tag("avatar_grupo.gif", :size => "30x30") %>
+													<% end%>
+									    	<% end %>
+									    </li>
+								    </ul>
+									</td>
+									<td style="text-align: left">
+										<%= link_to grupo_discussao.nome.truncate(60), grupo_discussao %>
+									</td>
+									<td style="text-align: center">
+										<% if grupo_discussao.ativo? %>
+										<%= link_to "#{grupo_discussao.convidados_grupo_discussoes.count} (ver)", membros_grupo_discussao_path(grupo_discussao), title: "Ver membros do grupo" %>
+										<% else %>
+											<%= grupo_discussao.convidados_grupo_discussoes.count %>
+										<% end %>
+									</td>
+									<td style="text-align: center"><%= grupo_discussao.topicos.count %></td>
+									<td style="text-align: left"><%= grupo_discussao.funcao(current_user) %></td>
+									<td style="text-align: center"><%= (grupo_discussao.ativo ? "Sim" : "Não") %></td>
+									<td style="text-align: left">
+										<% if(can? :update, grupo_discussao )%>	
+											<%= link_to edit_grupo_discussao_path(grupo_discussao) do %>
+												<%=image_tag('backend/edit.png')%>
+											<% end %>
+										<% end %>
+
+										<% if(can? :destroy, grupo_discussao) %>
+										<%= link_to grupo_discussao, confirm: 'Você irá apagar este grupo, tem certeza?', method: :delete, title: "Excluir grupo" do %>
+												<%=image_tag('backend/delete.png')%>
+											<% end %>
+										<% end %>
+										
+										<% unless grupo_discussao.propietario == current_user %>
+											<%= link_to remover_convidado_grupo_discussao_path(grupo_discussao, current_user.slug), :method => "delete", :confirm => 'Você tem certeza que deseja sair do grupo?', title: "Deixar grupo" do %>
+												<%=image_tag('deixar_grupo.png')%>
+											<% end %>
+										<% end %>
+									</td>
+								</tr>
+							<% end %>
+						<% end %>
+					</tbody>
+				</table>
+				<br/>
+				<% else %>
+				<div class="alert alert-block">
+					<h4>Você não está participando de nenhum grupo</h4>
+				</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
+

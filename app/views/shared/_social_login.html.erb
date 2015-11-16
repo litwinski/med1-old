@@ -1,0 +1,20 @@
+<div class="span4 well" style="background-color:#fff;border:1px solid #D9E1FD">
+	<h2 style="color:#51517F;font-size:20px;">Se preferir, você pode:</h2>
+	<%= link_to user_omniauth_authorize_path(:facebook) do %>
+		<%=image_tag('frontend/conectar_facebook.png' , class: "conectar")%>
+	<% end %>
+	
+	<%= link_to user_omniauth_authorize_path(:twitter) do %>
+		<%=image_tag('frontend/conectar_twitter.png', class: "conectar")%>
+	<% end %>
+	
+	<%= link_to user_omniauth_authorize_path(:google) do %>
+		<%=image_tag('frontend/conectar_google_plus.png', class: "conectar")%>
+	<% end %>
+		
+	<%= render :partial => "shared/openid" %>
+	<%= link_to "#openid_form", id: "login_openid", "data-toggle" => 'modal' do %>
+		<%=image_tag('frontend/conectar_open_id.png', class: "conectar", style: "padding-bottom:8px")%></a>
+	<% end %>
+</div>
+<div class="span2"></div>

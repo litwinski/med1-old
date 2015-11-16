@@ -1,0 +1,101 @@
+<div class="row">
+	<div class="span10" style="width:759px">
+		<div class="row-fluid" >
+			
+
+			<%= form_tag("/") do %>
+				<h2><%=@title%></h2>
+				<input type="text" style="width: 99%; height: 40px; font-size: 18px; " id="search_tema" placeholder="Comece a digitar para ver as opções"></input>		
+			<% end %>
+
+			<%=render :partial => 'shared/top10'%>
+		</div>
+	
+
+		<div class="well container-central">
+			
+			<%artigo = Artigo.capa.visiveis.limit(1).first%>
+
+			<% if artigo
+				%>
+				<%=link_to image_tag(artigo.banner.top.url,:width => '721px', :height => '130px'), artigo_path(artigo)%>
+				<!-- <img src="http://placehold.it/721x130"></img> -->
+				<h2 class="explorar"><%=link_to artigo.titulo_top, artigo_path(artigo)%></h2>
+				<p>
+					<%=truncate(strip_tags(artigo.chamada_top), :length=>500).chomp.html_safe%><%#=artigo.chamada_destaque_1%> <strong>Por <%=link_to artigo.user.nome_completo, "profissionais/#{artigo.user.slug}"%></strong>
+				</p>
+
+			<% end %>
+		</div>
+		<div class="row-fluid">
+			<%Artigo.capa.visiveis.limit(2).offset(1).each_slice(2) do |left,right|%>
+				<%=render :partial => 'shared/chamadas/artigos_row_2_pg', 
+					:locals => {:left => left, :right => right}%>
+			<% end %>
+		</div>
+	</div>
+	<div class="span2">
+		<% banner = BannerPropaganda.find_by_posicao("E") %>
+		<% if banner.present? %>
+			<div class="banner-vertical">
+				<div class="row-fluid">
+					<%= content_tag("iframe", nil , :scrolling => "no", :frameborder => 0 , :width => 160, :height => 600, :src => banner.url) %>
+				</div>
+			</div>
+		<% end %>
+	</div>
+</div>
+<div class="row-fluid">
+<div class="span12 well container-central">
+	<h2 class="explorar">Artigos por especialidade 
+		<%= select_tag "artigos_especialidade", options_from_collection_for_select(@especialidades, "descricao", "descricao_camelcase"), :prompt => "Selecione a Especialidade", :class => "right", :style => 'background-color:#515181;color:#F9FAFE' %>
+	</h2>
+	<div class="row-fluid" id="resultados_artigos" style="overflow: hidden;">
+		<%= render :partial => 'resultado_artigos_especialidade', :collection => @artigos, :as => :artigo %>
+	</div>
+</div>
+	<%=render :partial => 'shared/atualizacoes_recentes', :locals => {:explorar => true}%>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+		$('#search_tema').autocomplete({
+		    source: "<%= @source_db %>",
+			focus: function( event, ui ) {
+				$("#search_tema").val(ui.item.name);
+				return false;
+			},
+			search: function( event, ui) {
+				$('#search_tema').addClass("loading-busca");
+			},
+			select: function( event, ui ) {
+				if(ui.item.slug == "#"){
+					$("#search_tema").val("");
+					return false;
+				}
+				$("#search_tema").val(ui.item.name);
+				window.location = '<%= "#{@link}/" %>' + ui.item.slug;
+				return false;
+			}
+			}).data("autocomplete")._renderItem = function(ul, item) {
+			        $('#search_tema').removeClass("loading-busca");
+			        return $("<li></li>")
+			            .data("item.autocomplete", item)
+			            .append("<a><span style='margin-left: 10px;'>" + item.name + "</span></a>")
+			            .appendTo(ul);
+			}
+		$("#search_tema").keypress(function(event) {
+			 if ( event.which == 13 ) {
+			    event.preventDefault();
+			  }
+		});          
+	});	
+	$("#artigos_especialidade").change(function(){
+		bloquearTela();
+		if(this.value == ""){
+			$.get("/explorar_artigos/0").complete(function(){ $.unblockUI(); });
+		}else{
+			$.get("/explorar_artigos/" + this.value).complete(function(){ $.unblockUI(); });
+		}
+	});
+</script>

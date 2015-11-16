@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  grupo_discussao: 
+  convidado_id: 1
+  convocador_id: 1
+
+two:
+  grupo_discussao: 
+  convidado_id: 1
+  convocador_id: 1

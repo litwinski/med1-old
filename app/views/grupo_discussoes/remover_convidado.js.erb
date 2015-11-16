@@ -1,0 +1,16 @@
+<% if(@grupo_discussao.propietario?(current_user)) %>
+	$("#flash-messages").html("<div class='alert-message success'>Removido membro com sucesso.</div>");
+	$("#mini_profile_row_<%= @user.id %>").remove();
+<% elsif(!@grupo_discussao.existo_no_grupo?(current_user)) %>
+	<% flash[:notice] = "Você acabou de deixar o grupo." %>
+	window.location = "<%= grupo_discussoes_path %>";
+<% else %>
+	$("#flash-messages").html("<div class='alert-message error'>Você não possui permissão para apagar outros usuários.</div>");
+<% end %>
+
+$("#meus_amigos").html(
+	"<%= j render(:partial => "ticket_user", :locals => {
+		:titulo => "Meus amigos",
+		:resources => @amigos,
+		:link_operacao => lambda { |user| link_to("Convidar" , convidar_grupo_discussao_path(@grupo_discussao, user.id), :class => "btn mini success", :id=>"add_button_#{user.id}", :remote => true, :onclick=>"bloquearDiv(id);", :method => "post") }
+	})%>");

@@ -1,0 +1,5 @@
+
+<% unless @compra.errors.present? %>
+	$('#div_pagseguro').html("<%=j (pagseguro_form @order, :submit => 'Comprar')%>");
+	$('.pagseguro').submit();
+<% end %>

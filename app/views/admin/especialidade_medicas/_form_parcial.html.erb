@@ -1,0 +1,15 @@
+<%= semantic_form_for [:admin, @especialidade_medica]  do |f| %>
+
+	<%= f.inputs "Especialidade" do %>
+	  <%= f.input :descricao %>
+	  <%= f.input :slug %>
+	  <%= f.input :profissao_saude, :as => :select, :label_method => :descricao %>
+	  <% if f.object.badge.present? %>
+	    <%= f.input :badge, :as => :file, :hint => f.template.image_tag(f.object.badge) %>
+	  <% else %>
+		<%= f.input :badge, :as => :file %>
+	  <% end %>
+	<% end %>
+	
+	<%= f.buttons %>	
+<% end %>

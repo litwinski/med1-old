@@ -1,0 +1,119 @@
+/**********************************
+TABELA 1
+**********************************/
+#wrapper_1 {
+	width: 640px;
+	font-family: arial, sans-serif;
+	font-size: 14px;
+}
+
+#wrapper_1 table tr {
+	text-align: center;
+}
+
+#wrapper_1 table th {
+	font-weight: bold;
+	background-color: #F1F3FE;
+	padding: 10px 0;
+	margin: 0 10px;
+}
+
+#wrapper_1 table img {
+	border: 0;
+}
+
+#wrapper_1 table th span {
+	font-weight: normal;
+	font-size: 12px;
+}
+
+#wrapper_1 table td {
+	border-bottom: 1px solid #D9E1FD;
+	padding: 8px 0;
+}
+
+/**********************************
+TABELA 2
+**********************************/
+#wrapper_2 {
+	width: 640px;
+	font-family: arial, sans-serif;
+	font-size: 14px;
+}
+
+#wrapper_2 div {
+	float: left;
+}
+
+#wrapper_2 #tabela_consultas {
+	width: 560px;
+}
+
+#wrapper_2 div.seta {
+	width: 40px;
+	text-align: center;
+	height: 52px;
+	background-color: #F1F3FE;
+}
+
+#wrapper_2 table tr {
+	text-align: center;
+}
+
+#wrapper_2 table th {
+	font-weight: bold;
+	background-color: #F1F3FE;
+	padding: 10px 0;
+	margin: 0 10px;
+}
+
+#wrapper_2 table th span {
+	font-weight: normal;
+	font-size: 12px;
+}
+
+#wrapper_2 table td {
+	border-bottom: 1px solid #D9E1FD;
+	padding: 8px 0;
+}
+
+#wrapper_2 div.seta img {
+	padding: 20px 0 0 0;
+}
+
+/**********************************
+TABELA 3
+**********************************/
+#wrapper_3 {
+	width: 640px;
+	font-family: arial, sans-serif;
+	font-size: 14px;
+}
+
+#wrapper_3 .tbl_variavel tr {
+	text-align: center;
+}
+
+#wrapper_3 .tbl_variavel th {
+	font-weight: bold;
+	background-color: #F1F3FE;
+	padding: 10px 0;
+}
+
+#wrapper_3 .tbl_variavel th span {
+	font-weight: normal;
+	font-size: 12px;
+}
+
+#wrapper_3 .tbl_variavel td {
+	border-bottom: 1px solid #D9E1FD;
+	padding: 8px 0;
+}
+
+#wrapper_3 table.tbl_hack tr.hack {
+	height: 33px;
+}
+
+#wrapper_3 .tbl_hack .hack td {
+	border-bottom: 1px solid #D9E1FD;;
+}

@@ -1,0 +1,47 @@
+<div id="main_content">
+	<div class="panel">
+		<h3>Abuso</h3>
+        <div class="panel_contents">
+        	<div class="attributes_table agencia">
+				<table cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+						    <%= render :partial => 'shared/tb_linha',
+						               :locals => {:valor => @abuso.id, :label => "ID"} %>
+							<%= render :partial => 'shared/tb_linha',
+							           :locals => {:valor => @abuso.user.nome, :label => "Denunciante"} %>
+							<%= render :partial => 'shared/tb_linha',
+							           :locals => {:valor => @abuso.aprovado, :label => "Aprovado"} %>
+							<% if @abuso.conteudo.present? %>
+								<%= render :partial => 'shared/tb_linha',
+								           :locals => {:valor => @abuso.conteudo.user.nome, :label => "Denunciado"} %>
+								<%= render :partial => 'shared/tb_linha_conteudo',
+								           :locals => {:valor => @abuso.conteudo, :label => "Conteudo"} %>
+							<% elsif @abuso.artigo.present? %>
+								<%= render :partial => 'shared/tb_linha',
+								           :locals => {:valor => @abuso.artigo.user.nome, :label => "Denunciado"} %>
+								<%= render :partial => 'shared/tb_linha_conteudo',
+								           :locals => {:valor => @abuso.artigo, :label => "Artigo"} %>
+							<% elsif @abuso.mensagem_topico.present? %>
+								<%= render :partial => 'shared/tb_linha',
+								           :locals => {:valor => @abuso.mensagem_topico.user.nome, :label => "Denunciado"} %>
+								<%= render :partial => 'shared/tb_linha_conteudo',
+								           :locals => {:valor => @abuso.mensagem_topico.mensagem, :label => "Mensagem Topico"} %>
+							<% elsif @abuso.comment.present? %>
+								<%= render :partial => 'shared/tb_linha',
+								           :locals => {:valor => @abuso.comment.user.nome, :label => "Denunciado"} %>
+								<%= render :partial => 'shared/tb_linha_conteudo',
+								           :locals => {:valor => @abuso.comment.body, :label => "Comentário"} %>
+							<% end %>
+							<%= render :partial => 'shared/tb_linha',
+							           :locals => {:valor => @abuso.observacao, :label => "Observação"} %>
+							
+							
+                  	</tbody>
+				</table>
+             </div>
+         </div>
+     </div>
+
+	 
+</div>
+

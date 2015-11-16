@@ -1,0 +1,10 @@
+<div class="well container-central">
+		<%=link_to(image_tag(artigo.banner.top.url, :width => '721px', :height => '130px'), artigo_path(artigo)) if artigo.banner.present? && artigo.banner.top.present? %>
+		<h2 class="explorar"><%=link_to artigo.titulo_top, artigo_path(artigo)%></h2>
+		<p>
+			<%=truncate(strip_tags(artigo.corpo), :length=>500).chomp.html_safe%> <strong>Por <%=link_to artigo.user.nome_completo, "profissionais/#{artigo.user.slug}"%></strong>
+		</p>
+		<%=spans_especialidades(artigo)%>
+		<%=spans_areas(artigo)%>
+		<%=spans_temas(artigo)%>
+</div>

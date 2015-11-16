@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  titulo: MyString
+  corpo: MyText
+  slug: MyString
+  state: MyString
+  titulo_destaque_1: MyString
+  chamada_destaque_1: MyString
+  titulo_destaque_2: MyString
+  chamada_destaque_2: MyString
+  titulo_destaque_3: MyString
+
+two:
+  titulo: MyString
+  corpo: MyText
+  slug: MyString
+  state: MyString
+  titulo_destaque_1: MyString
+  chamada_destaque_1: MyString
+  titulo_destaque_2: MyString
+  chamada_destaque_2: MyString
+  titulo_destaque_3: MyString

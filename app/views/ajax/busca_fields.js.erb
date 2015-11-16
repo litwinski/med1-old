@@ -1,0 +1,18 @@
+var opt = ''; 
+<% @fields.each do |field| %>
+	opt += "<option value=<%= field %>><%= field %></option>";
+<% end %>
+
+$('select[prefix^="campo"]').html(opt).show();
+
+opt = '';
+<% @relations.each do |relation| %>
+	opt += "<option value=<%= relation %>><%= relation %></option>";
+<% end %>
+
+<% if @relations.present? %>
+	$("#atividade_regra_attributes_ator_input").show();
+	$("#atividade_regra_attributes_ator").html(opt).show();
+<% else %>
+	$("#atividade_regra_attributes_ator_input").hide();
+<% end %>

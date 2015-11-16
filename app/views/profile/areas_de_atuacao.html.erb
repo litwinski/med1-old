@@ -1,0 +1,49 @@
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" >
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#area" data-toggle="tab">Áreas de Atuação</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="area">
+				<%=render :partial => 'shared/label_choice' , 
+						  	:locals => {
+						  	:title => 'Áreas de Atuação',
+						  	:hint => 'Escolha suas áreas de atuação',
+							:data => current_user.area_atuacoes.representacao("descricao"),
+							:namespace => 'area_de_atuacao', #Para isolar os ids desse componente
+							:url => '/profile/areas_de_atuacao',
+							:url_return => "/label/areas_de_atuacao.json",
+							:js_callback => '',
+							:limit => 0
+						  } %>
+							
+							<%= hidden_field_tag :permissao_area %>
+							<div class="row-fluid">
+								<p><%= render :partial => "permissao", :locals => {:selected_field => current_user.permissao_area, :namespace => "area"} %></p>
+							</div>
+							<div class="form-actions">
+								<a href='/profile/especialidades_medicas' class='btn btn-primary btn-central-preto navegacao'>Próxima Etapa</a>
+							</div>
+				
+			</div>
+		</div>
+	</div>
+</div>	
+
+<script type="text/javascript" charset="utf-8">
+	// $("#label_choice_panel").append("<hr><br/><a href='/profile/especialidades_medicas' class='btn success navegacao'>Próxima Etapa</a>");
+	// $("#label_choice_panel").append("<%= j hidden_field_tag :permissao_area %>");
+	// $("#label_choice_panel").append('<%= j render :partial => "permissao", :locals => {:selected_field => current_user.permissao_area, :namespace => "area"} %>')
+	$("#ul_area").css("float", "left");
+	
+	$('a[id^="item_area"]').click(function(){
+		bloquearTela();
+		$.ajax({
+		  url: "/ajax/salvar_permissao?permissao_area=" + $(this).attr("chave"),
+		  context : this,
+		  success: function(){			
+			$.unblockUI();
+		  }
+		});
+	})
+</script>

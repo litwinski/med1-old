@@ -1,0 +1,13 @@
+<%= javascript_include_tag "/javascripts/ckeditor/ckeditor.js" %>
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" >
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#newartigo" data-toggle="tab">Novo Artigo</a></li>
+		</ul>
+		<div class="tab-content tab_content_ckeditor">
+			<div class="tab-pane active" id="newartigo">
+				<%=render :partial => 'form'%>
+			</div>
+		</div>
+	</div>
+</div>

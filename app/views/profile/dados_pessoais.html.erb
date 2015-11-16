@@ -1,0 +1,218 @@
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" > <!-- Only required for left/right tabs -->
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#dados" data-toggle="tab">Dados Pessoais</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="dados">
+				<%= form_for @user, :url => profile_update_dados_pessoais_path,  :html => {:multipart => true, :class => 'form-stacked'} do |f| %>
+				<%= error_messages_for(@user) %>
+				
+				<div class="row">
+					<div class="span5">
+						<div class="clearfix">
+							<%= f.label :pronome_de_tratamento_id %>
+							<div class="input">	
+								<%= f.select :pronome_de_tratamento_id, PronomeDeTratamento.all.collect{|t| [t.descricao, t.id]},:include_blank => 'Como quer ser chamado' %>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="span5">
+						<div class="clearfix">
+							<%= f.label :nome %>
+							<div class="input">	
+								<%= f.text_field :nome  %>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="span5">
+						<div class="clearfix">
+							<%= f.label :email %>
+							<div class="input">	
+								<%= f.text_field :email  %>
+								<%= f.hidden_field :permissao_email %>
+								<%= render :partial => "permissao", :locals => {:selected_field => f.object.permissao_email, :namespace => "email"} %>
+							</div>
+						</div>
+					</div>
+				</div>
+				<% if f.object.profissional? %>
+				<div class="row">
+					<div class="span5">
+						<div class="clearfix">
+							<label for="user_profissao_saude">Profissão da saúde</label>
+							<div class="input">	
+								<%= f.select :profissao_saude_id, ProfissaoSaude.all.collect{|t| [t.descricao, t.id]} %>
+								<%= f.hidden_field :permissao_profissao %>
+								<%= render :partial => "permissao", :locals => {:selected_field => f.object.permissao_profissao, :namespace => "profissao"} %>
+							</div>				
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="span5">
+						<div class="clearfix">
+							<label for="user_crm">Número documento conselho</label>
+							<div class="input">	
+								<%= f.number_field :crm, :maxlength => 8  %>
+								<%= f.hidden_field :permissao_numero_conselho %>
+								<%= render :partial => "permissao", :locals => {:selected_field => f.object.permissao_numero_conselho, :namespace => "numero_conselho"} %>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="span5">
+						<div class="clearfix">
+							<label>Estado conselho</label>
+							<div class="input">
+								<%= f.collection_select(:estado_conselho_id, Estado.all, :id, :nome, { :selected => @user.estado_conselho_id, :prompt => "Selecione o Estado"})  %>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="span5">
+						<div class="clearfix">
+							<%= f.label :documento %>
+							<div class="input">	
+								<%= f.file_field :documento %>
+								<% if @user.documento.present? and @user.conselho_valido%>
+									<a class="label" id="saiba_mais_documento" rel="popover" data-content="Seu documento já foi enviado e aprovado pelo Med1." data-original-title="Atenção!" style="text-decoration:none;margin-left:90px">Saiba mais</a>
+								<% elsif @user.documento.present? %>
+									<a class="label" id="saiba_mais_documento" rel="popover" data-content="Seu documento já foi enviado mais ainda está em análise. Aguarde a aprovação do Med1 ou envie um novo documento." data-original-title="Atenção!" style="text-decoration:none;margin-left:90px">Saiba mais</a>
+								<% else %>
+									<a class="label" id="saiba_mais_documento" rel="popover" data-content="Seu documento ainda não foi enviado, favor enviar o documento que comprove o seu Conselho." data-original-title="Atenção!" style="text-decoration:none;margin-left:90px">Saiba mais</a>
+								<% end %>
+							</div>					  
+						</div>
+					</div>
+				</div>
+				<% end %>
+				<div class="row">
+					<div class="span5">
+						<div class="clearfix">
+							<%= f.label :data_nascimento %>
+							<div class="input">	
+								<%= render :partial => "permissao", :locals => {:selected_field => f.object.permissao_data_nascimento, :namespace => "data_nascimento"} %>
+								<%= f.text_field :data_nascimento, :value => formata_data(@user.data_nascimento)  %>
+								<%= f.hidden_field :permissao_data_nascimento %>
+							</div>					  
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="span5">
+						<div class="clearfix">
+							<%= f.label :sexo %>
+							<div class="input">
+								<%= render :partial => "permissao", :locals => {:selected_field => f.object.permissao_sexo, :namespace => "sexo"} %>
+								<%= f.select :sexo, [['Feminino','feminino'], ['Masculino','masculino']], {:prompt => 'Escolha' , :id => 'sexo', :class => 'datetime_select' } %>
+								<%= f.hidden_field :permissao_sexo %>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="span5">
+						<div class="clearfix">
+							<label>Estado</label>
+							<div class="input">			             
+								<% if @user.cidade_id %>
+								<%= collection_select(:estado, :id, Estado.all, :id, :nome, {:id => "estado_id", :selected => @user.cidade.estado.id})  %> 				
+								<% else %>
+								<%= select_tag "estado", options_from_collection_for_select(Estado.all, "id", "nome"), :id => "estado_id", :prompt => "Selecione o Estado" %>
+								<p id="estado_erro" class="inline-errors" style="display: none;">Informe a estado.</p>
+								<% end %>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="span5">
+						<div class="clearfix">
+							<%= f.label :cidade %>
+							<div class="input">	
+								<%= render :partial => "permissao", :locals => {:selected_field => f.object.permissao_cidade, :namespace => "cidade"} %>
+								<% if @user.cidade_id %>
+									<%= collection_select(:city, :id, Cidade.busca_cidades_por_estado(@user.cidade.estado.id), :id, :nome, {:id => "stateId", :selected => @user.cidade_id})  %> 	
+								<% else %>
+									<select id="city_id">
+										<option value="">-- Escolha uma cidade --</option>
+									</select>
+									<% if !f.object.errors[:cidade_id].blank?  %>
+										<p class="inline-errors">Informe a ciadde</p>
+									<% end %>
+								<% end %>
+								<%= loading("loadingCityImg") %>
+								<%= f.hidden_field :permissao_cidade %>
+							</div>
+						</div>
+					</div>
+				</div>
+				<%= f.hidden_field :cidade_id %>	
+				<%= f.hidden_field :id, :value =>current_user.id %>	
+				<%= hidden_field_tag :vai_avancar %>	
+				<div class="form-actions">
+					<%= link_to "Cancelar", "/profile", :class => "btn btn-danger" %>
+					<%= f.submit "Salvar", :class => "btn btn-success", :disable_with => "Salvando..." %>
+					<%= f.submit "Próxima Etapa", :id=> "avancar", :class => "btn btn-primary btn-central-preto navegacao" %>
+				</div>
+				<% end %>
+					
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript" charset="utf-8">
+	$('#estado_id').change(function(){				
+		if( $(this).val() ) {
+			$('#loadingCityImg').show();
+			$.getJSON('/ajax/busca_cidades?estado_id=' + this.value,{
+				format: "json"
+			}, function(data){
+				var options = '';    						
+				for (var i = 0; i < data.length; i++) {
+					options += '<option value="'+data[i].id+'">' + data[i].nome + '</option>';
+				}    	                
+				$('#city_id').html(options).show();
+				$('#loadingCityImg').hide();
+			});				
+		} else {
+			$('#city_id').html('<option value="">-- Escolha uma cidade --</option>');
+		}
+		
+	});
+	
+	$("#avancar").click(function(){
+		$("#vai_avancar").val("true");
+	});
+	
+	$('#city_id').change(function(){
+		$('#user_cidade_id').val($(this).val())
+	});
+	
+	$("#user_data_nascimento").mask("99/99/9999");
+	$('#user_data_nascimento').RaRoRailsDatePicker({'model': 'user', 'field_name':'data_nascimento'}).attr('name', '');
+	
+	//Ao carregar a pagina esconde todo mundo
+	// TODO - Cache JS dos tipos de usuarios, tirar o 2 hardcoded
+	// 2 - Profissional da Saude
+	$(document).ready(function() {
+		if($('#user_tipo_usuario_id').val() == 2) {
+			$("#div_crm").show();
+		}
+	
+	});
+
+	$("#saiba_mais_documento").popover({ html : true});
+	
+</script>

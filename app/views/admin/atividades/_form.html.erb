@@ -1,0 +1,32 @@
+<script type="text/javascript" charset="utf-8">
+	function find_fields(param){
+		return $.ajax({ url: "/ajax/busca_fields?klass=" + param });
+	}
+</script>
+
+<%= semantic_form_for [:admin, @atividade]  do |f| %>
+	<%= f.inputs "Atividade" do %>
+	  <%= f.input :tipo_usuario, :as => :select, :collection => TipoUsuario.all, :label_method => :descricao  %>
+	  <%= f.input :ponto, :hint => 'Quantos pontos vale esta atividade' %>
+	  <%= f.input :descricao %>
+	<% end %>
+		<%= f.inputs "Regras" do %>
+			<%= f.semantic_fields_for :regras, [@atividade.regras.first || @atividade.regras.build] do |r| %>
+				<%= r.input :klass, :as => :select, :collection => Regra.klasses %>
+				<%= r.input :gatilho, :as => :select, :collection => Regra.gatilhos %>
+				<%= r.input :campo, :as => :select, :collection => Regra.campos(r.object.klass) %>
+				<%= r.input :operador, :as => :select, :collection => Regra::OPERADORES %>
+				<%= r.input :valor, :hint => 'Valor que irá satisfazer a condição do campo.' %>
+				<%= r.input :ator, :label => "Quem vai receber pts?", :as => :select, :collection => Regra.atores(r.object.klass) %>
+			<% end %>
+		<% end %>
+	<%= f.buttons %>	
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		$("#atividade_regras_attributes_0_klass").change(function(){
+			find_fields(this.value);
+		});
+	});	
+</script>

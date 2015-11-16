@@ -1,0 +1,36 @@
+
+<%= content_for(:meta) do %>
+	Artigos sobre <%=@title%>
+<% end %>
+
+<%= content_for(:keywords) do %>
+	<%=@title%>
+<% end %>
+
+<div class="row-fluid">
+	<div class="span10">
+		<h2>Artigos sobre <%=@title%></h2>
+			<div id="artigos">	
+				<% if @artigos.size > 0  %>
+					<%=render :partial => 'shared/artigo_linha', :collection => @artigos, :as => :artigo %>
+					<%= will_paginate @artigos %>
+				<% else %>
+					<div class="well container-central" style="height: auto;">
+						<div class="alert block-message">
+							<strong>Atenção!</strong><br/><br/>
+							<h4>Não encontramos nenhum artigo sobre esse tema.
+							<%if current_user and current_user.profissional?%>
+								Que tal escrever um artigo para aparecer aqui? <%=link_to 'Basta clicar aqui', new_artigo_path%>
+							<% end %>
+							</h4>
+						</div>
+					</div>
+				<% end %>
+			</div>
+	</div>
+	
+	<div class="span2">
+		
+	</div>
+</div>
+

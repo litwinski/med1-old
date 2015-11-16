@@ -1,0 +1,71 @@
+<p class="estatico">Estamos esperando seu contato! Envie suas críticas, dúvidas ou sugestões e ajude-nos a oferecer um serviço cada vez melhor.</p>
+<% if flash[:notice] %>
+	<div class="alert-message block-message success"><%= flash[:notice] %></div>
+	</br>
+<% end %>
+<%= form_for FaleConosco.new, :url => {:action => "enviar_fale_conosco"}, :html => {class: 'form-stacked',:id => 'contato_form'}  do |f| %>
+	<div class="row-fluid">
+		<div class="span6">
+			<%= f.text_field :nome, :class => "estatico", :placeholder => "nome:" %>
+		</div>
+		<div class="span6" id="estatico_select">
+			<%= f.select :tipo_contato,  TipoUsuario.all.collect{|t| t.descricao}, :include_blank => 'Escolha seu perfil'%>	            
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div class="span6">
+			<%= f.text_field :email, :class => "estatico", :placeholder => "email:" %>
+		</div>
+		<div class="span6" id="estatico_select">
+			<%= f.select :motivo,  %w{Dúvida Problema Sugestão Outros}, :include_blank => 'Escolher assunto' %>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div class="span12">
+			<%= f.text_area :mensagem, :style => "width:683px;height:200px;color:#515180;", :rows => "10", :placeholder => "sua mensagem:" %>
+		</div>	
+	</div>
+	<div class="row-fluid">
+		<div class="span12">
+			<%= f.submit "Enviar", :class => "btn btn-success", :style => "height:40px", :disable_with => "Enviando...." %>
+		</div>	
+	</div>
+<% end %>
+<br/>
+<br/>
+
+<script type="text/javascript" charset="utf-8">
+	$("#contato_form").submit(function(){
+		msg = "";
+		if($("#fale_conosco_nome").val().trim() == ""){
+			erro = true;
+			msg += "Informe o seu nome.\n"			
+		}
+		if($("#fale_conosco_email").val().trim() == "") {
+			erro = true;
+			msg += "Informe o seu email.\n"			
+		}
+		if($("#fale_conosco_mensagem").val().trim() == ""){
+			erro = true;
+			msg += "Informe a mensagem.\n"			
+		}
+		if(msg != "") {
+			alert(msg)
+			return false;
+		} else {
+			return true;
+		}
+		
+	});
+
+</script>
+
+
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		RemoverClass();
+		AdicionarClass("contatos");
+	});
+
+</script>

@@ -1,0 +1,144 @@
+<%= javascript_include_tag "/javascripts/ckeditor/ckeditor.js" %>
+
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" >
+		<ul class="nav nav-tabs">
+			<li><%= link_to 'Todos Tópicos', @grupo_discussao %></li>
+			<li class="active"><a href="#topico" data-toggle="tab"><%= @topico.nome.truncate(30) %></a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="topico">
+				<% if @topico.mensagem_topicos.present? %>
+				<% @topico.mensagem_topicos.where("id is not null").each do |mt| %>
+						<div id="abuso_mensagem_topico_<%= mt.id %>">
+							<table class="med1">
+								<tr>
+									<td>
+										<% if mt.user.avatar.present? && mt.user.avatar.url(:mini) %>
+											<%=image_tag(mt.user.avatar.url(:mini,false), :size => "30x30", :class=>"thumbnail") %>
+										<% else %>
+											<%= image_tag('avatar.png', :size => "30x30", :class=>"thumbnail") %>
+										<% end%>
+									</td>
+									<td>
+										Por <%= mt.user.nome_completo %> - postado em <%= l(mt.updated_at, :format => :master_long) if mt.updated_at %>
+									</td>
+									<td><%= render :partial => "/profile/form_abuso", :locals => {:url => grupo_discussao_topico_mensagem_topicos_abuso_path(@grupo_discussao, @topico)} %>
+									
+										<% if mt.user == current_user %>
+											<%= link_to [@grupo_discussao, @topico, mt], :confirm => "Tem certeza que deseja apagar a mensagem?", :method => :delete, :title => "Excluir mensagem" do %>
+												<%=image_tag('backend/delete.png')%>
+											<% end %>
+										<% end %>
+										
+										<% unless mt.user == current_user %>
+											<a href="#denunciar_abuso" data-toggle="modal" id="abuso_mensagem_topico_<%= mt.id %>" data-controls-modal="denunciar_abuso" data-backdrop="true" title="Denunciar abuso">
+												<i class="icon-ban-circle"></i>
+											</a>
+										<% end %>
+									</td>
+								</tr>
+							</table>
+							<br/>
+							<div style="overflow: overlay;">
+								<p><%= image_tag(mt.imagem.url, :width => '225px') if mt.imagem.present? %></p>
+								<p><%= raw mt.embed %></p>
+								<%= mt.mensagem.to_s.html_safe %>
+							</div>
+						</div>
+					<% end %>
+				<% else %>
+					<div class="alert alert-block">
+						Não existem publicações para este tópico.
+					</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
+
+<% if(@grupo_discussao.existo_no_grupo?(current_user)) %>
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" >
+		<ul class="nav nav-tabs">
+			<li class="<%= 'active' if !@mensagem_topico.errors[:url].present? && !@mensagem_topico.errors[:imagem].present? %>" id="item-texto"><a id="tabs-texto" href="#texto_" data-toggle="tab">Texto</a></li>
+			<li class="<%= 'active' if @mensagem_topico.errors[:url].present? %>" id="item-video"><a id="tabs-video" href="#video_" data-toggle="tab">Vídeo</a></li>
+			<li class="<%= 'active' if @mensagem_topico.errors[:imagem].present? %>" id="item-imagem"><a id="tabs-imagem" href="#imagem_" data-toggle="tab">Imagem</a></li>
+		</ul>
+		<div class="tab-content tab_content_ckeditor">
+			<div class="tab-pane <%= 'active' if !@mensagem_topico.errors[:url].present? && !@mensagem_topico.errors[:imagem].present? %>" id="texto_">
+					<%= form_for [@grupo_discussao, @topico, @mensagem_topico], :html => {class: 'form-stacked',:id => 'grupo_form'} do |f| %>
+					<%= error_messages_for @mensagem_topico if !@mensagem_topico.errors[:url].present? && !@mensagem_topico.errors[:imagem].present? %>
+							<%= f.cktext_area :mensagem, :uiColor => '#F9FAFE',  :toolbar => 'Basic', :input_html => {:class => 'span8', :style => "border:1px solid transparent"} %>
+							<div class="form-actions">
+						    	<%= f.submit "Salvar", :class => "btn btn-success", :disable_with => "Salvando..." %>
+						  	</div>
+					<% end %>
+			</div>
+						
+			<div class="tab-pane <%= 'active' if @mensagem_topico.errors[:url].present? %>" id="video_">
+				<p>Selecione abaixo de qual site será enviado.</p>
+				<%= radio_button_tag 'video', 'youtube' %> Youtube &nbsp;
+				<%= radio_button_tag 'video', 'vimeo' %> Vimeo
+				<div id="video-youtube" style="display:none;">
+					<%= render :partial => 'mensagem_topicos/video', :locals => {:provider => 'youtube'} %>
+				</div>
+				<div id="video-vimeo" style="display:none;">
+					<%= render :partial => 'mensagem_topicos/video', :locals => {:provider => 'vimeo'} %>
+				</div>
+			</div>	
+						
+			<div class="tab-pane <%= 'active' if @mensagem_topico.errors[:imagem].present? %>" id="imagem_">
+				<p>Selecione abaixo a imagem que será enviada.</p>
+				<%= form_for [@grupo_discussao, @topico, @mensagem_topico], :html => {class: 'form-stacked',:id => 'artigo_form', :multipart => true} do |f| %>
+				<%= error_messages_for @mensagem_topico if @mensagem_topico.errors[:imagem].present? %>
+						<div class="clearfix">
+							<div class="input">
+								<%= f.file_field :imagem %>
+							</div>
+						</div>
+						<div class="clearfix">
+							<label>Mensagem</label>
+							<div class="input">
+								<%= f.text_area :mensagem, :size => "5x5", :class => "span6" %>
+							</div>
+						</div>
+						<div class="clearfix">
+							<div class="form-actions">
+						    	<%= f.submit "Salvar", :class => "btn btn-success", :disable_with => "Salvando..." %>
+						  	</div>
+						</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
+<% end %>
+
+
+<script type="text/javascript" charset="utf-8">
+	
+	$("a[id^='tabs-']").click(function(){
+		var old_it = $("#tabs-sub li.active").attr('id').split("-")[1];
+		$("#tabs-sub li.active").removeClass("active");
+		$("#"+old_it).hide();
+		
+		var new_it = this.id.split("-")[1];
+		$("#tabs-sub #item-"+new_it).addClass("active");
+		$("#"+new_it).show();
+	});
+	
+	$("input[id^='video_']").click(function(){
+		if(this.value == "youtube"){
+			$("#video-vimeo").hide();
+			$("#video-youtube").show();
+		}else{
+			$("#video-youtube").hide();
+			$("#video-vimeo").show();
+		}
+	})
+	
+	$("a[id^=abuso_mensagem_topico_]").click(function(){
+		$("#abuso_mensagem_topico_id").val($(this).attr("id").split("abuso_mensagem_topico_")[1])
+	});
+</script>

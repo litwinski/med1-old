@@ -1,0 +1,7 @@
+<% unless current_user.blocked? user%>
+<%=link_to "Bloquear", "/profile/block?id=#{user.slug}", id: "bloquear_#{user.id}", :class => "btn btn-primary btn-mini btn-central-preto", :remote => true %>
+<% else %>
+	<%=link_to "Desbloquear", "/profile/unblock?id=#{user.slug}", id: "desbloquear_#{user.id}", :class => "btn btn-success btn-mini", :remote => true %>
+<% end %>
+
+<%=link_to "Remover", "/profile/remover?id=#{user.slug}", :class => "btn btn-danger btn-mini", :remote => true, confirm: 'Você deseja remover este amigo?' %>

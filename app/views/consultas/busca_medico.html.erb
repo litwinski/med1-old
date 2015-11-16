@@ -1,0 +1,30 @@
+
+<div class="row">
+	<% #= render :partial => 'shared/profissional_coluna', :locals => {:user => current_user} %>
+	<div class="span12">		
+		<%=render :partial => 'profile/tabs'%>
+		<h3>Encontre o especialista</h3>
+		<%= form_for @search , :url => "busca_medico", :remote => true  do |f| %>
+		<div class="alert-message block-message success">
+
+		<%=f.text_field :nome_contains, 
+		:class => "large", :style=> "width:560px;height:30px"%>
+			<%= f.submit "buscar", :class => "btn large primary", :id => "enviar_consulta",:style=>"width:90px", :disable_with => "buscando..." %>
+			
+			<p>Procure pelo nome do profissional, faculdade, especialdiade médica, etc...</p>	
+		</div>
+
+		<%end%>
+
+		<div id="users_container">
+		</div>
+		<% if @users.respond_to? :total_pages %>
+			<%= will_paginate @users  %>
+		<% else %>
+			<div class="pagination" style="display: none"></div>
+		<% end %>
+			
+
+	</div>
+</div>
+

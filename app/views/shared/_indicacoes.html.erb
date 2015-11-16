@@ -1,0 +1,9 @@
+<% unless user == current_user %>
+<a class="btn btn-primary btn-agendar btn-lateral" href="/indicacoes/indicar_profissional?user_id=<%= user.slug %>" >
+		<%=image_tag('backend/indicar.png')%>Indicar profissional
+	</a>
+<% else %>
+	<a class="btn btn-primary btn-agendar btn-lateral" href="/indicacoes/<%= user.slug %>" >
+		<%=image_tag('backend/indicar.png')%>Indicação
+	</a>
+<% end %>

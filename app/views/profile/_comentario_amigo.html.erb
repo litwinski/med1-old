@@ -1,0 +1,76 @@
+<%= render :partial => "profile/form_abuso", :locals => {:url => "/conteudo/abuso"} %>
+
+<% if comentarios.present? || conteudo.permissao_conteudo?(current_user) %>
+	<div class="well comentarios_container">
+	<%=image_tag('backend/setinha_comentarios.png', class: 'setinha_comentarios')%>
+	<% comentarios.each do |comentario| %> 
+		<div class="row-fluid comentario" id="comentario_<%= comentario.id %>">
+			<div class="span1">
+				<a href="<%= comentario.user.url_usuario %>">
+		    		<%= avatar(comentario.user) %>
+		    	</a>
+			</div>
+			<div class="span10">
+				<%= comentario.body %>
+			</div>
+			<div class="span1">
+				<% if current_user && conteudo.permissao_conteudo?(current_user) %>
+					<% if current_user != comentario.user  %>
+							<a href="#denunciar_abuso" data-toggle="modal" id="abuso_comentario_<%= comentario.id %>" data-controls-modal="denunciar_abuso" data-backdrop="true" title="Denunciar abuso">
+								<i class="icon-ban-circle" style="vertical-align: top;"></i>
+							</a>
+					<% end %>
+						<% if comentario.user == current_user %>
+							<%= link_to profile_delete_comentario_url(:id => comentario), :remote => true, :method => :delete, :id => 'excluir_comentario', :confirm => 'Você tem certeza que deseja excluir o seu comentário?',:title => "Excluir comentário" do %>
+								<%=image_tag('backend/delete.png' ,:style => "vertical-align: top;")%>
+							<% end %>
+						<%end%>
+				<% end %>
+			</div>
+		</div>
+		<hr/>
+	<% end %>
+
+	<% if conteudo.permissao_conteudo?(current_user) %>
+		<div class="row-fluid comentario" >
+			<div class="span1">
+				<a href="<%=current_user.url_usuario%>">
+		    		<%= avatar(current_user) %>
+		    	</a>
+			</div>
+			<%= form_tag "/profile/comentar", :remote => true, :method => :post, :style=>"margin-bottom:0px;" do %>			
+				<div class="span9">
+					<%= text_area_tag :comentario, nil, :rows => "1", class: "span12" %>
+				</div>
+				<%= hidden_field_tag :conteudo_id, conteudo.id %>
+				<%= hidden_field_tag :tipo_classe, conteudo.class.to_s %>
+				<div class="span2">
+					<button id="publicar_comentario"class="btn btn-success btn-central" style="height:42px; padding: 4px 9px;" ><i class="icon-bullhorn icon-white"></i>Comentar</button>
+				</div>
+			<% end %>
+		</div>
+	<% end %>
+	</div>
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+	$("a[id^=abuso_comentario_]").click(function(){
+		$("#abuso_comment_id").val($(this).attr("id").split("abuso_comentario_")[1])
+	});
+	
+	$("a[id^=abuso_conteudo_]").click(function(){
+		$("#abuso_conteudo_id").val($(this).attr("id").split("abuso_conteudo_")[1])
+	});
+
+	$("#publicar_comentario").click(function(){
+    	bloquearTela();
+  	});
+  	$("#excluir_comentario").click(function(){
+    	bloquearTela();
+  	});
+
+	$(document).ready(function() {
+		$.unblockUI();
+	});
+	
+</script>

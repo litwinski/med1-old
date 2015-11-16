@@ -1,0 +1,92 @@
+<div class="row">
+	<% #= render :partial => 'shared/profissional_coluna', :locals => {:user => current_user} %>
+	<div class="span12">		
+	<%=render :partial => 'profile/tabs'%>
+	<div class="well">
+		<div class="row" id="mini_profile_row_<%=@agenda.user.id%>">
+			<%=render :partial => 'shared/local', :locals => {:span_size => 7, :agenda => @agenda}%>				
+		</div>						
+	</div>
+	<%= render :partial => "form_agendamento"%>			
+	<div class="well">
+		<table>
+			<thead>
+				<tr>
+					<td style="border:none"><a id="ant_dia"><%= image_tag("/assets/last.png", :size => "32x32") %></a></td>
+					<td style="border:none; text-align: center"><h4 id="data"><% DateTime.now.strftime("%A, %d de %B de %Y") %></h4></td>
+					<td style="border:none; text-align: right"><a id="prox_dia"><%= image_tag("/assets/next.png", :size => "32x32") %></a></td>
+				</tr>
+				<tr>
+					<td>Horário</td>
+					<td></td>
+					<td>Opções</td>
+				</tr>
+			</thead>
+			<tbody id="table_horarios">
+				
+			</tbody>
+		</table>	
+	</div>
+	</div>
+</div>
+<script type="text/javascript" charset="utf-8">
+	var startDate.setDate(new Date());
+	alert(startDate.)
+	$(document).ready(function() {
+		
+		buscaDados();
+						
+		$("#prox_dia").click(function(){
+			clearAgenda();
+			startDate.setDate(startDate.getDate() + 1);
+			buscaDados();
+		});
+		
+		$("#ant_dia").click(function(){
+			clearAgenda();
+			startDate.setDate(startDate.getDate() - 1);
+			buscaDados();
+		});
+		$.unblockUI();
+
+	});
+	
+	function clearAgenda() {
+		$('td[id^=h_]').css("background-color", "");
+		$('td[id^=h_]').css("color", "");
+		$('td[id^=r_]').css("background-color", "");
+		$('td[id^=r_]').css("color", "");
+		$('td[id^=r_]').html("");
+		$('td[id^=o_]').css("background-color", "");
+		$('td[id^=o_]').css("color", "");
+		$("a[id^=link_]").show();
+	}
+	
+	function buscaDados() {
+		$.ajax({
+            url: 'busca_consultas',            
+            data: {
+                start: Math.round(startDate.getTime() / 1000),
+				agenda_id: <%= @agenda.id %>
+            }
+        });
+	}
+	
+	function selecionarConsulta(id) {
+		// $("#linha_consulta_"+id).hide();
+		// $("#h_"+id).css("background-color", "#953B39");
+		// $("#h_"+id).css("color", "white");
+		// $("#r_"+id).html("Indisponível.");
+		// $("#r_"+id).css("background-color", "#953B39");
+		// $("#r_"+id).css("color", "white");
+		// $("#o_"+id).css("background-color", "#953B39");
+		// $("#o_"+id).css("color", "white");
+		$("#link_"+id).text("Indisponível");
+		$("#link_"+id).removeClass("primary");
+		$("#link_"+id).addClass("disabled");
+		$("#link_"+id).removeAttr("data-controls-modal");
+		$("#link_"+id).removeAttr("data-backdrop");
+				
+	}	
+	
+</script>

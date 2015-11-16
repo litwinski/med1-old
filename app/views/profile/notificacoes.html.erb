@@ -1,0 +1,43 @@
+<% unless current_user.pending_invited_by.count > 0 %>
+	<div class="alert alert-block">
+		Você não possui pedidos de conexão nesse momento.
+	</div>
+<% else %>
+	<h3>As seguintes pessoas desejam conectar-se com você:</h3>
+	<table class="med1">
+		<thead>
+			<tr>
+				<th style="width:45%">Nome</th>
+				<th style="width:40%">Última Formação</th>
+				<th style="width:15%">Ações</th>
+			<tr>
+		</thead>
+		<tbody>
+			<% current_user.pending_invited_by.each do |u| %>
+				<tr id="mini_profile_row_<%=u.id%>">
+					<%=render :partial => 'shared/mini_profile', :locals => {:user => u}%>
+					<td style="padding-left:5px">
+						<%=link_to "Aceitar" , "/profile/aceitar?id=#{u.slug}", id: "aceitar", :class => "btn btn-success btn-mini", :remote => true %>
+						<%=link_to "Ignorar" , "/profile/ignorar?id=#{u.slug}",id: "ignorar", :class => "btn btn-danger btn-mini", :remote => true %>
+					</td>
+				</tr>
+			<% end %>	
+		</tbody>
+	</table>
+<% end %>
+<br/><br/>
+<%=render :partial => "indicacoes" %>
+
+<%=render :partial => "recommends/list_recommend" %>
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		$("#aceitar").click(function(){
+			bloquearTela();
+		});
+		$("#ignorar").click(function(){
+			bloquearTela();
+		});
+		
+		$.unblockUI();
+	});
+</script>

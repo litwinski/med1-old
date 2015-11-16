@@ -1,0 +1,33 @@
+<% if user.friends.present? %>
+	<h3 class="secao_lateral">Amigos</h3>
+	<ul class="thumbnails">
+		<% user.friends.each do |friend| %>
+			<li>
+				<%= link_to(foto(friend, "mini", :size => "28x28"), friend.url_usuario, :class=>"thumbnail", :title => "#{friend.nome_completo}") %>
+			</li>
+		<% end %>
+	</ul>
+<% end %>
+
+<% if user.followers.present? %>
+	<h3 class="secao_lateral">Seguidores</h3>
+	<ul class="thumbnails">
+		<% user.followers.take(12).each do |friend| %>
+			<li>
+				<%= link_to(foto(friend, "mini", :size => "28x28"), friend.url_usuario, :class=>"thumbnail", :title => "#{friend.nome_completo}") %>
+			</li>
+		<% end %>
+	</ul>
+<% end %>
+
+<% if user.follows.present? %>
+	<h3 class="secao_lateral">Seguindo</h3>
+	<ul class="thumbnails">
+		<% user.following_users.take(12).each do |friend| %>
+			<li>
+				<%= link_to(foto(friend, "mini", :size => "28x28"), friend.url_usuario, :class=>"thumbnail", :title => "#{friend.nome_completo}") %>
+				
+			</li>
+		<% end %>
+	</ul>
+<% end %>

@@ -1,0 +1,111 @@
+<div id="agendamento_form" class="modal hide fade" style="height: auto; top: 50%;">	
+    <div class="modal-body" style="max-height: 500px;">
+		<div class="well mini-container-central">
+			<div class="tabbable tab-central" >
+				<ul class="nav nav-tabs">
+					<li class="active"><a href="#newartigo" data-toggle="tab">Agendas</a></li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="newagenda">
+						<ul class="thumbnails" style="padding-bottom: 0px">
+							<li>
+								<table>
+									<tr>
+										<td >
+											<ul class="thumbnails" style="height:30px">
+											    <li style="height:30px">
+											    	<a href="#" class="thumbnail">
+											    		<%= avatar(@agenda.user) %>
+											    	</a>
+											    </li>
+										    </ul>
+										</td>	
+										<td class="titulo_atualizacao" >
+											<br/>
+											<span><%=@agenda.user.nome_completo %></span>
+											<br/>
+											<span>
+												<%= "#{@agenda.user.profissao_saude.descricao} especialista em " if @agenda.user.profissao_saude.present? %> 
+								        		<% @agenda.user.especialidade_medicas.order('descricao').each_with_index do |obj, index| %>
+													<%= " e " if @agenda.user.especialidade_medicas.size == index + 1 %>
+									        		<strong><%= obj.descricao.curto.camelize %></strong>
+								        		<% end %>
+											</span>
+										</td> 
+									</tr>
+								</table>
+						  	</li>
+						</ul>
+						<%= form_for Consulta.new, :remote => true do |f| %>
+							<h3>Quando:</h3>
+							<p id="data_consulta" style="line-height: 20px"></p>							
+							<%= hidden_field_tag :horario_js %>
+							<%= f.hidden_field :agenda_id, value: @agenda.id %>
+							<h3>Onde:</h3>
+							<%= @agenda.local_atendimento.nome %><br/>
+							<%= endereco_local(@agenda.local_atendimento) %>
+							<br/>
+							 
+							<h3>Motivo da consulta:</h3>
+							<%= f.text_field :motivo, class: "span6" %>
+							<br/>
+							
+							<h3>Tipo Atendimento:</h3>
+							<div class="input">	
+								<%= radio_button_tag "tipo_atendimento", "par", (@agenda.particular && !@agenda.plano), :disabled => ((@agenda.particular && !@agenda.plano) || (!@agenda.particular && @agenda.plano)) %> Particular
+								<%= radio_button_tag "tipo_atendimento", "pla", (!@agenda.particular && @agenda.plano), :disabled => ((!@agenda.particular && @agenda.plano) || (@agenda.particular && !@agenda.plano)) %> Plano
+					    </div>
+							<br/>
+							
+							<div id="valor_div" style="<%= (@agenda.particular && !@agenda.plano) ? 'display:visible;' : 'display:none;' %>">
+								<h3>Valor: <%= number_to_currency(@agenda.valor) %></h3>
+								<br/>
+							</div>
+							<div id="plano_saude_div" style="<%= (!@agenda.particular && @agenda.plano) ? 'display:visible;' : 'display:none;' %>">
+								<h3>Plano de saúde:</h3>
+								<div class="input">	
+									<% if @agenda.local_atendimento.present? && @agenda.local_atendimento.plano_de_saudes.present? %>
+										<%= f.select :plano_de_saude_id, (@agenda.local_atendimento.plano_de_saudes).collect{|p| [p.nome, p.id]},:include_blank => 'Escolha o plano de saúde...' %>	
+									<% else %>
+										<%= f.select :plano_de_saude_id, [],:include_blank => 'Escolha o plano de saúde...' %>	
+									<% end %>
+						    </div>
+								<br/>
+							</div>
+							
+							<h3>Informações adicionais:</h3>
+							<%= f.text_area :informacoes_adicionais, :class => "span6", :rows => 4 %>
+							<br/><br/>
+							
+							<h3>Observações:</h3>
+							1. Sua consulta ainda depende da aprovação do profissional<br/>
+							2. Você receberá um email assim que sua consulta for confirmada<br/>
+							3. Os dados desse agendamento serão enviados para seu email<br/>
+							<br/>
+							 
+							<%= f.hidden_field :usuario_id, { :value => current_user.id} %>
+					        <%= f.hidden_field :medico_id, { :value => @agenda.user.id } %>
+				       		<%= f.hidden_field :local_atendimento_id, { :value => @agenda.local_atendimento.id } %>
+							  	
+							<%= f.submit "Agendar", :class => "btn btn-success", :disable_with => "Aguarde..." %>
+							<button type="reset" id="reset_btn" class="btn btn-danger" data-dismiss="modal">Cancelar</button>			  
+						<% end %>						
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$("#tipo_atendimento_pla").change(function(){
+		$("#plano_saude_div").show();
+		$("#valor_div").hide();
+	});
+
+	$("#tipo_atendimento_par").change(function(){
+		$("#plano_saude_div").hide();
+		$("#valor_div").show();
+		$('#consulta_plano_de_saude_id option[value=""]').attr('selected','selected');
+	});
+</script>

@@ -1,0 +1,12 @@
+$("#abuso_observacao").val("");
+$("#denunciar_abuso").modal("hide");
+<% if @comentario.present? %>
+	$('#comentario_'+<%= @comentario.id %>).fadeOut('slow');
+	$("#comentario_"+<%= @comentario.id %>).next().fadeOut('slow');
+<% else %>
+	$('#conteudo_'+<%= @conteudo.id %>).fadeOut('slow');
+	$("#conteudo_"+<%= @conteudo.id %>).prev().fadeOut('slow');
+	$("#conteudo_"+<%= @conteudo.id %>).next().next().next().fadeOut('slow');
+	$("#conteudo_"+<%= @conteudo.id %>).next().next().fadeOut('slow');	
+<% end %>
+alert("Conteúdo foi sinalizado para administradores e será revisado pela nossa equipe.\n Obrigado!")

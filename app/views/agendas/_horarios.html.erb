@@ -1,0 +1,36 @@
+
+<% if inicio.present? %>
+	<%if data == -1%>
+		<tr>
+			<td colspan="3">
+			<div class="row">
+		        <div class="span15">
+		            <h2 class="alert-message block-message alert">Data antiga. Não pode marcar consulta.</h2>
+		        </div>
+		    </div>
+			<td>
+		</tr>
+	<% else %>
+		<% RaroUtils.time_iterate(inicio, fim, tempo_consulta.hour.hour + tempo_consulta.min.minutes) do |a| %>
+			<tr id="linha_consulta_<%= a.hour.to_s+a.min.to_s %>">
+				<td id="h_<%= a.hour.to_s+a.min.to_s %>"><%= a.strftime("%H:%M") %></td>
+				<td id="r_<%= a.hour.to_s+a.min.to_s %>"></td>
+				<td id="o_<%= a.hour.to_s+a.min.to_s %>"><a id="link_<%= a.hour.to_s+a.min.to_s %>" href="#agendamento_form" data-controls-modal="agendamento_form" data-backdrop="true" data-toggle="modal" class="btn primary">Agendar</a></td>
+			</tr>
+		<% end %>
+	<% end %>
+<% else %>
+<tr>
+	<td colspan="3">
+	<div class="row">
+        <div class="span15">
+            <h2 class="alert-message block-message alert"> O <%= profissao %> não atende nesse dia.</h2>
+        </div>
+    </div>
+	<td>
+</tr>
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+	
+</script>

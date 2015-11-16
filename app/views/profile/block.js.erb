@@ -1,0 +1,5 @@
+// $('#buttons_<%=@id%>').slideUp();
+// $('#buttons_<%=@id%>').html("<%=j render :partial =>  'buttons_profissionais' , :locals => {:user => @user} %>");
+// $('#buttons_<%=@id%>').slideDown();
+$("#list_friends").html("<%= j render :partial => 'list_friends', :locals => {:friends => @friends} %>");
+$.unblockUI();

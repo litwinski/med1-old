@@ -1,0 +1,197 @@
+<script type="text/javascript" charset="utf-8">
+	var planos = new Array();
+
+	function planos_de_saude(id){
+		if((idx = jQuery.inArray(id, planos)) >= 0){
+			planos.splice(idx, idx+1);
+		}else{
+			planos.push(id);
+		}
+	}
+</script>
+
+<%= form_for(@local_atendimento, :id => 'local_form') do |f| %>
+<%= error_messages_for(@local_atendimento) %>
+<div class="row">
+	<div class="span5">
+		<div class="clearfix">
+			<%= f.label :nome %>
+			<div class="input">	
+				<%= f.text_field :nome, :maxlength => 80 %>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="span5">
+		<div class="clearfix">
+			<%= f.label :telefone %>
+			<div class="input">
+				<%= f.text_field :telefone, :maxlength => 13 %>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="span5">
+		<div class="clearfix">
+			<%= f.label :cep %>
+			<div class="input">
+				<%= f.text_field :cep, :maxlength => 8 %>
+				<%= loading("cep_load") %>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="span5">
+		<div class="clearfix">
+			<%= f.label :endereco %>
+			<div class="input">
+				<%= f.text_field :endereco,:maxlength => 50 %>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="span5">
+		<div class="clearfix">
+			<%= f.label :numero %>
+			<div class="input">
+				<%= f.text_field :numero, :maxlength => 8 %>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="span5">
+		<div class="clearfix">
+			<%= f.label :complemento %>
+			<div class="input">
+				<%= f.text_field :complemento, :maxlength => 50 %>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="span5">
+		<div class="clearfix">
+			<%= f.label :bairro %>
+			<div class="input">
+				<%= f.text_field :bairro, :maxlength => 50 %>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="span5">
+		<div class="clearfix">
+			<label>Estado</label>
+			<div class="input">			             
+				<% if @local_atendimento.cidade_id %>
+				<%= collection_select(:endereco, :estado_id, Estado.all, :id, :nome, {:id => "estado_id", :selected => @local_atendimento.cidade.estado.id})  %> 				
+				<% else %>
+				<%= collection_select(:endereco, :estado_id, Estado.all, :id, :nome, {:id => "estado_id", :prompt => "Selecione o Estado"}, {:class => "campo-select"})%>
+				<p id="estado_erro" class="inline-errors" style="display: none;">Informe a estado.</p>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="span5">
+		<div class="clearfix">
+			<%= f.label :cidade %>
+			<div class="input">	
+				<% if @local_atendimento.cidade_id %>
+				<%= collection_select(:cidade, :id, Cidade.busca_cidades_por_estado(@local_atendimento.cidade.estado.id), :id, :nome, {:id => "stateId", :selected => @local_atendimento.cidade_id})  %> 	
+				<% else %>
+				<select id="cidade_id">
+					<option value="">-- Escolha uma cidade --</option>
+				</select>
+				<% if !f.object.errors[:cidade_id].blank?  %>
+				<p class="inline-errors">Informe a ciadde</p>
+				<% end %>
+				<% end %>
+				<%= loading("loadingCityImg") %>
+			</div>
+		</div>
+	</div>
+</div>
+<%= f.hidden_field :cidade_id %>
+
+<input type="hidden" name="planos" id="planos"/>
+
+<div id="planos" >
+		<%=render :partial => 'shared/label_choice' , 
+				  	:locals => {
+					:title => 'Plano de Saúde',
+					:hint => 'Escolha quais planos de sáude você atende',
+					:data => @local_atendimento.plano_de_saudes.representacao("nome"),
+					:namespace => 'planos_add',
+					:url => '',
+					:js_callback => 'planos_de_saude',
+					:url_return => "/label/plano_de_saudes.json",
+					:limit => 0
+				  } %>
+</div>
+
+
+
+<% if current_user.present? %>	
+	<%= f.hidden_field :user_id, { :value => current_user.id } %>
+<% end %>
+<div class="form-actions">
+	<%= link_to "Cancelar", "/local_atendimentos", :class => "btn btn-danger" %>
+	<%= f.submit "Salvar", :id=>"submit", :class => "btn btn-success", :disable_with => "Salvando..." %>
+</div>
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+	$('#endereco_estado_id').change(function() {
+		$("#loadingCityImg").show();
+		$.getJSON('/ajax/busca_cidades?estado_id=' + this.value,{
+			format: "json"
+		}, function(data){
+			var options = '';    						
+			for (var i = 0; i < data.length; i++) {
+				options += '<option value="'+data[i].id+'">' + data[i].nome + '</option>';
+			}    
+			$('#cidade_id').html(options).show();
+			$('#loadingCityImg').hide();
+		});					    	
+	});
+
+	$('#cidade_id').change(function(){
+		$('#local_atendimento_cidade_id').val($(this).val())
+	});
+
+	$('#local_atendimento_cep').blur(function(){
+		if ((this.value.length == 8) && !(this.value[0] == " ")) {
+			$('#cep_load').show();
+			$.ajax({
+				url: "/ajax/busca_cep?cep=" + $(this).val() + "&quem=correio",context: document.body	
+			});
+		}else if(this.value[0] == " "){
+			$("#local_atendimento_cep").val("");
+		}
+	});
+
+	// var plano = new Array();
+	// 
+	// function planos_saude(id){
+	// 	if((idx = jQuery.inArray(id, plano)) >= 0){
+	// 		plano.splice(idx, idx+1);
+	// 	}else{
+	// 		plano.push(id);
+	// 	}
+	// }
+
+	$(document).ready(function() {
+		$('#local_form').bind("submit", function(){
+			$('#planos').val(plano);
+		});
+		$("#local_atendimento_cep").mask("99999999");
+		$("#local_atendimento_telefone").mask("(99)9999-9999");
+	});
+</script>

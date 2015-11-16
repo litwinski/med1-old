@@ -1,0 +1,8 @@
+<div class="span3">
+	<!-- <img src="http://placehold.it/210x130"></img> -->
+	<%=link_to image_tag(artigo.banner.left.url,:size => '210x130'), artigo_path(artigo)%>
+	<%= link_to "/artigos/#{artigo.slug}" do %>
+	<h2 class="explorar" style="line-height:20px;"><%= artigo.titulo.truncate(18) %></h2>
+		<% end %>
+		<p><%= strip_tags(artigo.corpo).truncate(80).html_safe %></p>
+</div>

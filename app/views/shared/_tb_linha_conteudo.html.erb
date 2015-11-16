@@ -1,0 +1,21 @@
+<tr>
+       <th><%= label %></th>
+<%if valor == "" || valor.nil?%>
+       <td><span class="empty">Vazio</span></td>
+<%else%>
+	<td>
+		<% if valor.instance_of? Video %>
+			<%= raw valor.embed %>
+		<% elsif valor.instance_of? Texto %>
+			<%= valor.texto %>
+		<% elsif valor.instance_of? Imagem %>
+			<%= image_tag(valor.imagem.url, :width => '225px') %>
+		<% elsif valor.respond_to?(:titulo) %>
+			<%= raw valor.titulo %>
+			<%= raw valor.corpo %>
+		<% else%>
+			<%= valor %>
+		<% end %>
+	</td>
+<%end%>
+</tr>

@@ -1,0 +1,173 @@
+<h1>Teste PagSeguro</h1>
+<br/>
+<%= form_tag "/compras/notificacao", :class => 'form-horizontal'  do%>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">VendedorEmail</label>
+  <div class="controls">
+    <%= text_field_tag :VendedorEmail, "pagseguro@med1.com.br" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">TransacaoID</label>
+  <div class="controls">
+    <%= text_field_tag :TransacaoID, "5F9E54E5937B4834843D752DC2675037" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">Referencia</label>
+  <div class="controls">
+    <%= text_field_tag :Referencia, "4fe12f86b4b16ac178000009" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">Extras</label>
+  <div class="controls">
+    <%= text_field_tag :Extras, "0,00" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">TipoFrete</label>
+  <div class="controls">
+    <%= text_field_tag :TipoFrete, "FR" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">ValorFrete</label>
+  <div class="controls">
+    <%= text_field_tag :ValorFrete, "0,00" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">Anotacao</label>
+  <div class="controls">
+    <%= text_field_tag :Anotacao, "" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">DataTransacao</label>
+  <div class="controls">
+    <%= text_field_tag :DataTransacao, "#{DateTime.now.strftime('%d/%m/%Y %H:%M:%S')}" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">TipoPagamento</label>
+  <div class="controls">
+    <%= text_field_tag :TipoPagamento, "Cartao de Credito" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">StatusTransacao</label>
+  <div class="controls">
+    <%= text_field_tag :StatusTransacao, "Aprovado" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">CliNome</label>
+  <div class="controls">
+    <%= text_field_tag :CliNome, "Med1 PagSeguro" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">CliEmail</label>
+  <div class="controls">
+    <%= text_field_tag :CliEmail, "naoresponda@med1.com.br" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">CliEndereco</label>
+  <div class="controls">
+    <%= text_field_tag :CliEndereco, "RUA TESTE" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">CliNumero</label>
+  <div class="controls">
+    <%= text_field_tag :CliNumero, "1" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">CliComplemento</label>
+  <div class="controls">
+    <%= text_field_tag :CliComplemento, "" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">CliBairro</label>
+  <div class="controls">
+    <%= text_field_tag :CliBairro, "Bairro" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">CliCidade</label>
+  <div class="controls">
+    <%= text_field_tag :CliCidade, "BELO HORIZONTE" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">CliEstado</label>
+  <div class="controls">
+    <%= text_field_tag :CliEstado, "MG" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">CliCEP</label>
+  <div class="controls">
+    <%= text_field_tag :CliCEP, "31100000" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">CliTelefone</label>
+  <div class="controls">
+    <%= text_field_tag :CliTelefone, "31 33334444" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">NumItens</label>
+  <div class="controls">
+    <%= text_field_tag :NumItens, "1" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">Parcelas</label>
+  <div class="controls">
+    <%= text_field_tag :Parcelas, "1" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">ProdID_1</label>
+  <div class="controls">
+    <%= text_field_tag :ProdID_1, "9999999999" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">ProdDescricao_1</label>
+  <div class="controls">
+    <%= text_field_tag :ProdDescricao_1, "Teste transacao pagseguro" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">ProdValor_1</label>
+  <div class="controls">
+    <%= text_field_tag :ProdValor_1, "1,00" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">ProdQuantidade_1</label>
+  <div class="controls">
+    <%= text_field_tag :ProdQuantidade_1, "1" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">ProdFrete_1</label>
+  <div class="controls">
+    <%= text_field_tag :ProdFrete_1, "0,00" %>
+  </div>
+</div>
+<div class="control-group" id="dia">
+  <label class="control-label" for="input01">ProdExtras_1</label>
+  <div class="controls">
+    <%= text_field_tag :ProdExtras_1, "0,00" %>
+  </div>
+</div>
+<%= submit_tag "Enviar" %>
+<% end %>

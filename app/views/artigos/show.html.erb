@@ -1,0 +1,71 @@
+<%= content_for(:keywords) do %>
+    <% @user = @artigo.user %>
+<% end %>
+
+<%= content_for(:header) do %>
+    <meta property="og:title" content="<%= @artigo.titulo %>" />
+    <meta property="og:site_name" content="Med1" />
+    <meta property="og:description " content="<%= truncate(@artigo.corpo, :length=>100).chomp.html_safe %>"/>
+<% end %>
+<%= content_for(:meta) do %>
+    <%= @artigo.titulo %>
+<% end %>
+<%= content_for(:title) do %>
+    <%="#{@artigo.titulo}"%>
+<% end %>
+<%= content_for(:keywords) do %>
+    <%=@artigo.area_atuacoes.to_a.map{|e| e.descricao}.join(' ')%> <%=@artigo.especialidade_medicas.to_a.map{|e| e.descricao}.join(' ')%> <%=@artigo.temas.to_a.map{|e| e.descricao}.join(' ')%>
+<% end %>
+
+<%= content_for(:banner) do %>
+	<div class="row-fluid" style="margin-left: auto;margin-right: auto;width: 746px;">
+		<% banner = BannerPropaganda.find_by_posicao("A") %>
+		<% if banner.present? %>
+			<%= content_tag("iframe", nil , :scrolling => "no", :frameborder => 0 , :width => 728, :height => 90, :src => banner.url) %>
+		<% end %>
+	</div>
+<% end %>
+
+<div class="row-fluid" style="height:20px">
+	<div class="span6">
+		<h3 class="time">Publicado em <%= l(@artigo.created_at, :format => :master_long) %></h3>
+    <% if current_user && @artigo.permissao_conteudo?(current_user) %>
+        <% #= render :partial => "/profile/form_abuso", :locals => {:url => "abuso"} %>
+				<!-- <a href="#denunciar_abuso" id="abuso_texto" data-toggle="modal" data-controls-modal="denunciar_abuso" data-backdrop="true">
+						<i class="icon-ban-circle"></i>
+					</a> -->
+    <% end %>
+	</div>
+	<span style="display:inline-table" class="right">	
+		<fb:like href="<%= request.url %>" width="450" send="false" style="height: 23px;width: 112px;vertical-align: top;" layout="button_count" show_faces="true" action="like"></fb:like>
+    <a href="https://twitter.com/share" data-url="<%= request.url %>" class="twitter-share-button" data-lang="en" data-via="med1br">Tweet</a>
+		<g:plusone size="medium" href="<%= request.url %>"></g:plusone>
+	</span>
+</div>
+
+<hr class="central"/>
+
+<h1 class="artigo"><%=@artigo.titulo%></h1>
+<p class="artigo"><%= @artigo.corpo.html_safe%></p>
+
+<hr class="central"/>
+<%=spans_especialidades(@artigo)%>
+<%=spans_areas(@artigo)%>
+<%=spans_temas(@artigo)%>
+<br/>
+<span class="artigo_minor">Última atualização em <%= l(@artigo.updated_at, :format => :master_long) %></span>
+<br/>
+<span class="artigo_minor" id="avaliar_artigo"><%= render :partial => 'shared/avaliacao', :locals => {:artigo => @artigo} %></span>
+<br/>
+<hr class="central"/>
+<span class="label label-comentario" id="count_comentarios"><%= @artigo.comentarios.size %> COMENTÁRIOS</span>
+<br/><br/>
+<span id="lista_comentarios_<%= @artigo.id.to_s %>">
+     <%= render :partial => 'profile/comentario_amigo', :locals => {:conteudo => @artigo, :comentarios => @artigo.comentarios }  %>
+</span>
+
+<script type="text/javascript" charset="utf-8">
+    $("#abuso_texto").click(function(){
+        $("#abuso_artigo_id").val("<%= @artigo.id %>")
+    });
+</script>

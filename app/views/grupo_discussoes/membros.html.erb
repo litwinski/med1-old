@@ -1,0 +1,33 @@
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" >
+		<ul class="nav nav-tabs">
+			<li><a href="/grupos">Meus Grupos</a></li>
+			<li class="active"><a href="#membros" data-toggle="tab">Membros</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="membros">
+				<h2><%= @grupo_discussao.nome %></h2>
+				<hr/>
+				
+				<div class="row-fluid" id="integrantes_grupo">
+					<%= render :partial => "ticket_user", :locals => {
+						:titulo => "Membros atualmente",
+						:resources => @amigos_grupo,
+						:link_operacao => lambda { |user| link_to( image_tag('deixar_grupo.png'), remover_convidado_grupo_discussao_path(@grupo_discussao, user.id), :remote => true, :method => "delete", :confirm => 'Você tem certeza que deseja sair do grupo?') if((@grupo_discussao.participo_grupo?(user) and user == current_user) or (@grupo_discussao.propietario == current_user and @grupo_discussao.participo_grupo?(user))) }
+					}%>
+				</div>
+				
+				<% if(can? :convidar, @grupo_discussao)%>
+					<br/>
+					<div class="row-fluid" id="meus_amigos">
+						<%= render :partial => "ticket_user", :locals => {
+							:titulo => "Meus amigos",
+							:resources => @amigos,
+							:link_operacao => lambda { |user| link_to("Convidar" , convidar_grupo_discussao_path(@grupo_discussao, user.id), :class => "btn btn-mini btn-success", :id=>"add_button_#{user.id}", :remote => true, :onclick=>"bloquearDiv(id);", :method => "post") }
+						}%>
+					</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>

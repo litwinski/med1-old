@@ -1,0 +1,19 @@
+<div class="row">
+	<% #= render :partial => 'shared/profissional_coluna', :locals => {:user => current_user} %>
+	<div class="span12">
+		
+	<%=render :partial => 'profile/tabs'%>		
+	<h2 class="alert-message block-message success"><span class="titulo">Suas Indicações</span></h2>
+		
+	<% @user.indicacoes.each do |r| %>
+		<blockquote>
+			<p>"<%= r.mensagem %>"</p>
+			<small><a href="<%=r.user.url_usuario%>" ><%= r.user.nome %></a><br/><%= r.created_at.strftime("%B %d, %Y") %></small>
+			<% r.users.each do |u| %>
+				<a title="<%= u.nome %>"><%= avatar(u) %></a>
+			<% end %>
+		</blockquote>
+	<% end %>
+
+
+</div>

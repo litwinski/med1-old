@@ -1,0 +1,60 @@
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" >
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#planos" data-toggle="tab">Plano de Saúde</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="planos">
+				<% if current_user.usuario? %>
+					<% texto_hint = 'Escolha quais planos de saúde você possui' %>
+				<% else %>
+					<% texto_hint = 'Escolha quais planos de sáude você é credenciado' %>
+				<% end %>
+				<%=render :partial => 'shared/label_choice' , 
+				:locals => {
+					:title => 'Plano de Saúde',
+					:hint => texto_hint,
+					:data => current_user.plano_de_saudes.representacao("nome"),
+					:namespace => 'plano_de_saude', #Para isolar os ids desse componente
+					:url => '/profile/planos_de_saude',
+					:url_return => '/label/plano_de_saudes.json',
+					:js_callback => '',
+					:limit => 5 					
+				} %>
+							
+				<%= hidden_field_tag :permissao_planos %>
+				<div class="row-fluid">
+					<p><%= render :partial => "permissao", :locals => {:selected_field => current_user.permissao_planos, :namespace => "planos"} %></p>
+				</div>
+				<div class="form-actions">
+					<a href='/profile/areas_de_atuacao' class='btn btn-primary btn-central-preto navegacao'>Próxima Etapa</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+		
+
+</div>
+</div>
+<script type="text/javascript" charset="utf-8">
+// $("#label_choice_panel").append("<hr><br/><a href='/profile/areas_de_atuacao' class='btn success navegacao'>Próxima Etapa</a>")
+// $("#label_choice_panel").append("<%= j hidden_field_tag :permissao_planos %>");
+// $("#label_choice_panel").append('<%= j render :partial => "permissao", :locals => {:selected_field => current_user.permissao_planos, :namespace => "planos"} %>')
+$("#ul_planos").css("float", "left");
+	
+$('a[id^="item_planos"]').click(function(){
+bloquearTela();
+$.ajax({
+	url: "/ajax/salvar_permissao?permissao_planos=" + $(this).attr("chave"),
+	context : this,
+	success: function(){			
+		$.unblockUI();
+	}
+});
+})
+</script>

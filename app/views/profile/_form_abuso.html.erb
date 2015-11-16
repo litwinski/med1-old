@@ -1,0 +1,49 @@
+<% if current_user %>
+	<div id="denunciar_abuso" class="modal hide fade">	
+			<div class="modal-header">
+	      <a id='fechar_modal' class="close" data-dismiss="modal">×</a>
+	      <h2>Denunciar Abuso</h2>
+	    </div>
+	    <div class="modal-body">		
+				<%= form_for Abuso.new, :url => url, :remote => true , :html => {:class => 'form-stacked'} do |f| %>
+					<div class="row-fluid">
+						<div class="span5">
+						  <div class="clearfix">
+						    <label>Motivo* </label>				  
+						    <div class="input" style="width: 500px;">	
+						      <%= f.text_area :observacao, :class => "xxlarge", :rows => "6", :cols => "35", :style => "width: 500px" %>
+						    </div>
+						  </div>
+						</div>
+			    </div>
+					<%= f.hidden_field :user_id, { :value => current_user.id } %>
+					<%= f.hidden_field :conteudo_id %>
+					<%= f.hidden_field :artigo_id %>
+					<%= f.hidden_field :comment_id %>
+					<%= f.hidden_field :mensagem_topico_id %>
+					<%= f.hidden_field :grupo_discussao_id %>
+					<div class="modal-footer">
+						<%= f.submit "Salvar", :id=>"submit", :class => "btn btn-success", :disable_with => "Salvando..." %>&nbsp;
+						<button type="reset" id="reset_btn" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+					</div>
+				<% end %>
+			</div>	
+	</div>
+	
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function() {
+			$("#new_abuso").submit( function () {
+				var ok = true;
+				if($("#abuso_observacao").val() == "") {
+					alert("Informe o motivo da denúncia.")
+					ok = false;
+				}
+				return ok;
+			});
+			
+			$("#reset_btn").click(function(){
+				$("#denunciar_abuso").modal("hide");
+			});
+		});
+	</script>
+<% end %>

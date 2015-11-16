@@ -1,0 +1,22 @@
+  <tr>
+    <td style="padding-left:5px"><%= local_atendimento.nome %></td>
+    <td style="padding-left:5px"><%= local_atendimento.endereco %>, <%= local_atendimento.numero %><br/>
+    <%= local_atendimento.bairro %>,
+    <%= local_atendimento.cidade.nome %></td>
+    <td style="padding-left:5px"><%= local_atendimento.telefone %></td>
+    <td style="padding-left:5px">
+			<%= link_to edit_local_atendimento_path(local_atendimento), :id => 'btn_edit_local_atendimento' do %>
+				<%=image_tag('backend/edit.png')%>
+			<% end %>
+			
+			<%= link_to local_atendimento, :method => :delete, :confirm => 'Você tem certeza?' do %>
+				<%=image_tag('backend/delete.png')%>
+			<% end %>
+		</td>
+  </tr>
+
+<script type="text/javascript" charset="utf-8">
+   $("#btn_edit_local_atendimento").click(function(){
+		bloquearTela();
+	});
+</script>

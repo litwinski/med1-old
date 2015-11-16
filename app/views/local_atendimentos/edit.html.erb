@@ -1,0 +1,12 @@
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" > <!-- Only required for left/right tabs -->
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#editlocais" data-toggle="tab">Alterar Local de Atendimento</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="editlocais">
+				<%= render partial: 'form', locals: {editing: true} %>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,43 @@
+<% if @block_action %>
+	<div class="row-fluid">
+		<div class="input-append right">
+			<%=link_to "/indicacoes/new", :class => 'btn btn-primary btn-central-preto', :id => "encontre"  do %>
+			<i class="icon-envelope"></i> Convide seus amigos
+		<% end %>
+		<%=link_to "/profile/busca", :class => 'btn btn-success', :id => "encontre1" do %>
+			<i class="icon-user icon-white"></i> Encontre novas conexões
+		<% end %>
+		</div>
+	</div>
+<% end %>
+<br/>
+
+<div id="list_friends">
+	<%= render :partial => 'list_friends', :locals => {:friends => @friends} %>
+</div>
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+		$("#enviar_consulta").click(function(){
+			$('#users_container > div[id^="mini_profile_row_"]').next().remove();
+			$('#users_container > div[id^="mini_profile_row_"]').remove();
+		});
+		
+		$("#encontre").click(function(){
+			bloquearTela();
+		});
+		
+		$("#encontre1").click(function(){
+			bloquearTela();
+		});
+		
+		$('a[id^="bloquear_"]').click(function(){
+			bloquearTela();
+		});
+		
+		$('a[id^="desbloquear_"]').click(function(){
+			bloquearTela();
+		});
+
+	});
+</script>
+

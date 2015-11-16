@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  num_capitulo: 1
+  descricao: MyString
+  descabrev: MyString
+
+two:
+  num_capitulo: 1
+  descricao: MyString
+  descabrev: MyString

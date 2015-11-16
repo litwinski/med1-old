@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Standard Favicon -->
+	  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+	<!-- For iPhone 4 Retina display: -->
+	  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/apple-touch-icon-114x114-precomposed.gif">
+	<!-- For iPad: -->
+	  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/apple-touch-icon-72x72-precomposed.gif">
+	<!-- For iPhone: -->
+	  <link rel="apple-touch-icon-precomposed" href="/assets/apple-touch-icon-57x57-precomposed.gif">
+		
+  <% if yield(:title).present? %>
+	        <title><%= yield(:title) %></title>
+	    <% else %>
+	        <title>Med1 - Rede de Informação em Saúde</title>
+	    <% end %>
+	    <%= yield(:header) %>
+	  <meta name="keywords" content="<%=yield(:keywords) %> Saúde Doenças Artigos Rede Social Agendamento de Consultas Encontre Médico Certo Diagnósticos">
+	  <meta name="description" content="<%=yield(:meta).chomp!%> - O Med1 é uma rede de informação em saúde. Fornece informações de qualidade para médicos e pacientes">
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-27632363-1']);
+		_gaq.push(['_setDomainName', 'med1.com.br']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+</head>
+<body>
+	
+	<%=render partial: 'layouts/barra', locals: {logado: current_user.present?, land_page: false }%>
+
+	<div class="container">
+		<div class="backend">
+			<div class="row">
+			<div class="span12">
+				<%=yield%>
+			</div>
+		</div>
+	</div>	
+</div>
+</div>
+
+<%=render partial: 'layouts/rodape'%>
+
+</body>
+</html>
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function() {
+	$('#tipo_busca').dropkick();
+});
+</script>

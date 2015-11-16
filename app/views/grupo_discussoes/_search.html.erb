@@ -1,0 +1,25 @@
+<div class="row">
+	<%= form_tag search_grupos_grupo_discussoes_path , :method => :get, :id => 'form_search', :style => "float:right;"  do %>
+		<div class="span3.5" style="float: right;">
+			<div class="input-append">
+				<%= text_field_tag :g, params[:g], :class => "span5 large", :style=> "font-size: 12px;", :placeholder => "Buscar por grupos públicos" %>
+				<button id="btn_buscar_grupo" class="btn btn-primary btn-central-preto" style="margin-left: -4px;">
+					<i class="icon-search"></i> Buscar
+				</button>
+				<%=link_to new_grupo_discussao_path, :class => 'btn btn-success', :style => "margin-left: -4px;", :id => "novo_button" do %>
+					<i class="icon-plus icon-white"></i> Novo Grupo
+				<% end %>
+			</div>
+		</div>
+	<% end %>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+
+	$("#btn_buscar_grupo").click(function(){
+		bloquearTela();
+	});
+	$("#novo_button").click(function(){
+		bloquearTela();
+	});
+</script>

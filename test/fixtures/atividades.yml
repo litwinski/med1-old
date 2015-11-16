@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  acao: MyString
+  ponto: 1
+  tipo_usuario: 
+
+two:
+  acao: MyString
+  ponto: 1
+  tipo_usuario: 

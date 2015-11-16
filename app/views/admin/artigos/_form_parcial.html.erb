@@ -1,0 +1,129 @@
+<script type="text/javascript" charset="utf-8">
+	var area_atuacao = new Array();
+	var especialidade_medica = new Array();
+</script>
+
+<%= semantic_form_for [:admin, @artigo]  do |f| %>
+	<%= f.inputs "Artigos" do %>
+	  <%= f.input :prioridade, :hint => 'Quanto menor o número, maior é a prioridade no site' %>
+	<% end %>
+
+	<%= f.inputs "Editoração" do %>
+	  <%= f.input :titulo_destaque_1 , :hint => 'Substitui o título (TOP) de um artigo' %>
+	  <%= f.input :chamada_destaque_1 , :hint => 'Substitui a chamada principal de um artigo (TOP)' %>
+	  <%= f.input :titulo_destaque_2, :hint => 'Substitui o título (LEFT) de um artigo' %>
+	  <%= f.input :chamada_destaque_2, :hint => 'Substitui a chamada de um artigo (LEFT)' %>
+	  <%= f.input :titulo_destaque_3, :hint => 'Substitui o título (RIGHT) de um artigo' %>
+	  <%= f.input :chamada_destaque_3, :hint => 'Substitui a chamada de um artigo (RIGHT)' %>
+	<% end %>
+
+
+	<%= f.inputs "Selecionar Banner" do %>
+	<%#= f.input :banner, :as => "check_boxes" %>
+		<%= render :partial => "subform_banners", :locals => {:artigo => @artigo} %>
+	<% end %>
+
+
+	<%= f.inputs "Áreas de Atuação" do %>
+	  <%#= f.input :area_atuacoes, :as => :check_boxes, :label_method => :descricao %>	
+	  	<%= render :partial => 'subform_barra_busca', :locals => {:btn_name => "area_atuacao", :btn_titulo => "Buscar Área de Atuação"} %>
+		<div id="registros_search_results_area_atuacao">
+			<%= render(:partial => "subform_labels", :locals => {:model => ProfissaoSaude, :conditions => nil, :itens => :area_atuacoes, :options => lambda{|id| "area_atuacao=#{id}" }})	%>
+		</div>
+	<% end %>
+
+	<%= f.inputs "Especialidades Médicas" do %>
+	  <%#= f.input :especialidade_medicas, :as => :check_boxes, :label_method => :descricao %>
+	  	<%= render :partial => 'subform_barra_busca', :locals => {:btn_name => "especialidade_medica", :btn_titulo => "Buscar Especialidades Médicas"} %>
+		<div id="registros_search_results_especialidade_medica">
+	  	<%= render(:partial => "subform_labels", :locals => {:model => CapituloTema, :conditions => nil, :itens => :especialidade_medicas, :options => lambda{|id| "especialidade=#{id}" }})	%>
+	<% end %>
+	<%= f.buttons :id => "submit" %>	
+<% end %>
+
+
+<script type="text/javascript" charset="utf-8">
+
+	$(document).ready(function() {
+		function marcar_campos_selecionados(){
+			var i;
+			for(i=0; i<area_atuacao.length; i++){
+				$('#' + area_atuacao[i]).attr("checked", "checked");
+			}
+			for(i=0; i<especialidade_medica.length; i++){
+				$('#' + especialidade_medica[i]).attr("checked", "checked");
+			}
+		}
+				
+		function marcar_campos() {
+			if(<%= artigo.especialidade_medicas.present? %> == true) {
+				<% artigo.especialidade_medicas.each do |esp| %>
+					//$('#artigo_especialidade_medica_ids_<%=  esp.id %>').attr("checked", "checked");
+					especialidade_medica.push("artigo_especialidade_medica_ids_<%=  esp.id %>");
+				<% end %>
+			}
+		
+			if(<%= artigo.area_atuacoes.present? %> == true) {
+				<% artigo.area_atuacoes.each do |area| %>
+					//$('#artigo_area_atuacao_ids_<%=  area.id %>').attr("checked", "checked");
+					area_atuacao.push("artigo_area_atuacao_ids_<%=  area.id %>");
+				<% end %>
+			}
+		}
+		
+		$("input[id^='subform_btn_search_']").click(function(){			
+			var obj = this.id.split("subform_btn_search_")[1];
+			
+			$.ajax({
+				url: "/ajax/busca_"+obj+"?subform_search[titulo_contains]=" + $("#subform_search_descricao_"+obj).val(),
+				success: function(data) {
+					$("#registros_search_results_" + obj).empty();
+					$("#registros_search_results_" + obj).html(data);
+					marcar_campos_selecionados();
+				}
+			});
+		});
+		
+		$('#submit').click(function(){
+			var a;
+			var aux = new Array();
+			
+			$('#artigo_area_atuacao_ids_').val("");
+			for(a in area_atuacao){
+				aux.push(area_atuacao[a].split("artigo_area_atuacao_ids_")[1]);
+			}
+			$('#artigo_area_atuacao_aux').val(aux);
+			
+			$('#artigo_especialidade_medica_ids_').val("");
+			for(a in especialidade_medica){
+				aux.push(especialidade_medica[a].split("artigo_especialidade_medica_ids_")[1]);
+			}
+			$('#artigo_especialidade_medica_aux').val(aux);
+		});
+		
+		/////
+		if("<%= artigo.banner_id %>" != ""){
+			$('#artigo_banner_id_'+<%=  artigo.banner_id %> + '').attr("checked", "checked");
+		}
+		
+		
+		///////
+		$("input:[id^=artigo_banner_id_]").click(function(){
+			var checked_status = this.checked;
+			$("input:[id^=artigo_banner_id_]").each(function() {
+				this.checked = false;
+			});			
+			this.checked = checked_status;
+			if(checked_status == false) {
+				$.ajax({
+					url: "/ajax/remove_banner_artigo.json?artigo_id=" + $(this).attr("artigo") + "&banner_id=" + $(this).val()					
+				});
+			}
+		});
+		
+		// selecionar especialidades e areas
+		marcar_campos();
+		marcar_campos_selecionados();
+		
+	});	
+</script>

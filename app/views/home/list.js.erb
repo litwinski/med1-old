@@ -1,0 +1,6 @@
+$('#artigos').append("<%= j render(:partial => 'shared/artigo_linha', :collection => @artigos, :as => :artigo) %>");
+<% if @artigos.next_page %>
+	$('.pagination').replaceWith("<%= j will_paginate(@artigos) %>");
+<% else %>
+	$('.pagination').remove();
+<% end %>

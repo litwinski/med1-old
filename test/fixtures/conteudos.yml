@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  slug: MyString
+  state: MyString
+  visibilidade: 1
+  user_id: 1
+  type: 
+
+two:
+  slug: MyString
+  state: MyString
+  visibilidade: 1
+  user_id: 1
+  type: 

@@ -1,0 +1,57 @@
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" > <!-- Only required for left/right tabs -->
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#temas" data-toggle="tab">Temas de Interesse</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="temas">
+				<% if current_user.usuario? %>
+				<% texto_hint = "Temas que você tem interesse" %>
+				<% else %>
+				<% texto_hint = "Temas que você deseja aparecer como referência no Med1" %>
+				<% end %>
+				<%=render :partial => 'shared/label_choice' , 
+				:locals => {
+					:title => 'Temas de Interesse',
+					:hint => texto_hint,
+					:data => current_user.temas.representacao("descricao"),
+					:namespace => 'doencas', #Para isolar os ids desse componente
+					:url => '/profile/temas',
+					:url_return => '/label/temas.json',
+					:js_callback => '',
+					:limit => 0
+				} %>
+				<%= hidden_field_tag :permissao_temas %>
+				<div class="row-fluid">
+					<p><%= render :partial => "permissao", :locals => {:selected_field => current_user.permissao_temas, :namespace => "temas"} %></p>
+				</div>
+				<div class="form-actions">
+					<% if current_user.profissional?%> 
+						<a href='/profile/planos_de_saude' class='btn btn-primary btn-central-preto navegacao'>Próxima Etapa</a>
+					<% else %>
+						<a href='/profile' class='btn btn-primary btn-central-preto navegacao'>Finalizar Etapa</a>
+					<% end %>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	// $("#label_choice_panel").append("<hr><br/><a href='/profile/planos_de_saude' class='btn success navegacao'>Próxima Etapa</a>");
+	// $("#label_choice_panel").append("<%= j hidden_field_tag :permissao_temas %>");
+	// $("#label_choice_panel").append('<%= j render :partial => "permissao", :locals => {:selected_field => current_user.permissao_temas, :namespace => "temas"} %>')
+	$("#ul_temas").css("float", "left");
+	
+	$('a[id^="item_temas"]').click(function(){
+		bloquearTela();
+		$.ajax({
+			url: "/ajax/salvar_permissao?permissao_temas=" + $(this).attr("chave"),
+			context : this,
+			success: function(){			
+				$.unblockUI();
+			}
+		});
+	})
+</script>

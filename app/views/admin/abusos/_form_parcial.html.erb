@@ -1,0 +1,25 @@
+<%= semantic_form_for [:admin, @abuso]  do |f| %>
+	<%= f.inputs "Abuso" do %>
+		<li class="string optional">
+			<label>Denunciante</label>
+			<%= f.object.user.nome %>
+		</li>
+		<li class="string optional">
+			<label>Denunciado</label>
+			<%= f.object.conteudo.user.nome %>
+		</li>
+		<li class="string optional">
+			<label>Conteudo</label>
+			<% if f.object.conteudo.instance_of? Video %>
+				<%= raw f.object.conteudo.embed %>
+			<% elsif f.object.conteudo.instance_of? Texto %>
+				<%= f.object.conteudo.texto %>
+			<% elsif f.object.conteudo.instance_of? Imagem %>
+				<%= image_tag(f.object.conteudo.imagem.url, :width => '225px') %>
+			<% end %>
+		</li>
+		<%= f.input :aprovado , :hint => 'Aprovado por editores' %>
+	<% end %>
+	
+	<%= f.buttons %>	
+<% end %>

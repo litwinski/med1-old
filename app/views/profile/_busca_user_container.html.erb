@@ -1,0 +1,56 @@
+<% if @users.present? %>
+	<%@users.each do |u| %>
+		<% unless u.id == current_user.id%>
+		<div class="row-fluid" id="mini_profile_row_<%=u.id%>">
+			<div class="span11">
+				<div class="sub-titulo">
+					<span class="left">
+						<ul class="thumbnails" style="height:30px; margin-botton: 0px;">
+						    <li style="height:30px; margin-botton: 0px;">
+						    	<a href="<%=u.url_usuario%>" class="thumbnail">
+						    		<%= avatar(u) %>
+						    	</a>
+						    </li>
+					    </ul>	    		
+					</span>
+					<span class="left" style="margin-left: 5px">
+		            	<h4><%= link_to(u.nome_completo, "#{u.url_usuario}") %></h4>
+			            <% if u.profissao_saude.present? %>
+			            	<i class='micon-user'></i> <%= "#{u.profissao_saude.descricao}<br/>".html_safe %>
+			            <% end %>
+			            <% if u.plano_de_saudes.present? %>
+			            	<i class='micon-plano'></i> <%= "#{u.plano_de_saudes.map(&:nome).join(' / ')}<br/>".html_safe  %>
+			            <% end %>
+			            <% if u.profissional? %>
+				            <% if u.local_atendimentos.present? %>
+				            	<i class='micon-local'></i> <%= "#{u.local_atendimentos.map(&:cidade).uniq.map(&:to_s).join(' / ')}<br/>".html_safe%>
+				            <% end %>
+				        <% elsif u.cidade.present? %>
+				        	<i class='micon-local'></i> <%= "#{u.cidade.nome}<br/>".html_safe%>
+				        <% end %>
+					</span>
+					<span class="right">
+						<% if current_user.friend_with? u %>
+							<% #=link_to "Reenviar" , "invite?id=#{u.id}", :class => "btn success", :remote => true %>
+							<h5 style="color: #00438A;"><%= "Conectado" %></h5>
+						<% else %>
+							<% if current_user.connected_with? u %>
+								<%=link_to "Perfil" , "#{u.url_usuario}",:class => "btn btn-success" %>
+							<% else %>
+								<%=link_to "Adicionar", "invite?id=#{u.id}", :class => "btn btn-primary btn-central-preto", :id=>"add_button_#{u.id}", :remote => true, :onclick=>"bloquearDiv(id);" %>
+							<% end %>
+						<% end %>
+					</span>
+				</div>
+			</div>
+		</div>
+		<hr />
+		<%end%>
+	<%end%>
+<% else %>
+	<div class="row">
+		<div class="span6">
+			<h2 class="alert-message block-message alert">Não foram encontrados nenhum resultado.</h2>
+		</div>
+	</div>
+<% end %>

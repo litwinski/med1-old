@@ -1,0 +1,2 @@
+alert("Obrigado por avaliar esse artigo!");
+$('#avaliar_artigo').html('<%= escape_javascript(render :partial => "shared/avaliacao", :locals => {:artigo => @artigo}) %>');

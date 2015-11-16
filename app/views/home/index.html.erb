@@ -1,0 +1,96 @@
+<style type="text/css" media="screen">
+	/* OVERLOAD CSS SKIN */
+	.jcarousel-skin-tango .jcarousel-prev-horizontal {
+	    top: 100px;
+	}
+	.jcarousel-skin-tango .jcarousel-next-horizontal {
+	    top: 100px;
+	}
+</style>
+
+
+<div class="row" style="height: 280px; margin-top: 0px">
+	<div class="span16" style="height: 280px">
+		<ul  id="mycarousel" class="jcarousel-skin-tango" style="height: 280px">
+			<li><img src="/assets/med1_profissionais.jpg" width="815px" height='250px' alt=""/></li>
+			<li><img src="/assets/med1_pacientes.jpg" width="815px" height='250px' alt=""/></li>
+			<li><img src="/assets/med1_agendamento.jpg"  width="815px" height='250px' alt=""/></li>						
+		</ul>
+	</div>
+</div>
+<hr>
+
+<%artigo = Artigo.capa.visiveis.limit(1).first%>
+
+<div class="row">
+	<div class="span12">
+
+		<% if artigo %>
+		<div> 
+			<h2><%=link_to artigo.titulo_top, artigo_path(artigo)%></h2>
+			<ul class="media-grid">
+			  <li>
+				<%=link_to image_tag(artigo.banner.top.url,:width => '700px'), artigo_path(artigo)%>
+			  </li>
+			</ul>
+			<p>
+				<%=truncate(strip_tags(artigo.chamada_top), :length=>500).chomp.html_safe%><%#=artigo.chamada_destaque_1%> <strong>Por <%=link_to artigo.user.nome_completo, "profissionais/#{artigo.user.slug}"%></strong>
+			</p>
+			<ul class="tags">
+				<%=spans_especialidades(artigo)%>
+				<%=spans_areas(artigo)%>
+				<%=spans_temas(artigo)%>
+			</ul>
+		</div>
+		<% end %>
+		<br/>
+		<div class="row">
+			<% Artigo.rankeados.each do |a|%>
+				<% if a.id.present? %>
+					<div class="span4">
+						<h5><%=link_to a.titulo_top, artigo_path(a)%></h5>
+						<p><%=truncate(strip_tags(a.chamada_top), :length=>80).chomp.html_safe%>.<strong>Por <%=link_to a.user.nome_completo, "profissionais/#{a.user.slug}"%></strong><br/>				
+					</div>
+				<% end %>
+			<% end %>
+			
+		</div>
+		
+		<hr/>
+		<div class="row">
+			<div class="span6">
+				<h4 style="color:#356AA0">Med1 Para Visitantes</h4>
+				<p>Compartilhe seus conhecimentos e discuta sobre saúde no med1. Você pode formar grupos, encontrar outras pessoas como você, ler artigos de qualidade sobre saúde em geral e ainda encontrar profissionais  da sua área de interesse em um click. Cadastra-se, é rápido e gratuito.</strong><br/><br/><br/>
+				<a href="/users/sign_up" class="btn large info">Cadastre-se gratuitamente</a>
+			</div>
+			<div class="span6">
+				<h4 style="color:#73880A">Med1 Para Profissionais</h4>
+				<p>Discuta sua experiência profissional com outros colegas como você. No med1 você poderá postar artigos, vídeos, fotos sobre casos clínicos e ainda divulgar seu curriculo na rede. Você ainda pode criar uma agenda onde pacientes poderão agendar horários presenciais em seu consultório,  tudo com segurança e dentro das normas éticas. Cadastre-se, é gratuito!</strong><br/><br/>
+				<a href="/users/sign_up" class="btn large success">Associe-se gratuitamente</a>
+			</div>
+		</div>
+		<hr/>
+		<%Artigo.capa.visiveis.limit(6).offset(1).each_slice(2) do |left,right|%>
+			<%=render :partial => 'shared/chamadas/artigos_row_2_pg', 
+				:locals => {:left => left, :right => right}%>
+		<% end %>
+
+	</div>
+	<div class="span4">
+		<%=render :partial => 'shared/top10'%>
+	</div>
+</div>
+<!--<hr/>
+<%#=render :partial => 'shared/encontre', :locals => {:small => false}%>
+<hr/>
+-->
+<script type="text/javascript" charset="utf-8">
+	jQuery(document).ready(function() {
+	    jQuery('#mycarousel').jcarousel({
+	        auto: 0,
+			size: 3,
+			visible: 1
+	    });
+	});
+	
+</script>

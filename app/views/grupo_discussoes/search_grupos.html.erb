@@ -1,0 +1,67 @@
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" >
+		<ul class="nav nav-tabs">
+			<li><a href="/grupos">Meus Grupos</a></li>
+			<li class="active"><a href="#resultado" data-toggle="tab">Resultado da Busca</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="resultado">
+				<%= render :partial => "search" %>
+				
+				<div class="row-fluid">
+					<h2 class="span9"><%= @grupo_discussoes.size %> resultado(s) para "<%= params[:g] %>"</h2>
+				</div>
+				
+				<% if @grupo_discussoes.present? %>
+				<table class="med1">
+					<thead>
+						<tr>
+							<th style="width:7%"></th>
+							<th>Nome</th>
+							<th>Membros</th>
+							<th>Tópicos</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @grupo_discussoes.each do |grupo_discussao| %>
+							<% if grupo_discussao.ativo? or grupo_discussao.propietario == current_user %>
+								<tr>
+									<td>
+										<ul class="thumbnails" style="height:30px">
+									    <li style="height:24px;">
+												<%= link_to grupo_discussao, :class => "thumbnail" do %>
+													<% if grupo_discussao.avatar.url(:mini) %>
+														<%=image_tag(grupo_discussao.avatar.url(:mini,false), :size => "30x30") %>
+													<% else %>
+														<%=image_tag("avatar_grupo.gif", :size => "30x30") %>
+													<% end%>
+									    	<% end %>
+									    </li>
+								    </ul>
+									</td>
+									<td>
+										<%= link_to grupo_discussao.nome, grupo_discussao %>
+									</td>
+									<td>
+										<% if grupo_discussao.ativo? %>
+										<%= link_to "#{grupo_discussao.convidados_grupo_discussoes.count} (ver)", membros_grupo_discussao_path(grupo_discussao), title: "Ver membros do grupo" %>
+										<% else %>
+											<%= grupo_discussao.convidados_grupo_discussoes.count %>
+										<% end %>
+									</td>
+									<td><%= grupo_discussao.topicos.count %></td>
+									<td style="width: 10px;">
+										<%= link_to('Entrar', aceitar_grupo_discussao_path(grupo_discussao, current_user), :class => "btn btn-mini btn-primary btn-central-preto") if(can?(:aceitar, grupo_discussao) and !grupo_discussao.existo_no_grupo?(current_user) )%>
+									</td>
+								</tr>
+							<% end %>
+						<% end %>
+					</tbody>
+				</table>
+				<br/>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>

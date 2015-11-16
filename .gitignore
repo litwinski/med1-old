@@ -1,0 +1,10 @@
+.DS_Store
+.rvmrc
+.bundle
+db/*.sqlite3
+config/database.yml
+log/*.log
+tmp/**/*
+public/system/**/*
+public/uploads/**/*
+public/ckeditor_assets/**/*

@@ -1,0 +1,58 @@
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" > <!-- Only required for left/right tabs -->
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#pesquisa" data-toggle="tab">
+				<% if current_user.profissional? %>
+				    Conecte-se a outros profissionais
+				<% elsif current_user.usuario? %>
+				    Conecte-se a outros visitantes
+				<% else %>
+					Conecte-se a outros estudantes
+				<% end %>
+			</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="pesquisa">
+				<%= form_for @search, :url => "busca" , :remote => true  do |f| %>
+				  <% if current_user.profissional? %>
+				      <p>Procure pelo nome do profissional, faculdade, especialdiade médica, etc...</p>
+				  <% end %>
+					<div class="input-append">
+						<%=f.text_field :nome_or_especialidade_medicas_descricao_or_profissao_saude_descricao_or_temas_descricao_or_local_atendimentos_nome_or_local_atendimentos_endereco_contains, :style=> "width:545px;height:26px", placeholder: "Digite aqui o que você esta procurando"%>
+								<button class="btn btn-large btn-success" id="enviar_consulta" style="width:68px;height:36px; margin-left: -4px;">
+									<i class="icon-search icon-white"></i>
+								</button>
+					</div>
+
+				<%end%>
+				
+				<div id="users_container"></div>
+
+				<% if @users.respond_to? :total_pages %>
+				    <%= will_paginate @users  %>
+				<% else %>
+				    <div class="pagination" style="display: none"></div>
+				<% end %>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){
+        $("#enviar_consulta").click(function(){
+			
+            $('#users_container > div[id^="mini_profile_row_"]').next().remove();
+            $('#users_container > div[id^="mini_profile_row_"]').remove();
+			bloquearTela();
+        });
+
+    });
+    $(document).ready(function(){
+    	$.unblockUI();
+    });
+</script>
+
+
+

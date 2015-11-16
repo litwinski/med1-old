@@ -1,0 +1,16 @@
+<div class="well mini-container-central">
+	<div class="tabbable tab-central" >
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#newartigo" data-toggle="tab">Nova Agenda</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="newagenda">
+		        <% if can? :criar_agenda, current_user %>
+	                <%= render partial: 'form', locals: {editing: false} %>
+		        <% else %>
+		            <%= render partial: "shared/mensagem_erro_conselho_invalido", locals: {label: "agenda"} %>
+		        <% end %>
+			</div>
+		</div>
+	</div>
+</div>

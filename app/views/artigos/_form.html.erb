@@ -1,0 +1,111 @@
+<script type="text/javascript" charset="utf-8">
+	
+	var area = new Array();
+	var especialidade = new Array();
+	var tema = new Array();		
+
+	function area_atuacao(id){
+		if((idx = jQuery.inArray(id, area)) >= 0){
+			area.splice(idx, idx+1);
+		}else{
+			area.push(id);
+		}
+		
+		
+	}
+	function especialidade_medica(id){
+		if((idx = jQuery.inArray(id, especialidade)) >= 0){
+			especialidade.splice(idx, idx+1);
+		}else{
+			especialidade.push(id);
+		}
+	}
+	
+	function temas(id){
+		if((idx = jQuery.inArray(id, tema)) >= 0){
+			tema.splice(idx, idx+1);
+		}else{
+			tema.push(id);
+		}
+	}
+</script>
+<style>
+span.cke_skin_kama {
+    border: 1px solid transparent;
+    border-radius: 5px 5px 5px 5px;
+    padding: 5px;
+}
+</style>
+	<%=form_for @artigo , :html => {class: 'form-stacked',:id => 'artigo_form'}  do |f|%>
+
+		<label>Título</label>
+		<%=f.text_field :titulo, class: 'span8'%>
+		<br/>
+		<br/>
+		<br/>
+		<%=f.cktext_area :corpo, :uiColor => '#F9FAFE',  :toolbar => 'Basic', :input_html => {:class => 'span8', :style => "border:1px solid transparent"}%>
+		<input type="hidden" name="areas" id="areas"/>
+		<input type="hidden" name="especialidades" id="especialidades"/>
+		<input type="hidden" name="temas" id="temas"/>
+		<br/>
+		<div id="temas" >
+				<%=render :partial => 'shared/label_choice' , 
+						  	:locals => {
+							:title => 'Temas',
+							:hint => 'Escolha os temas que estão relacionadas com esse artigo',
+							:data => @artigo.temas.representacao("descricao"),
+							:namespace => 'temas_add', #Para isolar os ids desse componente
+							:url => '',
+							:js_callback => 'temas',
+							:url_return => '/label/temas.json',
+							:limit => 5
+						  } %>
+		</div>
+		<br/>
+		<div id="areas" >
+				<%=render :partial => 'shared/label_choice' , 
+						  	:locals => {
+							:title => 'Áreas de Atuação',
+							:hint => 'Escolha as áreas de atuação que estão relacionadas com esse artigo',
+							:data => @artigo.area_atuacoes.representacao("descricao"),
+							:namespace => 'areas_add', #Para isolar os ids desse componente
+							:url => '',
+							:js_callback => 'area_atuacao',
+							:url_return => "/label/areas_de_atuacao.json",
+							:limit => 2
+						  } %>
+		</div>
+		<br/>
+		<div id="especialidades" >
+				<%=render :partial => 'shared/label_choice' , 
+						  	:locals => {
+							:title => 'Especialidades',
+							:hint => 'Escolha as especialidades que estão relacionadas com esse artigo',
+							:data => @artigo.especialidade_medicas.representacao("descricao"),
+							:namespace => 'especialidades_add', #Para isolar os ids desse componente
+							:url => '',
+							:js_callback => 'especialidade_medica',
+							:url_return => "/label/especialidades.json",
+							:limit => 2 					
+						  } %>
+		</div>
+		<br/>
+		<div class="form-actions">
+			<%= link_to "Cancelar", "/profile#artigos", :class => "btn btn-danger" %>
+			<button id="submit" class="btn btn-success">Salvar <%= "(O artigo ainda não será publicado)" if @artigo.new_record? %></button>
+		</div>
+
+	<%end%>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {	
+		$('#artigo_form').bind("submit", function(){
+			$('#areas').val(area);
+			$('#especialidades').val(especialidade);
+			$('#temas').val(tema);
+		});
+	});
+	$("#submit").click(function(){
+		bloquearTela();
+	});
+</script>

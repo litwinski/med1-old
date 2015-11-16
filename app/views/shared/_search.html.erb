@@ -1,0 +1,21 @@
+<%= form_tag search_path , :method => :get, :id => 'form_search', :style => "width: 320px;",:class => "navbar-form pull-left pesquisa" do %>
+<%=select_tag "tipo_busca", 
+"<option value='todos' #{ params[:tipo_busca] == 'todos' ? 'selected' : '' }>Todos</option>
+<option value='artigo' #{ params[:tipo_busca] == 'artigo' ? 'selected' : '' }>Artigos</option>
+<option value='especialista' #{ params[:tipo_busca] == 'especialista' ? 'selected' : '' }>Pessoas</option>".html_safe, :style => "width:25px; ", :class => "pretty dk barra_pesquisa"%>
+	<%= text_field_tag :m, params[:m], :placeholder => "Explorar na rede Med1...", :class => "pesquisa1" ,:style=> "border: 1px solid transparent" %>
+	<button type="submit" id="submit_busca_barra" style="background-color:transparent;border-style: none;height: 30px;width: 20px;"> </button>
+<% end %>
+
+
+				
+<script type="text/javascript" charset="utf-8">
+    $("#submit_busca_barra").click(function(event){
+	    if($('#m').val() == ""){
+	        alert("Digite algo para fazer a busca.");
+	         event.preventDefault();
+	    }else{
+	      bloquearTela();
+	    }
+  	});
+</script>

@@ -1,0 +1,29 @@
+<h4>Lista de elogios recebidos</h4>
+
+<% @user.recommendations.each do |r| %>
+	<table>
+		<tr>
+		<blockquote>
+			<td>
+			<p>"<%= r.message %>"</p>
+			<small><a href="<%=r.recommender.url_usuario%>" ><%= r.recommender.nome_completo %></a><br/><%= l(r.created_at, :format => :master_long) %></small>
+			</td>
+			<td>
+			<div class="span1" style="vertical-align: top; text-align: right; width: 300px;">
+			<% if @user == current_user%>
+				<%= link_to "/users/#{@user.id}/recommends/#{r.id}", :method => :delete, :id => 'btn_excluir_recomendacao', :confirm => 'Você tem certeza?' do %>
+					<%=image_tag('backend/delete.png' ,:style => "vertical-align: top;", :title=>"Excluir elogio")%>
+				<% end %>
+			<% end %>
+			</div>
+			</td>
+		</blockquote>
+		</tr>
+	</table>	
+<% end %>
+
+<% if @user == current_user && !@user.recommends.present?%>
+	<div class="alert alert-block">
+		Não existe nenhum elogio.
+	</div>
+<% end %>

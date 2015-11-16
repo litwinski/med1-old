@@ -1,0 +1,42 @@
+<% if friends.present? %>
+<table class="med1">
+	<thead>
+		<tr>
+			<th style="width:45%">Nome</th>
+			<th style="width:40%">Última Formação</th>
+			<% if @block_action %>
+				<th style="width:15%">Ações</th>
+			<% end %>
+		<tr>
+	</thead>
+	<tbody>
+		<%friends.each do |u| %>
+				<% unless u.id == current_user.id%>
+					<tr id="mini_profile_row_<%=u.id%>">
+						<%=render :partial => 'shared/mini_profile', :locals => {:span_size => 7, :user => u}%>
+						<% if @block_action %>
+							<td style="padding-left:5px">
+								<%=render :partial => 'buttons_profissionais',   :locals => {:user => u }%>		
+							</td>
+						<% end %>
+					</tr>
+				<% end %>
+		<% end %>	
+	</tbody>
+</table>
+<% else %>
+	<div class="alert alert-block">
+		Este usuário não possui conexões. 
+	</div>
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+		$('a[id^="bloquear_"]').click(function(){
+			bloquearTela();
+		});
+		$('a[id^="desbloquear_"]').click(function(){
+			bloquearTela();
+		});
+	});
+</script>

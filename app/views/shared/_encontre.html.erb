@@ -1,0 +1,62 @@
+<%
+	unless small
+		total = 14
+		form = 8
+		image = 6
+	else
+		total = 10
+		form = 5
+		image = 5
+	end
+		
+%>
+<%unless small%>
+<div class="row">
+<%end%>
+	<div class="span<%=total%> hero-unit">
+		<h3>Encontre o Especialista Perfeito Para o Seu Caso</h3>
+		<br/>
+		<div class="row">
+			<div class="span<%=form%>">
+				<form class="form-stacked">
+					<label>Eu Tenho</label>
+					<input type="text"/>
+					<br/><br/>
+
+					<label>Eu Tomo</label>
+					<input type="text"/>
+					<br/><br/>
+			
+					<label>Eu Sou</label>
+					<input type="radio"/>Homen 			
+					<input type="radio"/>Mulher 
+
+					<br/><br/>
+
+					<label>Minha Idade</label>
+					<input type="text"/>
+					<br/><br/>
+			
+					<label>Eu estou em</label>
+					<input type="text"/>
+					<br/><br/>
+					<button class="btn large success">Encontrar</button>
+				</form>
+			</div>
+
+			<div class="span<%=image%>">
+				<ul class="media-grid">
+				  <li>
+					<a href="#">
+						<%=image_tag('nurse.jpg' )%>
+					</a>
+				 </li>
+				</ul>
+				
+			</div>
+	</div>
+<%unless small%>
+	</div>
+<%end%>
+</div>
+

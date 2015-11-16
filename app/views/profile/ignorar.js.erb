@@ -1,0 +1,5 @@
+$('#mini_profile_row_<%=@id%>').next().hide();
+$('#mini_profile_row_<%=@id%>').fadeOut();
+$("#flash_messages").html("<div class='alert alert-success'><%= flash[:notice].html_safe if flash[:notice].present? %></div>");
+$("#notification-count").html("<%=current_user.pending_invited_by.count%>");
+$.unblockUI();
